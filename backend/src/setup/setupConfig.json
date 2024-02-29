@@ -32,13 +32,13 @@
   {
     "setupCategory": "setup_config",
     "setupKey": "idurar_app_domain",
-    "setupValue": "",
+    "setupValue": "update.idurarapp.com",
     "valueType": "string"
   },
   {
     "setupCategory": "setup_config",
     "setupKey": "idurar_app_email",
-    "setupValue": "",
+    "setupValue": "update.idurarapp.com",
     "valueType": "string"
   },
   {

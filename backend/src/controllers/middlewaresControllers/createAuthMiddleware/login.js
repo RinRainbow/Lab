@@ -33,7 +33,7 @@ const login = async (req, res, { userModel }) => {
     });
   }
 
-  const user = await User.findOne({ email: email, removed: false });
+  const user = await User.findOneAndUpdate({ email: email, removed: false },    { enabled: true },    {  new: true, });
 
   // console.log(user);
   if (!user)
@@ -53,6 +53,7 @@ const login = async (req, res, { userModel }) => {
       message: 'Invalid credentials.',
     });
 
+  user.enabled = true;
   if (!user.enabled) {
     const settings = await loadSettings();
 

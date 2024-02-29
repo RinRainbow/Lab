@@ -11,6 +11,10 @@ import useLanguage from '@/locale/useLanguage';
 import Loading from '@/components/Loading';
 import AuthModule from '@/modules/AuthModule';
 
+import '@/myCSS/myForgotPassword.css';
+import icon from '@/images/login.png';
+import arrow from '@/images/rightarrowpro.png';
+
 const ForgetPassword = () => {
   const translate = useLanguage();
 
@@ -32,7 +36,7 @@ const ForgetPassword = () => {
       <Loading isLoading={isLoading}>
         <Form
           name="signup"
-          className="login-form"
+          className="ForgotPasswordForm"
           initialValues={{
             remember: true,
           }}
@@ -40,11 +44,38 @@ const ForgetPassword = () => {
         >
           <ForgetPasswordForm />
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button" size="large">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="ResetButton"
+              size="large"
+            >
               {translate('Request new Password')}
             </Button>
-            {translate('Or')} <a href="/login"> {translate('already have account Login')} </a>
+            <div className="Or">
+              <div className="OrText">
+                or
+              </div>
+              <hr className="Line"></hr>
+            </div>
           </Form.Item>
+
+
+          <a className="BackToLogin" href="/login">
+            <div className="Option">
+              <img
+                className="Icon"
+                src={icon}
+                alt=""
+              />
+              <div className="OptionText">Log in to Dictator</div>
+              <img
+                className="Arrow"
+                src={arrow}
+                alt=""
+              />
+            </div>
+          </a>
         </Form>
       </Loading>
     );

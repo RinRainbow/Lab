@@ -3,26 +3,33 @@ import { Form, Input } from 'antd';
 import { MailOutlined } from '@ant-design/icons';
 
 // import useLanguage from '@/locale/useLanguage';
+import '@/myCSS/myForgotPassword.css';
 
 export default function ForgetPasswordForm() {
   return (
-    <Form.Item
-      name="email"
-      rules={[
-        {
-          required: true,
-        },
-        {
-          type: 'email',
-        },
-      ]}
-    >
-      <Input
-        prefix={<MailOutlined className="site-form-item-icon" />}
-        type="email"
-        placeholder="Email"
-        size="large"
-      />
-    </Form.Item>
+    <>
+      <div className="TopBlank">
+          Reset Password
+      </div>
+      <Form.Item
+        name="email"
+        className="InputBox"
+        rules={[
+          {
+            required: true,
+          },
+          {
+            type: 'email',
+          },
+        ]}
+      >
+        <Input
+          type="email"
+          placeholder="Email"
+          className="InputBox"
+          size="large"
+        />
+      </Form.Item>
+    </>
   );
 }

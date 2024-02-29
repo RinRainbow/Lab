@@ -10,6 +10,9 @@ import RegisterForm from '@/forms/RegisterForm';
 import useLanguage from '@/locale/useLanguage';
 import Loading from '@/components/Loading';
 import AuthModule from '@/modules/AuthModule';
+import '@/myCSS/myNewAccount.css';
+import icon from '@/images/login.png';
+import arrow from '@/images/rightarrowpro.png';
 
 const RegisterPage = () => {
   const translate = useLanguage();
@@ -28,7 +31,7 @@ const RegisterPage = () => {
         <Form
           layout="vertical"
           name="signup"
-          className="login-form"
+          className="CreateNewAccountForm"
           initialValues={{
             remember: true,
           }}
@@ -36,11 +39,38 @@ const RegisterPage = () => {
         >
           <RegisterForm />
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button" size="large">
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="CreateButtom"
+              size="large"
+            >
               {translate('Register')}
             </Button>
-            {translate('Or')} <a href="/login"> {translate('already have account Login')} </a>
+            <div className="Or">
+              <div className="OrText">
+                or
+              </div>
+              <hr className="Line"></hr>
+            </div>
           </Form.Item>
+
+
+          <a className="BackToLogin" href="/login">
+            <div className="Option">
+              <img
+                className="Icon"
+                src={icon}
+                alt=""
+              />
+              <div className="OptionText">Log in to Dictator</div>
+              <img
+                className="Arrow"
+                src={arrow}
+                alt=""
+              />
+            </div>
+          </a>
         </Form>
       </Loading>
     );
@@ -54,16 +84,6 @@ const RegisterPage = () => {
         status="info"
         title={translate('Verify your account')}
         subTitle={translate('Check your email address to verify your account')}
-        // extra={
-        //   <Button
-        //     type="primary"
-        //     onClick={() => {
-        //       navigate(`/login`);
-        //     }}
-        //   >
-        //     {translate('Login')}
-        //   </Button>
-        // }
       ></Result>
     );
   }

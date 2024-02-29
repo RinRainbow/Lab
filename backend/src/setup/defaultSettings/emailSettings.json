@@ -2,7 +2,7 @@
   {
     "settingCategory": "email_settings",
     "settingKey": "email_domain",
-    "settingValue": "idurarapp.com",
+    "settingValue": "update.idurarapp.com",
     "valueType": "string",
     "isCoreSetting": true,
     "isPrivate": false

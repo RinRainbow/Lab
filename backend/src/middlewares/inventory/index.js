@@ -1,4 +1,4 @@
-const generateUniqueNumber = require('../inventory/generateUniqueNumber');
+const generateUniqueNumber = require('./generateUniqueNumber');
 
 module.exports = {
   generateUniqueNumber,

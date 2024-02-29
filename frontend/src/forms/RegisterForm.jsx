@@ -1,27 +1,35 @@
 import React from 'react';
 import { Form, Input } from 'antd';
-import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 
 import useLanguage from '@/locale/useLanguage';
+import '@/myCSS/myNewAccount.css';
 
 export default function RegisterForm() {
   const translate = useLanguage();
   return (
     <>
+      <div className="TopBlank">
+        Create New Account
+      </div>
       <Form.Item
         name="name"
-        label={translate('name')}
+        className="InputBox"
         rules={[
           {
             required: true,
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} size="large" />
+        <Input 
+          placeholder={translate("name")}
+          className="InputBox"
+          size="large"
+        />
       </Form.Item>
+
       <Form.Item
         name="email"
-        label={translate('email')}
+        className="InputBox"
         rules={[
           {
             required: true,
@@ -32,25 +40,31 @@ export default function RegisterForm() {
         ]}
       >
         <Input
-          prefix={<MailOutlined className="site-form-item-icon" />}
+          placeholder={translate("email")}
+          className="InputBox"
           type="email"
           size="large"
         />
       </Form.Item>
       <Form.Item
         name="password"
-        label={translate('password')}
+        className="InputBox"
         rules={[
           {
             required: true,
           },
         ]}
       >
-        <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} size="large" />
+        <Input.Password
+          placeholder={translate("password")}
+          className="InputBox"
+          size="large"
+        />
       </Form.Item>
+      
       <Form.Item
         name="confirm_password"
-        label={translate('confirm_password')}
+        className="InputBox"
         rules={[
           {
             required: true,
@@ -66,7 +80,11 @@ export default function RegisterForm() {
         ]}
         hasFeedback
       >
-        <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} size="large" />
+        <Input.Password
+          placeholder={translate("confirm password")} 
+          size="large"
+          className="InputBox"
+        />
       </Form.Item>
     </>
   );
