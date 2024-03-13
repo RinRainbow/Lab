@@ -7,9 +7,9 @@ const Logout = lazy(() => import('@/pages/Logout.jsx'));
 const NotFound = lazy(() => import('@/pages/NotFound.jsx'));
 
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
-const Dictator1_train = lazy(() => import('@/pages/Dictator1_train'));
-const Dictator1_valid = lazy(() => import('@/pages/Dictator1_valid'));
-const Dictator1_test = lazy(() => import('@/pages/Dictator1_test'));
+const Detector1_train = lazy(() => import('@/pages/Detector1_train'));
+const Detector1_valid = lazy(() => import('@/pages/Detector1_valid'));
+const Detector1_test = lazy(() => import('@/pages/Detector1_test'));
 const Inventory = lazy(() => import('@/pages/Inventory'));
 const Order = lazy(() => import('@/pages/Order'));
 const Invoice = lazy(() => import('@/pages/Invoice'));
@@ -46,8 +46,8 @@ const Expense = lazy(() => import('@/pages/Expense'));
 const ProductCategory = lazy(() => import('@/pages/ProductCategory'));
 const Product = lazy(() => import('@/pages/Product'));
 
-const Dictator2 = lazy(() => import('@/pages/Dictator2'));
-const Dictator3 = lazy(() => import('@/pages/Dictator3'));
+const Detector2 = lazy(() => import('@/pages/Detector2'));
+const Detector3 = lazy(() => import('@/pages/Detector3'));
 
 const About = lazy(() => import('@/pages/About'));
 
@@ -78,24 +78,24 @@ export default function AppRouter() {
       element: <Dashboard />,
     },
     {
-      path: '/Dictator1_train',
-      element: <Dictator1_train />,
+      path: '/Detector1_train',
+      element: <Detector1_train />,
     },
     {
-      path: '/Dictator1_valid',
-      element: <Dictator1_valid />,
+      path: '/Detector1_valid',
+      element: <Detector1_valid />,
     },
     {
-      path: '/Dictator1_test',
-      element: <Dictator1_test />,
+      path: '/Detector1_test',
+      element: <Detector1_test />,
     },
     {
-      path: '/Dictator2',
-      element: <Dictator2 />,
+      path: '/Detector2',
+      element: <Detector2 />,
     },
     {
-      path: '/Dictator3',
-      element: <Dictator3 />,
+      path: '/Detector3',
+      element: <Detector3 />,
     },
     {
       path: '/expenses',

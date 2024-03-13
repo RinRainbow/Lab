@@ -4,9 +4,9 @@ import { fields } from './config';
 
 import useLanguage from '@/locale/useLanguage';
 
-export default function Dictator1_valid() {
+export default function Detector1_valid() {
   const translate = useLanguage();
-  const entity = 'Dictator1_valid';
+  const entity = 'Detector1_valid';
   const searchConfig = {
     displayLabels: ['name'],
     searchFields: 'name',
@@ -14,10 +14,10 @@ export default function Dictator1_valid() {
   const deleteModalLabels = ['name'];
 
   const Labels = {
-    PANEL_TITLE: translate('Dictator1 Validation Data'),
-    DATATABLE_TITLE: translate('Dictator1 Validation Data'),
+    PANEL_TITLE: translate('Detector1 Validation Data'),
+    DATATABLE_TITLE: translate('Detector1 Validation Data'),
     ADD_NEW_ENTITY: translate('add'),
-    ENTITY_NAME: translate('Dictator1_valid'),
+    ENTITY_NAME: translate('Detector1_valid'),
   };
   const configPage = {
     entity,

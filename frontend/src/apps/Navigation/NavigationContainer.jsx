@@ -44,59 +44,59 @@ function Sidebar({ collapsible, isMobile = false }) {
       label: <Link to={'/'}>{translate('Top')}</Link>,
     },
     {
-      label: translate('Dictator1'),
-      key: 'Dictator1',
+      label: translate('Detector1'),
+      key: 'Detector1',
       icon: <FieldBinaryOutlined />,
       children: [
         {
           key: 'd1_TainingData',
-          label: <Link to={'/Dictator1_train'}>{translate('Training Data')}</Link>,
+          label: <Link to={'/Detector1_train'}>{translate('Training Data')}</Link>,
         },
         {
           key: 'd1_ValidationData',
-          label: <Link to={'/Dictator1_valid'}>{translate('Validation Data')}</Link>,
+          label: <Link to={'/Detector1_valid'}>{translate('Validation Data')}</Link>,
         },
         {
           key: 'd1_TestingData',
-          label: <Link to={'/Dictator1_test'}>{translate('Testing Data')}</Link>,
+          label: <Link to={'/Detector1_test'}>{translate('Testing Data')}</Link>,
         },
       ],
     },
     {
-      label: translate('Dictator2'),
-      key: 'Dictator2',
+      label: translate('Detector2'),
+      key: 'Detector2',
       icon: <CodeOutlined />,
       children: [
         {
           key: 'Taining Data',
-          label: <Link to={'/Dictator2'}>{translate('Training Data')}</Link>,
+          label: <Link to={'/Detector2'}>{translate('Training Data')}</Link>,
         },
         {
           key: 'Validation Data',
-          label: <Link to={'/Dictator2'}>{translate('Validation Data')}</Link>,
+          label: <Link to={'/Detector2'}>{translate('Validation Data')}</Link>,
         },
         {
           key: 'Testing Data',
-          label: <Link to={'/Dictator2'}>{translate('Testing Data')}</Link>,
+          label: <Link to={'/Detector2'}>{translate('Testing Data')}</Link>,
         },
       ],
     },
     {
-      label: translate('Dictator3'),
-      key: 'Dictator3',
+      label: translate('Detector3'),
+      key: 'Detector3',
       icon: <ApartmentOutlined />,
       children: [
         {
           key: 'Taining Data',
-          label: <Link to={'/Dictator3'}>{translate('Training Data')}</Link>,
+          label: <Link to={'/Detector3'}>{translate('Training Data')}</Link>,
         },
         {
           key: 'Validation Data',
-          label: <Link to={'/Dictator3'}>{translate('Validation Data')}</Link>,
+          label: <Link to={'/Detector3'}>{translate('Validation Data')}</Link>,
         },
         {
           key: 'Testing Data',
-          label: <Link to={'/Dictator3'}>{translate('Testing Data')}</Link>,
+          label: <Link to={'/Detector3'}>{translate('Testing Data')}</Link>,
         },
       ],
     },

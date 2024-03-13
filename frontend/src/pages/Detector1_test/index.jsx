@@ -4,9 +4,9 @@ import { fields } from './config';
 
 import useLanguage from '@/locale/useLanguage';
 
-export default function Dictator2() {
+export default function Detector1_test() {
   const translate = useLanguage();
-  const entity = 'Dictator2';
+  const entity = 'Detector1_test';
   const searchConfig = {
     displayLabels: ['name'],
     searchFields: 'name',
@@ -14,10 +14,10 @@ export default function Dictator2() {
   const deleteModalLabels = ['name'];
 
   const Labels = {
-    PANEL_TITLE: translate('Dictator2'),
-    DATATABLE_TITLE: translate('Dictator2_Data'),
+    PANEL_TITLE: translate('Detector1 Testing Data'),
+    DATATABLE_TITLE: translate('Detector1 Testing Data'),
     ADD_NEW_ENTITY: translate('add'),
-    ENTITY_NAME: translate('data'),
+    ENTITY_NAME: translate('Detector1_test'),
   };
   const configPage = {
     entity,
