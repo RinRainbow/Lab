@@ -4,9 +4,9 @@ import { fields } from './config';
 
 import useLanguage from '@/locale/useLanguage';
 
-export default function Company() {
+export default function Dictator2() {
   const translate = useLanguage();
-  const entity = 'company';
+  const entity = 'Dictator2';
   const searchConfig = {
     displayLabels: ['name'],
     searchFields: 'name',
@@ -14,10 +14,10 @@ export default function Company() {
   const deleteModalLabels = ['name'];
 
   const Labels = {
-    PANEL_TITLE: translate('company'),
-    DATATABLE_TITLE: translate('company_list'),
-    ADD_NEW_ENTITY: translate('add_new_company'),
-    ENTITY_NAME: translate('company'),
+    PANEL_TITLE: translate('Dictator2'),
+    DATATABLE_TITLE: translate('Dictator2_Data'),
+    ADD_NEW_ENTITY: translate('add'),
+    ENTITY_NAME: translate('data'),
   };
   const configPage = {
     entity,

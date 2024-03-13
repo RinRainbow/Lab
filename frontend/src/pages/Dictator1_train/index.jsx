@@ -4,20 +4,20 @@ import { fields } from './config';
 
 import useLanguage from '@/locale/useLanguage';
 
-export default function People() {
+export default function Dictator1_train() {
   const translate = useLanguage();
-  const entity = 'people';
+  const entity = 'Dictator1_train';
   const searchConfig = {
-    displayLabels: ['firstname', 'lastname'],
-    searchFields: 'firstname,lastname',
+    displayLabels: ['name'],
+    searchFields: 'name',
   };
-  const deleteModalLabels = ['firstname', 'lastname'];
+  const deleteModalLabels = ['name'];
 
   const Labels = {
-    PANEL_TITLE: translate('person'),
-    DATATABLE_TITLE: translate('people_list'),
-    ADD_NEW_ENTITY: translate('add_new_person'),
-    ENTITY_NAME: translate('person'),
+    PANEL_TITLE: translate('Dictator1 Training Data'),
+    DATATABLE_TITLE: translate('Dictator1 Traing Data'),
+    ADD_NEW_ENTITY: translate('add'),
+    ENTITY_NAME: translate('Dictator1_train'),
   };
   const configPage = {
     entity,

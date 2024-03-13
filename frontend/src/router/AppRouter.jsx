@@ -7,7 +7,9 @@ const Logout = lazy(() => import('@/pages/Logout.jsx'));
 const NotFound = lazy(() => import('@/pages/NotFound.jsx'));
 
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
-const Customer = lazy(() => import('@/pages/Customer'));
+const Dictator1_train = lazy(() => import('@/pages/Dictator1_train'));
+const Dictator1_valid = lazy(() => import('@/pages/Dictator1_valid'));
+const Dictator1_test = lazy(() => import('@/pages/Dictator1_test'));
 const Inventory = lazy(() => import('@/pages/Inventory'));
 const Order = lazy(() => import('@/pages/Order'));
 const Invoice = lazy(() => import('@/pages/Invoice'));
@@ -44,8 +46,8 @@ const Expense = lazy(() => import('@/pages/Expense'));
 const ProductCategory = lazy(() => import('@/pages/ProductCategory'));
 const Product = lazy(() => import('@/pages/Product'));
 
-const People = lazy(() => import('@/pages/People'));
-const Company = lazy(() => import('@/pages/Company'));
+const Dictator2 = lazy(() => import('@/pages/Dictator2'));
+const Dictator3 = lazy(() => import('@/pages/Dictator3'));
 
 const About = lazy(() => import('@/pages/About'));
 
@@ -76,16 +78,24 @@ export default function AppRouter() {
       element: <Dashboard />,
     },
     {
-      path: '/customer',
-      element: <Customer />,
+      path: '/Dictator1_train',
+      element: <Dictator1_train />,
     },
     {
-      path: '/people',
-      element: <People />,
+      path: '/Dictator1_valid',
+      element: <Dictator1_valid />,
     },
     {
-      path: '/company',
-      element: <Company />,
+      path: '/Dictator1_test',
+      element: <Dictator1_test />,
+    },
+    {
+      path: '/Dictator2',
+      element: <Dictator2 />,
+    },
+    {
+      path: '/Dictator3',
+      element: <Dictator3 />,
     },
     {
       path: '/expenses',

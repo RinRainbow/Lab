@@ -12,19 +12,10 @@ import useResponsive from '@/hooks/useResponsive';
 
 import {
   SettingOutlined,
-  CustomerServiceOutlined,
-  ContainerOutlined,
-  FileSyncOutlined,
-  DashboardOutlined,
-  TagOutlined,
-  TagsOutlined,
-  UserOutlined,
-  CreditCardOutlined,
   MenuOutlined,
-  FileOutlined,
-  ShopOutlined,
-  FilterOutlined,
-  WalletOutlined,
+  FieldBinaryOutlined,
+  CodeOutlined,
+  ApartmentOutlined,
 } from '@ant-design/icons';
 
 const { Sider } = Layout;
@@ -49,113 +40,64 @@ function Sidebar({ collapsible, isMobile = false }) {
 
   const items = [
     {
-      key: 'dashboard',
-      icon: <DashboardOutlined />,
-      label: <Link to={'/'}>{translate('dashboard')}</Link>,
+      key: 'Top',
+      label: <Link to={'/'}>{translate('Top')}</Link>,
     },
     {
-      key: 'customer',
-      icon: <CustomerServiceOutlined />,
-      label: <Link to={'/customer'}>{translate('customer')}</Link>,
-    },
-    {
-      key: 'people',
-      icon: <UserOutlined />,
-      label: <Link to={'/people'}>{translate('people')}</Link>,
-    },
-    {
-      key: 'company',
-      icon: <ShopOutlined />,
-      label: <Link to={'/company'}>{translate('company')}</Link>,
-    },
-    {
-      key: 'lead',
-      icon: <FilterOutlined />,
-      label: <Link to={'/lead'}>{translate('lead')}</Link>,
-    },
-    {
-      key: 'offer',
-      icon: <FileOutlined />,
-      label: <Link to={'/offer'}>{translate('offer')}</Link>,
-    },
-
-    // { key: 'order', icon: <ShopOutlined />, label: <Link to={'/'}>Lead</Link> Order },
-    // { key: 'inventory', icon: <InboxOutlined />, label: <Link to={'/'}>Lead</Link> Inventory },
-
-    {
-      key: 'invoice',
-      icon: <ContainerOutlined />,
-      label: <Link to={'/invoice'}>{translate('invoice')}</Link>,
-    },
-    {
-      key: 'quote',
-      icon: <FileSyncOutlined />,
-      label: <Link to={'/quote'}>{translate('quote')}</Link>,
-    },
-    {
-      key: 'payment',
-      icon: <CreditCardOutlined />,
-      label: <Link to={'/payment'}>{translate('payment')}</Link>,
-    },
-    {
-      key: 'expenses',
-      icon: <WalletOutlined />,
-      label: <Link to={'/expenses'}>{translate('expense')}</Link>,
-    },
-    {
-      key: 'product',
-      icon: <TagOutlined />,
-      label: <Link to={'/product'}>{translate('product')}</Link>,
-    },
-    {
-      key: 'categoryproduct',
-      icon: <TagsOutlined />,
-      label: <Link to={'/category/product'}>{translate('product_category')}</Link>,
-    },
-    // {
-    //   key: 'employee',
-    //   icon: <UserOutlined />,
-    //   label: <Link to={'/employee'}>{translate('employee')}</Link>,
-    // },
-
-    {
-      label: translate('Settings'),
-      key: 'settings',
-      icon: <SettingOutlined />,
+      label: translate('Dictator1'),
+      key: 'Dictator1',
+      icon: <FieldBinaryOutlined />,
       children: [
         {
-          key: 'admin',
-          // icon: <TeamOutlined />,
-          label: <Link to={'/admin'}>{translate('admin')}</Link>,
+          key: 'd1_TainingData',
+          label: <Link to={'/Dictator1_train'}>{translate('Training Data')}</Link>,
         },
         {
-          key: 'generalSettings',
-          label: <Link to={'/settings'}>{translate('general_settings')}</Link>,
+          key: 'd1_ValidationData',
+          label: <Link to={'/Dictator1_valid'}>{translate('Validation Data')}</Link>,
         },
         {
-          key: 'expensesCategory',
-          label: <Link to={'/category/expenses'}>{translate('expenses_Category')}</Link>,
+          key: 'd1_TestingData',
+          label: <Link to={'/Dictator1_test'}>{translate('Testing Data')}</Link>,
         },
-        // {
-        //   key: 'emailTemplates',
-        //   label: <Link to={'/email'}>{translate('email_templates')}</Link>,
-        // },
+      ],
+    },
+    {
+      label: translate('Dictator2'),
+      key: 'Dictator2',
+      icon: <CodeOutlined />,
+      children: [
         {
-          key: 'paymentMode',
-          label: <Link to={'/payment/mode'}>{translate('payment_mode')}</Link>,
+          key: 'Taining Data',
+          label: <Link to={'/Dictator2'}>{translate('Training Data')}</Link>,
         },
         {
-          key: 'taxes',
-          label: <Link to={'/taxes'}>{translate('taxes')}</Link>,
+          key: 'Validation Data',
+          label: <Link to={'/Dictator2'}>{translate('Validation Data')}</Link>,
         },
         {
-          key: 'about',
-          label: <Link to={'/about'}>{translate('about')}</Link>,
+          key: 'Testing Data',
+          label: <Link to={'/Dictator2'}>{translate('Testing Data')}</Link>,
         },
-        // {
-        //   key: 'advancedSettings',
-        //   label: <Link to={'/settings/advanced'}>{translate('advanced_settings')}</Link>,
-        // },
+      ],
+    },
+    {
+      label: translate('Dictator3'),
+      key: 'Dictator3',
+      icon: <ApartmentOutlined />,
+      children: [
+        {
+          key: 'Taining Data',
+          label: <Link to={'/Dictator3'}>{translate('Training Data')}</Link>,
+        },
+        {
+          key: 'Validation Data',
+          label: <Link to={'/Dictator3'}>{translate('Validation Data')}</Link>,
+        },
+        {
+          key: 'Testing Data',
+          label: <Link to={'/Dictator3'}>{translate('Testing Data')}</Link>,
+        },
       ],
     },
   ];
