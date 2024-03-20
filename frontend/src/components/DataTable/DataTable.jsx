@@ -15,6 +15,9 @@ import { generate as uniqueId } from 'shortid';
 
 import { useCrudContext } from '@/context/crud';
 
+import { DownOutlined } from '@ant-design/icons';
+import { Space, message } from 'antd';
+
 function AddNewItem({ config }) {
   const { crudContextAction } = useCrudContext();
   const { collapsedBox, panel } = crudContextAction;
@@ -41,26 +44,74 @@ export default function DataTable({ config, extra = [] }) {
 
   const items = [
     {
-      label: translate('Show'),
-      key: 'read',
-      icon: <EyeOutlined />,
+      //label: translate('Show'),
+      //key: 'read',
+      //icon: <EyeOutlined />,
+      //label: 'Training Data',
+      label: (
+        <a rel="noopener noreferrer" href="/Detector1_train">
+          Training Data
+        </a>
+      ),
+      key: '1',
     },
     {
-      label: translate('Edit'),
-      key: 'edit',
-      icon: <EditOutlined />,
+      //label: translate('Edit'),
+      //key: 'edit',
+      //icon: <EditOutlined />,
+      //label: 'Validation Data',
+      label: (
+        <a rel="noopener noreferrer" href="/Detector1_valid">
+          Validation Data
+        </a>
+      ),
+      key: '2',
     },
+    /*
     ...extra,
     {
       type: 'divider',
     },
+    */
 
     {
-      label: translate('Delete'),
-      key: 'delete',
-      icon: <DeleteOutlined />,
+      //label: translate('Delete'),
+      //key: 'delete',
+      //icon: <DeleteOutlined />,
+      //label: 'Testing Data',
+      label: (
+        <a rel="noopener noreferrer" href="/Detector1_test">
+          Testing Data
+        </a>
+      ),
+      key: '3',
     },
   ];
+  const dropdown_items = [
+      {
+        label: 'Training Data',
+        key: '1',
+      },
+      {
+        label: 'Validation Data',
+        key: '2',
+      },
+      {
+        label: 'Testing Data',
+        key: '3',
+      },
+  ];
+  const handleMenuClick = (e) => {
+    message.info('Click on menu item.');
+    console.log('click', e);
+  };
+  
+
+  const menuProps = {
+    //dropdown_items,
+    items,
+    onClick: handleMenuClick,
+  };
 
   const handleRead = (record) => {
     dispatch(crud.currentItem({ data: record }));
@@ -140,7 +191,7 @@ export default function DataTable({ config, extra = [] }) {
 
   const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
 
-  const { pagination, items: dataSource } = listResult;
+  const { pagination, items: dataSource, } = listResult;
 
   const dispatch = useDispatch();
 
@@ -168,6 +219,14 @@ export default function DataTable({ config, extra = [] }) {
         title={DATATABLE_TITLE}
         ghost={false}
         extra={[
+          <Dropdown menu={menuProps}>
+            <Button>
+              <Space>
+                Select Data
+                <DownOutlined />
+              </Space>
+            </Button>
+          </Dropdown>,
           <Button onClick={handelDataTableLoad} key={`${uniqueId()}`}>
             {translate('Refresh')}
           </Button>,
