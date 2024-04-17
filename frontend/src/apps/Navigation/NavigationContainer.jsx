@@ -59,6 +59,11 @@ function Sidebar({ collapsible, isMobile = false }) {
       label: <Link to={'/customer'}>{translate('customer')}</Link>,
     },
     {
+      key: 'detector1Test',
+      icon: <UserOutlined />,
+      label: <Link to={'/detector1Test'}>{translate('detector1Test')}</Link>,
+    },
+    {
       key: 'people',
       icon: <UserOutlined />,
       label: <Link to={'/people'}>{translate('people')}</Link>,

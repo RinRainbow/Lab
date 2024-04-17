@@ -49,6 +49,8 @@ const Company = lazy(() => import('@/pages/Company'));
 
 const About = lazy(() => import('@/pages/About'));
 
+const Detector1Test = lazy(() => import('@/pages/Detector1Test'));
+
 export default function AppRouter() {
   let element = useRoutes([
     {
@@ -78,6 +80,10 @@ export default function AppRouter() {
     {
       path: '/customer',
       element: <Customer />,
+    },
+    {
+      path: '/detector1Test',
+      element: <Detector1Test />,
     },
     {
       path: '/people',
