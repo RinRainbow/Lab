@@ -25,6 +25,9 @@ import {
   ShopOutlined,
   FilterOutlined,
   WalletOutlined,
+  FieldBinaryOutlined,
+  CodeOutlined,
+  ApartmentOutlined
 } from '@ant-design/icons';
 
 const { Sider } = Layout;
@@ -54,114 +57,33 @@ function Sidebar({ collapsible, isMobile = false }) {
       label: <Link to={'/'}>{translate('dashboard')}</Link>,
     },
     {
-      key: 'customer',
-      icon: <CustomerServiceOutlined />,
-      label: <Link to={'/customer'}>{translate('customer')}</Link>,
-    },
-    {
-      key: 'detector1Test',
-      icon: <UserOutlined />,
-      label: <Link to={'/detector1Test'}>{translate('detector1Test')}</Link>,
-    },
-    {
-      key: 'people',
-      icon: <UserOutlined />,
-      label: <Link to={'/people'}>{translate('people')}</Link>,
-    },
-    {
-      key: 'company',
-      icon: <ShopOutlined />,
-      label: <Link to={'/company'}>{translate('company')}</Link>,
-    },
-    {
-      key: 'lead',
-      icon: <FilterOutlined />,
-      label: <Link to={'/lead'}>{translate('lead')}</Link>,
-    },
-    {
-      key: 'offer',
-      icon: <FileOutlined />,
-      label: <Link to={'/offer'}>{translate('offer')}</Link>,
-    },
-
-    // { key: 'order', icon: <ShopOutlined />, label: <Link to={'/'}>Lead</Link> Order },
-    // { key: 'inventory', icon: <InboxOutlined />, label: <Link to={'/'}>Lead</Link> Inventory },
-
-    {
-      key: 'invoice',
-      icon: <ContainerOutlined />,
-      label: <Link to={'/invoice'}>{translate('invoice')}</Link>,
-    },
-    {
-      key: 'quote',
-      icon: <FileSyncOutlined />,
-      label: <Link to={'/quote'}>{translate('quote')}</Link>,
-    },
-    {
-      key: 'payment',
-      icon: <CreditCardOutlined />,
-      label: <Link to={'/payment'}>{translate('payment')}</Link>,
-    },
-    {
-      key: 'expenses',
-      icon: <WalletOutlined />,
-      label: <Link to={'/expenses'}>{translate('expense')}</Link>,
-    },
-    {
-      key: 'product',
-      icon: <TagOutlined />,
-      label: <Link to={'/product'}>{translate('product')}</Link>,
-    },
-    {
-      key: 'categoryproduct',
-      icon: <TagsOutlined />,
-      label: <Link to={'/category/product'}>{translate('product_category')}</Link>,
-    },
-    // {
-    //   key: 'employee',
-    //   icon: <UserOutlined />,
-    //   label: <Link to={'/employee'}>{translate('employee')}</Link>,
-    // },
-
-    {
-      label: translate('Settings'),
-      key: 'settings',
-      icon: <SettingOutlined />,
+      label: translate('detector1'),
+      key: 'detector1',
+      icon: <FieldBinaryOutlined />,
       children: [
         {
-          key: 'admin',
-          // icon: <TeamOutlined />,
-          label: <Link to={'/admin'}>{translate('admin')}</Link>,
+          key: 'detector1Train',
+          label: <Link to={'/detector1Train'}>{translate('detector1Train')}</Link>,
         },
         {
-          key: 'generalSettings',
-          label: <Link to={'/settings'}>{translate('general_settings')}</Link>,
+          key: 'detector1Valid',
+          label: <Link to={'/detector1Valid'}>{translate('detector1Valid')}</Link>,
         },
         {
-          key: 'expensesCategory',
-          label: <Link to={'/category/expenses'}>{translate('expenses_Category')}</Link>,
+          key: 'detector1Test',
+          label: <Link to={'/detector1Test'}>{translate('detector1Test')}</Link>,
         },
-        // {
-        //   key: 'emailTemplates',
-        //   label: <Link to={'/email'}>{translate('email_templates')}</Link>,
-        // },
-        {
-          key: 'paymentMode',
-          label: <Link to={'/payment/mode'}>{translate('payment_mode')}</Link>,
-        },
-        {
-          key: 'taxes',
-          label: <Link to={'/taxes'}>{translate('taxes')}</Link>,
-        },
-        {
-          key: 'about',
-          label: <Link to={'/about'}>{translate('about')}</Link>,
-        },
-        // {
-        //   key: 'advancedSettings',
-        //   label: <Link to={'/settings/advanced'}>{translate('advanced_settings')}</Link>,
-        // },
       ],
+    },
+    {
+      key: 'detector2',
+      icon: <CodeOutlined />,
+      label: <Link to={'/detector2'}>{translate('detector2')}</Link>,
+    },
+    {
+      key: 'detector3',
+      icon: <ApartmentOutlined />,
+      label: <Link to={'/detector3'}>{translate('detector3')}</Link>,
     },
   ];
 
