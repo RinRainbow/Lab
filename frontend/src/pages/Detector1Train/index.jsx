@@ -4,9 +4,9 @@ import { fields } from './config';
 
 import useLanguage from '@/locale/useLanguage';
 
-export default function Detector1_train() {
+export default function Detector1Train() {
   const translate = useLanguage();
-  const entity = 'Detector1_train';
+  const entity = 'Detector1Train';
   const searchConfig = {
     displayLabels: ['filename'],
     searchFields: 'filename, label, family',
