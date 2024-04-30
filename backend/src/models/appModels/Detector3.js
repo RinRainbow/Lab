@@ -57,4 +57,4 @@ const schema = new mongoose.Schema({
 });
 
 schema.plugin(require('mongoose-autopopulate'));
-module.exports = mongoose.model('dataset', schema);
+module.exports = mongoose.model('Detector2', schema);

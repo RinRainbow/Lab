@@ -5,7 +5,7 @@ const url = "mongodb://localhost:27017";
 mongoose.connect(url);
 
 //.
-const dataset = require('../models/appModels/dataset');
+const dataset = require('../models/appModels/Dataset');
 //
 
 const fs = require('fs');
@@ -27,6 +27,7 @@ async function readDataset() {
         })
         .on('end', () => {
             console.log("done:D");
+            process.exit();
           });
     }catch (e) {
         console.log('\n🚫 Error! The Error info is below');
