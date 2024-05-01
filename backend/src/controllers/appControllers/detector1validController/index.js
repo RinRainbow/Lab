@@ -7,7 +7,7 @@ const remove = require('./remove');
 const paginatedList = require('./paginatedList');
 
 function modelController() {
-  const modelName = 'Dataset';
+  const modelName = 'Detector1Valid';
   const Model = mongoose.model(modelName);
   const methods = createCRUDController(modelName);
   methods.create = (req, res) => create(Model, req, res);
