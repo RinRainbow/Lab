@@ -16,7 +16,7 @@ export default function Detector1Train() {
   const Labels = {
     PANEL_TITLE: 'Detector1 Training Data',
     DATATABLE_TITLE: 'Detector1 Training Data',
-    ADD_NEW_ENTITY: 'add',
+    ADD_NEW_ENTITY: 'Add',
     ENTITY_NAME: 'Detector1_train',
   };
   const configPage = {
