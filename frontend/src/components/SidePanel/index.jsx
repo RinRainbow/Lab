@@ -71,7 +71,8 @@ export default function SidePanel({ config, topContent, bottomContent, fixHeader
       >
         {fixHeaderPanel}
         <CollapseBox
-          buttonTitle={ADD_NEW_ENTITY}
+          //buttonTitle={ADD_NEW_ENTITY}
+          buttonTitle="Add Data"
           isCollapsed={isBoxCollapsed}
           onCollapse={collapsePanelBox}
           topContent={topContent}

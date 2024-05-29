@@ -1,6 +1,7 @@
 import CrudModule from '@/modules/CrudModule/CrudModule';
 import DynamicForm from '@/forms/DynamicForm';
 import { fields } from './config';
+import { PlusOutlined } from '@ant-design/icons';
 
 import useLanguage from '@/locale/useLanguage';
 
@@ -16,7 +17,7 @@ export default function Detector1Valid() {
   const Labels = {
     PANEL_TITLE: translate('Detector1 Validation Data'),
     DATATABLE_TITLE: translate('Detector1 Validation Data'),
-    ADD_NEW_ENTITY: translate('add'),
+    ADD_NEW_ENTITY: <PlusOutlined />,
     ENTITY_NAME: translate('Detector1_valid'),
   };
   const configPage = {

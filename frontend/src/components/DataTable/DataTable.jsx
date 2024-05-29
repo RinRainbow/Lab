@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 
-import { EyeOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, DownOutlined } from '@ant-design/icons';
-import { Dropdown, Table, Button, message, Space } from 'antd';
+import { EyeOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, FilterOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Dropdown, Table, Button, message, Space, Select } from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -64,11 +64,52 @@ function DropdownItems() {
       <Dropdown menu={menuProps}>
         <Button>
           <Space>
-            Data Type
-            <DownOutlined />
+            <FilterOutlined />
           </Space>
         </Button>
       </Dropdown>
+    </Space>
+  );
+}
+
+function Filter() {
+
+  const options = [
+    {
+      label: 'Train',
+      value: 'Train',
+    },
+    {
+      label: 'Test',
+      value: 'Test',
+    },
+    {
+      label: 'All',
+      value: 'All',
+    },
+  ];
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+
+  return (
+    <Space
+      style={{
+        width: '100%',
+      }}
+      direction="vertical"
+    >
+      <Select
+        mode="multiple"
+        //allowClear
+        style={{
+          width: '100%',
+        }}
+        placeholder="Please select"
+        defaultValue={['All']}
+        onChange={handleChange}
+        options={options}
+      />
     </Space>
   );
 }
@@ -210,9 +251,10 @@ export default function DataTable({ config, extra = [] }) {
         title={DATATABLE_TITLE}
         ghost={false}
         extra={[
+          <Filter/>,
           <DropdownItems/>,
           <Button onClick={handelDataTableLoad} key={`${uniqueId()}`}>
-            {translate('Refresh')}
+            <ReloadOutlined />
           </Button>,
           <AddNewItem key={`${uniqueId()}`} config={config} />,
         ]}

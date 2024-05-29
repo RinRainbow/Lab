@@ -1,6 +1,7 @@
 import CrudModule from '@/modules/CrudModule/CrudModule';
 import DynamicForm from '@/forms/DynamicForm';
 import { fields } from './config';
+import { PlusOutlined } from '@ant-design/icons';
 
 import useLanguage from '@/locale/useLanguage';
 
@@ -16,7 +17,7 @@ export default function Detector1Train() {
   const Labels = {
     PANEL_TITLE: 'Detector1 Training Data',
     DATATABLE_TITLE: 'Detector1 Training Data',
-    ADD_NEW_ENTITY: 'Add',
+    ADD_NEW_ENTITY: <PlusOutlined />,
     ENTITY_NAME: 'Detector1_train',
   };
   const configPage = {
