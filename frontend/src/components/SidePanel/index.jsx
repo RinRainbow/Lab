@@ -1,12 +1,48 @@
 import { useState, useEffect } from 'react';
 import { useCrudContext } from '@/context/crud';
 import { useAppContext } from '@/context/appContext';
-import { Grid, Layout, Drawer } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
+import { Grid, Layout, Drawer, message, Upload } from 'antd';
+import { MenuOutlined, InboxOutlined } from '@ant-design/icons';
 import CollapseBox from '../CollapseBox';
 
 const { useBreakpoint } = Grid;
 const { Sider } = Layout;
+
+function UploadArea() {
+  const { Dragger } = Upload;
+  const props = {
+    name: 'file',
+    multiple: true,
+    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+    onChange(info) {
+      const { status } = info.file;
+      if (status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+      if (status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully.`);
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+    onDrop(e) {
+      console.log('Dropped files', e.dataTransfer.files);
+    },
+  };
+
+  return (
+    <Dragger {...props}>
+      <p className="ant-upload-drag-icon">
+        <InboxOutlined />
+      </p>
+      <p className="ant-upload-text">Click or drag file to this area to upload</p>
+      <p className="ant-upload-hint">
+        Support for a single or bulk upload. Strictly prohibited from uploading company data or other
+        banned files.
+      </p>
+    </Dragger>
+  );
+}
 
 export default function SidePanel({ config, topContent, bottomContent, fixHeaderPanel }) {
   const screens = useBreakpoint();
@@ -78,6 +114,8 @@ export default function SidePanel({ config, topContent, bottomContent, fixHeader
           topContent={topContent}
           bottomContent={bottomContent}
         ></CollapseBox>
+        <br></br>
+        <UploadArea/>
       </div>
     </Drawer>
     // <Sider
