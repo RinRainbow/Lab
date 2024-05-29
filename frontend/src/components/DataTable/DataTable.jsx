@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 
-import { EyeOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined } from '@ant-design/icons';
-import { Dropdown, Table, Button } from 'antd';
+import { EyeOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, DownOutlined } from '@ant-design/icons';
+import { Dropdown, Table, Button, message, Space } from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -31,6 +31,48 @@ function AddNewItem({ config }) {
     </Button>
   );
 }
+
+function DropdownItems() {
+
+  const handleMenuClick = (e) => {
+    message.info('Click on menu item.');
+    console.log('click', e);
+  };
+
+  const items = [
+    {
+      label: 'Training Data',
+      key: '1',
+    },
+    {
+      label: 'Validation Data',
+      key: '2',
+    },
+    {
+      label: 'Testing Data',
+      key: '3',
+    },
+  ];
+
+  const menuProps = {
+    items,
+    onClick: handleMenuClick,
+  };
+
+  return (
+    <Space wrap>
+      <Dropdown menu={menuProps}>
+        <Button>
+          <Space>
+            Data Type
+            <DownOutlined />
+          </Space>
+        </Button>
+      </Dropdown>
+    </Space>
+  );
+}
+
 export default function DataTable({ config, extra = [] }) {
   let { entity, dataTableColumns, DATATABLE_TITLE, fields } = config;
   const { crudContextAction } = useCrudContext();
@@ -168,6 +210,7 @@ export default function DataTable({ config, extra = [] }) {
         title={DATATABLE_TITLE}
         ghost={false}
         extra={[
+          <DropdownItems/>,
           <Button onClick={handelDataTableLoad} key={`${uniqueId()}`}>
             {translate('Refresh')}
           </Button>,
