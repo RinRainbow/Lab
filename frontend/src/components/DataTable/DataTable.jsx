@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
-
+import React, { useState } from 'react';
 import { EyeOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, FilterOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Dropdown, Table, Button, message, Space, Select } from 'antd';
+import { Dropdown, Table, Button, message, Space, Select, TreeSelect } from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -111,6 +111,64 @@ function Filter() {
         options={options}
       />
     </Space>
+  );
+}
+
+function SelectTree() {
+
+  const treeData = [
+    {
+      value: 'Data Type',
+      title: 'Data Type',
+      children: [
+        {
+          value: 'Training Data',
+          title: 'Training Data',
+        },
+        {
+          value: 'Testing Data',
+          title: 'Testing Data',
+        },
+      ],
+    },
+    {
+      value: 'Lable',
+      title: 'Lable',
+    },
+    {
+      value: 'Family',
+      title: 'Family',
+    },
+    {
+      value: 'Cpuarchitecture',
+      title: 'Cpuarchitecture',
+    },
+  ];
+
+  const [value, setValue] = useState();
+  const onChange = (newValue) => {
+    console.log(newValue);
+    setValue(newValue);
+  };
+
+  return (
+    <TreeSelect
+      showSearch
+      style={{
+        width: '100%',
+      }}
+      value={value}
+      dropdownStyle={{
+        maxHeight: 400,
+        overflow: 'auto',
+      }}
+      placeholder="Please select"
+      defaultValue={['Training Data', 'Label', 'Family', 'Cpuarchitecture']}
+      multiple
+      treeDefaultExpandAll
+      onChange={onChange}
+      treeData={treeData}
+    />
   );
 }
 
@@ -251,8 +309,9 @@ export default function DataTable({ config, extra = [] }) {
         title={DATATABLE_TITLE}
         ghost={false}
         extra={[
-          <Filter/>,
-          <DropdownItems/>,
+          //<Filter/>,
+          <SelectTree/>,
+          //<DropdownItems/>,
           <Button onClick={handelDataTableLoad} key={`${uniqueId()}`}>
             <ReloadOutlined />
           </Button>,
