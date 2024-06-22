@@ -61,6 +61,7 @@ const crudReducer = (state = INITIAL_STATE, action) => {
         },
       };
     case actionTypes.REQUEST_SUCCESS:
+      console.log('Request success payload:', action.payload);
       return {
         ...state,
         [keyState]: {

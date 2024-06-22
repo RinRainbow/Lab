@@ -44,7 +44,11 @@ export const crud = {
         payload: null,
       });
 
+      console.log('Fetching data with options(list):', options);
+
       let data = await request.list({ entity, options });
+
+      console.log('API response(list):', data);
 
       if (data.success === true) {
         const result = {
@@ -206,7 +210,11 @@ export const crud = {
         payload: null,
       });
 
+      console.log('Dispatching search request(search):', { entity, options });
+
       let data = await request.search({ entity, options });
+
+      console.log('API response(search):', data);
 
       if (data.success === true) {
         dispatch({

@@ -9,7 +9,7 @@ export default function LoginForm() {
   return (
     <>
       <div className="TopBlank">
-          Log in to Dictator
+          Log in to Detector
       </div>
       <Form.Item
         name="email"

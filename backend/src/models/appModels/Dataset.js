@@ -23,6 +23,7 @@ const schema = new mongoose.Schema({
   family: {
     type: String,
     trim: true,
+    required: false,
   },
   CPUArchitecture: {
     type: String,

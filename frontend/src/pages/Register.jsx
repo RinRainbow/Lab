@@ -63,7 +63,7 @@ const RegisterPage = () => {
                 src={icon}
                 alt=""
               />
-              <div className="OptionText">Log in to Dictator</div>
+              <div className="OptionText">Log in to Detector</div>
               <img
                 className="Arrow"
                 src={arrow}

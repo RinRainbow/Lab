@@ -10,25 +10,32 @@ const dataset = require('../models/appModels/Dataset');
 
 const fs = require('fs');
 const csv = require('csv-parser');
-
+const { once } = require('events');
+var count = 0;
 
 
 async function readDataset() {
     try {
         const results = [];
-        fs.createReadStream('dataset.csv')
+        const promises = [];
+        const stream = fs.createReadStream('dataset.csv')
         .pipe(csv())
-        .on('data', (data) => {
+        stream.on('data', (data) => {
             results.push(data);
             //console.log(data);
             //const saving = data;
             //console.log(saving["file size"]);
-            setupDataset(data);
+            promises.push(setupDataset(data));
+            //count = count+1;
         })
-        .on('end', () => {
-            console.log("done:D");
-            process.exit();
-          });
+    // Wait for the 'end' event of the stream
+    await once(stream, 'end');
+
+    // Wait for all the promises to resolve
+    await Promise.all(promises);
+    
+    console.log("done:D");
+    process.exit();
     }catch (e) {
         console.log('\n🚫 Error! The Error info is below');
         console.log(e);
@@ -45,8 +52,10 @@ async function setupDataset(data) {
             CPUArchitecture: data["CPU Architecture"],
             fileSize: data["file size"],
           };
-          console.log(savingData);
-        await new dataset(savingData).save();
+          //console.log(savingData);
+          //console.log(count);
+          await new dataset(savingData).save();
+        
     }catch (e) {
         console.log('\n🚫 Error! The Error info is below');
         console.log(e);

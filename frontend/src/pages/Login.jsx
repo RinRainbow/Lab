@@ -85,7 +85,7 @@ const LoginPage = () => {
     );
   };
 
-  return <AuthModule authContent={<FormContainer />} AUTH_TITLE="Log in to Dictator" />;
+  return <AuthModule authContent={<FormContainer />} AUTH_TITLE="Log in to Detector" />;
 };
 
 export default LoginPage;
