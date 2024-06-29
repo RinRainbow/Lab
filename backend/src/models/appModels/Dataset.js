@@ -5,6 +5,10 @@ const schema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  chosen: {
+    type: Boolean,
+    default: true,
+  },
   enabled: {
     type: Boolean,
     default: true,
@@ -35,14 +39,13 @@ const schema = new mongoose.Schema({
     trim: true,
     required: true,
   },
-
-  tags: [
-    {
+  tags: {
       type: String,
       trim: true,
       lowercase: true,
-    },
-  ],
+      required: true,
+      default:"test",
+  },
   created: {
     type: Date,
     default: Date.now,

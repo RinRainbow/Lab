@@ -5,6 +5,10 @@ const schema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  chosen: {
+    type: Boolean,
+    default: false,
+  },
   enabled: {
     type: Boolean,
     default: true,

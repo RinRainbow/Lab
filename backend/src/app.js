@@ -13,6 +13,8 @@ const adminAuth = require('./controllers/coreControllers/adminAuth');
 
 const errorHandlers = require('./handlers/errorHandlers');
 const erpApiRouter = require('./routes/appRoutes/appApi');
+const detectorApiRouter = require('./routes/detectorRoutes/detectorApi');
+
 const { listAllSettings } = require('@/middlewares/settings');
 const useLanguage = require('@/locale/useLanguage');
 
@@ -70,10 +72,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(compression());
 // Here our API Routes
 app.use('/api', coreAuthRouter);
+app.use('/api', detectorApiRouter);
 app.use('/api', adminAuth.isValidAuthToken, coreApiRouter);
 app.use('/api', adminAuth.isValidAuthToken, erpApiRouter);
 app.use('/download', coreDownloadRouter);
 app.use('/public', corePublicRouter);
+
 
 // If that above routes didnt work, we 404 them and forward to error handler
 app.use(errorHandlers.notFound);

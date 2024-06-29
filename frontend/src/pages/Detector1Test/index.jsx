@@ -12,7 +12,7 @@ export default function Detector1Test() {
     displayLabels: ['filename'],
     searchFields: 'filename,label,family,CPUArchitecture',
   };
-  const deleteModalLabels = ['firstname', 'lastname'];
+  const deleteModalLabels = ['filename'];
 
   const Labels = {
     PANEL_TITLE: translate('Detector1 Testing Data'),

@@ -114,6 +114,7 @@ const request = {
         query += key + '=' + options[key] + '&';
       }
       query = query.slice(0, -1);
+      console.log('query(request.search): ', query);
       // headersInstance.cancelToken = source.token;
       const response = await axios.get(entity + '/search' + query);
 
@@ -134,8 +135,10 @@ const request = {
         query += key + '=' + options[key] + '&';
       }
       query = query.slice(0, -1);
+      console.log('query(request.list): ', query);
 
       const response = await axios.get(entity + '/list' + query);
+      console.log('response(list): ', response.data);
 
       successHandler(response, {
         notifyOnSuccess: false,

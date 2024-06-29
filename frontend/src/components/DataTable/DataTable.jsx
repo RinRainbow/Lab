@@ -136,8 +136,8 @@ function SelectTree({ config }) {
           ],
         },
         {
-          value: 'Lable',
-          title: 'Lable',
+          value: 'Label',
+          title: 'Label',
           children: [
             {
               value: 'malware',
@@ -291,6 +291,8 @@ export default function DataTable({ config, extra = [] }) {
     dispatchColumns = [...dataTableColumns];
   }
 
+  console.log('dispatchColumns: ', dispatchColumns);
+
   dataTableColumns = [
     ...dispatchColumns,
     {
@@ -334,15 +336,202 @@ export default function DataTable({ config, extra = [] }) {
     },
   ];
 
-  const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
-  const { result: searchResult, isLoading: searchIsLoading } = useSelector(selectSearchedItems);
-  //console.log('Redux state listResult:', listResult);
-  //console.log('Redux state isLoading:', listIsLoading);
+  const columns = [
+    {
+      title: 'Filename',
+      dataIndex: ["filename"],
+      key: 'filename',
+    },
+    {
+      title: 'Label',
+      dataIndex: ["label"],
+      key: 'label',
+      filters: [
+        {
+          text: 'benignware',
+          value: 'benignware',
+        },
+        {
+          text: 'malware',
+          value: 'malware',
+        },
+      ],
+      onFilter: (value, record) => record.label.indexOf(value) === 0,
+    },
+    {
+      title: 'Family',
+      dataIndex: ["family"],
+      key: 'family',
+      filters: [
+        {
+          text: 'mirai',
+          value: 'mirai',
+        },
+        {
+          text: 'gafgyt',
+          value: 'gafgyt',
+        },
+        {
+          text: 'dofloo',
+          value: 'dofloo',
+        },
+      ],
+      onFilter: (value, record) => record.family.indexOf(value) === 0,
+    },
+    {
+      title: 'Cpuarchitecture',
+      dataIndex: ["CPUArchitecture"],
+      key: 'CPUArchitecture',
+      filters: [
+        {
+          text: 'PowerPC',
+          value: 'PowerPC',
+        },
+        {
+          text: 'MIPS',
+          value: 'MIPS',
+        },
+        {
+          text: 'ARM',
+          value: 'ARM',
+        },
+      ],
+      onFilter: (value, record) => record.CPUArchitecture.indexOf(value) === 0,
+    },
+    {
+      title: 'Filesize',
+      dataIndex: ["fileSize"],
+      key: 'fileSize',
+      sorter: (a, b) => a.fileSize - b.fileSize,
+    },
+  ];
 
-  //const { pagination, items: dataSource } = listResult;
-  const dataSource = searchResult.length ? searchResult : listResult.items;
-  const pagination = searchResult.length ? {} : listResult.pagination;
-  console.log('Data source:', dataSource);
+  const data = [
+    {
+      key: '1',
+      filename: 'aaa',
+      label: 'malware',
+      family: 'mirai',
+      CPUArchitecture: 'PowerPC',
+      fileSize: 111,
+    },
+    {
+      key: '2',
+      filename: 'bbb',
+      label: 'benignware',
+      family: 'gafgyt',
+      CPUArchitecture: 'MIPS',
+      fileSize: 1991,
+    },
+    {
+      key: '3',
+      filename: 'ccc',
+      label: 'malware',
+      family: 'dofloo',
+      CPUArchitecture: 'ARM',
+      fileSize: 113871,
+    },
+    {
+      key: '4',
+      filename: 'ddd',
+      label: 'malware',
+      family: 'mirai',
+      CPUArchitecture: 'ARM',
+      fileSize: 111,
+    },
+    {
+      key: '5',
+      filename: 'eee',
+      label: 'malware',
+      family: 'dofloo',
+      CPUArchitecture: 'ARM',
+      fileSize: 111,
+    },
+    {
+      key: '6',
+      filename: 'rrr',
+      label: 'malware',
+      family: 'mirai',
+      CPUArchitecture: 'PowerPC',
+      fileSize: 111,
+    },
+    {
+      key: '7',
+      filename: 'fff',
+      label: 'malware',
+      family: 'dofloo',
+      CPUArchitecture: 'PowerPC',
+      fileSize: 111,
+    },
+    {
+      key: '8',
+      filename: 'ggg',
+      label: 'malware',
+      family: 'mirai',
+      CPUArchitecture: 'PowerPC',
+      fileSize: 111,
+    },
+    {
+      key: '9',
+      filename: 'hh',
+      label: 'benignware',
+      family: 'gafgyt',
+      CPUArchitecture: 'PowerPC',
+      fileSize: 111,
+    },
+    {
+      key: '10',
+      filename: 'uuuuuu',
+      label: 'malware',
+      family: 'mirai',
+      CPUArchitecture: 'PowerPC',
+      fileSize: 111,
+    },
+    {
+      key: '11',
+      filename: 'kk',
+      label: 'benignware',
+      family: 'mirai',
+      CPUArchitecture: 'PowerPC',
+      fileSize: 111,
+    },
+    {
+      key: '12',
+      filename: 'qq',
+      label: 'benignware',
+      family: 'mirai',
+      CPUArchitecture: 'PowerPC',
+      fileSize: 111,
+    },
+    {
+      key: '13',
+      filename: 'xx',
+      label: 'malware',
+      family: 'mirai',
+      CPUArchitecture: 'PowerPC',
+      fileSize: 111,
+    },
+    {
+      key: '14',
+      filename: 'lol',
+      label: 'malware',
+      family: 'mirai',
+      CPUArchitecture: 'PowerPC',
+      fileSize: 111,
+    },
+  ];
+
+  const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
+  // const { result: searchResult, isLoading: searchIsLoading } = useSelector(selectSearchedItems);
+  // console.log('Redux state listResult:', listResult);
+  // console.log('Redux state searchResult:', searchResult);
+  // console.log('Redux state isLoading:', listIsLoading);
+
+  const { pagination, items: dataSource } = listResult;
+  // const dataSource = searchResult.length ? searchResult : listResult.items;
+  // const pagination = searchResult.length ? {} : listResult.pagination;
+  // console.log('searchResult.length: ', searchResult.length);
+  //console.log('Data source:', dataSource);
 
   const dispatch = useDispatch();
 
@@ -357,7 +546,7 @@ export default function DataTable({ config, extra = [] }) {
     console.log(value);
     const options = { q: value, fields: searchConfig?.searchFields || '' };
     console.log(options);
-    dispatch(crud.search({ entity, options }));
+    dispatch(crud.list({ entity, options }));
   };
 
   const dispatcher = () => {
@@ -373,6 +562,10 @@ export default function DataTable({ config, extra = [] }) {
       controller.abort();
     };
   }, []);
+
+  const onChange = (pagination, filters, sorter, extra) => {
+    console.log('params', pagination, filters, sorter, extra);
+  };
 
   return (
     <>
@@ -401,12 +594,14 @@ export default function DataTable({ config, extra = [] }) {
       ></PageHeader>
 
       <Table
-        columns={dataTableColumns}
-        rowKey={(item) => item._id}
-        dataSource={dataSource}
-        pagination={pagination}
-        loading={listIsLoading || searchIsLoading}
-        onChange={handelDataTableLoad}
+        columns={columns}
+        //rowKey={(item) => item._id}
+        dataSource={data}
+        //pagination={pagination}
+        //loading={listIsLoading || searchIsLoading}
+        //loading={listIsLoading}
+        onChange={onChange}
+        bordered
         scroll={{ x: true }}
       />
     </>
