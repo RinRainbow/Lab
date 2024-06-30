@@ -404,122 +404,161 @@ export default function DataTable({ config, extra = [] }) {
       key: 'fileSize',
       sorter: (a, b) => a.fileSize - b.fileSize,
     },
+    {
+      title: '',
+      key: 'action',
+      fixed: 'right',
+      render: (_, record) => (
+        <Dropdown
+          menu={{
+            items,
+            onClick: ({ key }) => {
+              switch (key) {
+                case 'read':
+                  handleRead(record);
+                  break;
+                case 'edit':
+                  handleEdit(record);
+                  break;
+
+                case 'delete':
+                  handleDelete(record);
+                  break;
+                case 'updatePassword':
+                  handleUpdatePassword(record);
+                  break;
+
+                default:
+                  break;
+              }
+              // else if (key === '2')handleCloseTask
+            },
+          }}
+          trigger={['click']}
+        >
+          <EllipsisOutlined
+            style={{ cursor: 'pointer', fontSize: '24px' }}
+            onClick={(e) => e.preventDefault()}
+          />
+        </Dropdown>
+      ),
+    },
   ];
 
-  const data = [
-    {
-      key: '1',
-      filename: 'aaa',
-      label: 'malware',
-      family: 'mirai',
-      CPUArchitecture: 'PowerPC',
-      fileSize: 111,
-    },
-    {
-      key: '2',
-      filename: 'bbb',
-      label: 'benignware',
-      family: 'gafgyt',
-      CPUArchitecture: 'MIPS',
-      fileSize: 1991,
-    },
-    {
-      key: '3',
-      filename: 'ccc',
-      label: 'malware',
-      family: 'dofloo',
-      CPUArchitecture: 'ARM',
-      fileSize: 113871,
-    },
-    {
-      key: '4',
-      filename: 'ddd',
-      label: 'malware',
-      family: 'mirai',
-      CPUArchitecture: 'ARM',
-      fileSize: 111,
-    },
-    {
-      key: '5',
-      filename: 'eee',
-      label: 'malware',
-      family: 'dofloo',
-      CPUArchitecture: 'ARM',
-      fileSize: 111,
-    },
-    {
-      key: '6',
-      filename: 'rrr',
-      label: 'malware',
-      family: 'mirai',
-      CPUArchitecture: 'PowerPC',
-      fileSize: 111,
-    },
-    {
-      key: '7',
-      filename: 'fff',
-      label: 'malware',
-      family: 'dofloo',
-      CPUArchitecture: 'PowerPC',
-      fileSize: 111,
-    },
-    {
-      key: '8',
-      filename: 'ggg',
-      label: 'malware',
-      family: 'mirai',
-      CPUArchitecture: 'PowerPC',
-      fileSize: 111,
-    },
-    {
-      key: '9',
-      filename: 'hh',
-      label: 'benignware',
-      family: 'gafgyt',
-      CPUArchitecture: 'PowerPC',
-      fileSize: 111,
-    },
-    {
-      key: '10',
-      filename: 'uuuuuu',
-      label: 'malware',
-      family: 'mirai',
-      CPUArchitecture: 'PowerPC',
-      fileSize: 111,
-    },
-    {
-      key: '11',
-      filename: 'kk',
-      label: 'benignware',
-      family: 'mirai',
-      CPUArchitecture: 'PowerPC',
-      fileSize: 111,
-    },
-    {
-      key: '12',
-      filename: 'qq',
-      label: 'benignware',
-      family: 'mirai',
-      CPUArchitecture: 'PowerPC',
-      fileSize: 111,
-    },
-    {
-      key: '13',
-      filename: 'xx',
-      label: 'malware',
-      family: 'mirai',
-      CPUArchitecture: 'PowerPC',
-      fileSize: 111,
-    },
-    {
-      key: '14',
-      filename: 'lol',
-      label: 'malware',
-      family: 'mirai',
-      CPUArchitecture: 'PowerPC',
-      fileSize: 111,
-    },
-  ];
+  // const data = [
+  //   {
+  //     key: '1',
+  //     filename: 'aaa',
+  //     label: 'malware',
+  //     family: 'mirai',
+  //     CPUArchitecture: 'PowerPC',
+  //     fileSize: 111,
+  //   },
+  //   {
+  //     key: '2',
+  //     filename: 'bbb',
+  //     label: 'benignware',
+  //     family: 'gafgyt',
+  //     CPUArchitecture: 'MIPS',
+  //     fileSize: 1991,
+  //   },
+  //   {
+  //     key: '3',
+  //     filename: 'ccc',
+  //     label: 'malware',
+  //     family: 'dofloo',
+  //     CPUArchitecture: 'ARM',
+  //     fileSize: 113871,
+  //   },
+  //   {
+  //     key: '4',
+  //     filename: 'ddd',
+  //     label: 'malware',
+  //     family: 'mirai',
+  //     CPUArchitecture: 'ARM',
+  //     fileSize: 111,
+  //   },
+  //   {
+  //     key: '5',
+  //     filename: 'eee',
+  //     label: 'malware',
+  //     family: 'dofloo',
+  //     CPUArchitecture: 'ARM',
+  //     fileSize: 111,
+  //   },
+  //   {
+  //     key: '6',
+  //     filename: 'rrr',
+  //     label: 'malware',
+  //     family: 'mirai',
+  //     CPUArchitecture: 'PowerPC',
+  //     fileSize: 111,
+  //   },
+  //   {
+  //     key: '7',
+  //     filename: 'fff',
+  //     label: 'malware',
+  //     family: 'dofloo',
+  //     CPUArchitecture: 'PowerPC',
+  //     fileSize: 111,
+  //   },
+  //   {
+  //     key: '8',
+  //     filename: 'ggg',
+  //     label: 'malware',
+  //     family: 'mirai',
+  //     CPUArchitecture: 'PowerPC',
+  //     fileSize: 111,
+  //   },
+  //   {
+  //     key: '9',
+  //     filename: 'hh',
+  //     label: 'benignware',
+  //     family: 'gafgyt',
+  //     CPUArchitecture: 'PowerPC',
+  //     fileSize: 111,
+  //   },
+  //   {
+  //     key: '10',
+  //     filename: 'uuuuuu',
+  //     label: 'malware',
+  //     family: 'mirai',
+  //     CPUArchitecture: 'PowerPC',
+  //     fileSize: 111,
+  //   },
+  //   {
+  //     key: '11',
+  //     filename: 'kk',
+  //     label: 'benignware',
+  //     family: 'mirai',
+  //     CPUArchitecture: 'PowerPC',
+  //     fileSize: 111,
+  //   },
+  //   {
+  //     key: '12',
+  //     filename: 'qq',
+  //     label: 'benignware',
+  //     family: 'mirai',
+  //     CPUArchitecture: 'PowerPC',
+  //     fileSize: 111,
+  //   },
+  //   {
+  //     key: '13',
+  //     filename: 'xx',
+  //     label: 'malware',
+  //     family: 'mirai',
+  //     CPUArchitecture: 'PowerPC',
+  //     fileSize: 111,
+  //   },
+  //   {
+  //     key: '14',
+  //     filename: 'lol',
+  //     label: 'malware',
+  //     family: 'mirai',
+  //     CPUArchitecture: 'PowerPC',
+  //     fileSize: 111,
+  //   },
+  // ];
 
   const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
   // const { result: searchResult, isLoading: searchIsLoading } = useSelector(selectSearchedItems);
@@ -574,14 +613,14 @@ export default function DataTable({ config, extra = [] }) {
         title={DATATABLE_TITLE}
         ghost={false}
         extra={[
-          <Input
-            key={`searchFilterDataTable}`}
-            onChange={filterTable}
-            placeholder={translate('search')}
-            allowClear
-          />,
+          // <Input
+          //   key={`searchFilterDataTable}`}
+          //   onChange={filterTable}
+          //   placeholder={translate('search')}
+          //   allowClear
+          // />,
           //<Filter/>,
-          <SelectTree key={`${uniqueId()}`} config={config} />,
+          //<SelectTree key={`${uniqueId()}`} config={config} />,
           //<DropdownItems/>,
           <Button onClick={handelDataTableLoad} key={`${uniqueId()}`}>
             <ReloadOutlined />
@@ -595,12 +634,12 @@ export default function DataTable({ config, extra = [] }) {
 
       <Table
         columns={columns}
-        //rowKey={(item) => item._id}
-        dataSource={data}
-        //pagination={pagination}
+        rowKey={(item) => item._id}
+        dataSource={dataSource}
+        pagination={pagination}
         //loading={listIsLoading || searchIsLoading}
-        //loading={listIsLoading}
-        onChange={onChange}
+        loading={listIsLoading}
+        onChange={handelDataTableLoad}
         bordered
         scroll={{ x: true }}
       />

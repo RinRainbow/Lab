@@ -2,7 +2,7 @@ const { modelsFiles } = require('@/models/utils');
 
 const mongoose = require('mongoose');
 
-const listChosen = require('./chooseList');
+const listChosen = require('./chooseList.js');
 
 
 const detectorControllers = (modelName) => {

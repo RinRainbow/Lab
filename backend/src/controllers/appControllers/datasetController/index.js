@@ -5,6 +5,7 @@ const create = require('./create');
 const read = require('./read');
 const remove = require('./remove');
 const paginatedList = require('./paginatedList');
+const listAll = require('./listAll');
 
 function modelController() {
   const modelName = 'Dataset';

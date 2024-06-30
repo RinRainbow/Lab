@@ -51,7 +51,7 @@ function SidePanelTopContent({ config, formElements, withUpload }) {
     <>
       <Row style={show} gutter={(24, 24)}>
         <Col span={10}>
-          <p style={{ marginBottom: '10px' }}>{labels}</p>
+          {/* <p style={{ marginBottom: '10px' }}>{labels}</p> */}
         </Col>
         <Col span={14}>
           <Button

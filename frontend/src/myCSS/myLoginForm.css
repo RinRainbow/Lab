@@ -3,7 +3,7 @@
     height: 462px;
     padding: 24;
     border-radius: 12px;
-    border: 3px solid aliceblue;
+    /* border: 3px solid aliceblue; */
     position: fixed;
     margin: auto;
     top: 0;
@@ -15,6 +15,7 @@
     padding-bottom: 24px;
     padding-right: 24px;
     background: #FFF;
+    box-shadow: 0px 0px 20px 3px rgba(150, 190, 238, 0.15);
 }
 
 .TopBlank {
@@ -44,8 +45,8 @@
     height: 55px;
     font-size: 15px;
     margin-bottom: 8px;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.30);
+    /* border-radius: 12px; */
+    /* border: 1px solid rgba(0, 0, 0, 0.30); */
     padding-top: 16px;
     padding-left: 16px;
     padding-bottom: 16px;
