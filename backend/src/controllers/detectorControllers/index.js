@@ -1,12 +1,11 @@
 const { modelsFiles } = require('@/models/utils');
-
 const mongoose = require('mongoose');
-
-const listChosen = require('./chooseList.js');
-
+const listChosen = require('./listChosen.js');
+const runPy = require('./runPy.js')
 
 const detectorControllers = (modelName) => {
-    modelName = "Dataset";
+  modelName = "Dataset";
+  
   if (!modelsFiles.includes(modelName)) {
     throw new Error(`Model ${modelName} does not exist`);
   }
@@ -14,8 +13,11 @@ const detectorControllers = (modelName) => {
   const Model = mongoose.model(modelName);
   let crudMethods = {
     listChosen: (req, res) => listChosen(Model, req, res),
+    runPy: (req, res) => runPy(Model, req, res),
   };
-  return crudMethods;
+
+  
+return crudMethods;
 };
 
 module.exports = detectorControllers;

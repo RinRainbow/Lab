@@ -1,12 +1,12 @@
 import { useCallback, useEffect } from 'react';
-import React, { useState } from 'react';
-import { EyeOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, FilterOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Dropdown, Table, Button, message, Space, Select, TreeSelect, Input } from 'antd';
+import React from 'react';
+import { EyeOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ReloadOutlined } from '@ant-design/icons';
+import { Dropdown, Table, Button } from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { crud } from '@/redux/crud/actions';
-import { selectListItems, selectSearchedItems } from '@/redux/crud/selectors';
+import { selectListItems } from '@/redux/crud/selectors';
 import useLanguage from '@/locale/useLanguage';
 import { dataForTable } from '@/utils/dataStructure';
 import { useMoney, useDate } from '@/settings';
@@ -29,201 +29,6 @@ function AddNewItem({ config }) {
     <Button onClick={handelClick} type="primary">
       {ADD_NEW_ENTITY}
     </Button>
-  );
-}
-
-function DropdownItems() {
-
-  const handleMenuClick = (e) => {
-    message.info('Click on menu item.');
-    console.log('click', e);
-  };
-
-  const items = [
-    {
-      label: 'Training Data',
-      key: '1',
-    },
-    {
-      label: 'Validation Data',
-      key: '2',
-    },
-    {
-      label: 'Testing Data',
-      key: '3',
-    },
-  ];
-
-  const menuProps = {
-    items,
-    onClick: handleMenuClick,
-  };
-
-  return (
-    <Space wrap>
-      <Dropdown menu={menuProps}>
-        <Button>
-        <Space>
-            <FilterOutlined />
-          </Space>
-        </Button>
-      </Dropdown>
-    </Space>
-  );
-}
-
-function Filter() {
-
-  const options = [
-    {
-      label: 'Train',
-      value: 'Train',
-    },
-    {
-      label: 'Test',
-      value: 'Test',
-    },
-    {
-      label: 'All',
-      value: 'All',
-    },
-  ];
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-
-  return (
-    <Space
-      style={{
-        width: '100%',
-      }}
-      direction="vertical"
-    >
-      <Select
-        mode="multiple"
-        //allowClear
-        style={{
-          width: '100%',
-        }}
-        placeholder="Please select"
-        defaultValue={['All']}
-        onChange={handleChange}
-        options={options}
-      />
-    </Space>
-  );
-}
-
-function SelectTree({ config }) {
-
-  const treeData = [
-    {
-      value: 'All',
-      title: 'All',
-      children: [
-        {
-          value: 'Data Type',
-          title: 'Data Type',
-          children: [
-            {
-              value: 'Training Data',
-              title: 'Training Data',
-            },
-            {
-              value: 'Testing Data',
-              title: 'Testing Data',
-            },
-          ],
-        },
-        {
-          value: 'Label',
-          title: 'Label',
-          children: [
-            {
-              value: 'malware',
-              title: 'malware',
-            },
-            {
-              value: 'benignware',
-              title: 'benignware',
-            },
-          ],
-        },
-        {
-          value: 'Family',
-          title: 'Family',
-          children: [
-            {
-              value: 'mirai',
-              title: 'mirai',
-            },
-            {
-              value: 'gafgyt',
-              title: 'gafgyt',
-            },
-            {
-              value: 'dofloo',
-              title: 'dofloo',
-            },
-          ],
-        },
-        {
-          value: 'Cpuarchitecture',
-          title: 'Cpuarchitecture',
-          children: [
-            {
-              value: 'PowerPC',
-              title: 'PowerPC',
-            },
-            {
-              value: 'MIPS',
-              title: 'MIPS',
-            },
-            {
-              value: 'ARM',
-              title: 'ARM',
-            },
-          ],
-        },
-      ],
-    },
-  ];
-
-  const [value, setValue] = useState();
-  const onChange = (newValue) => {
-    message.info(`Click on ${newValue}`);
-    console.log(newValue);
-    setValue(newValue);
-  };
-
-  const { crudContextAction } = useCrudContext();
-  const { collapsedBox, panel } = crudContextAction;
-  const { ADD_NEW_ENTITY } = config;
-
-
-  
-  
-  return (
-    
-    <TreeSelect
-      showSearch
-      style={{
-        minWidth: 200,
-        width: '100%',
-      }}
-      value={value}
-      dropdownStyle={{
-        maxHeight: 400,
-        overflow: 'auto',
-      }}
-      placeholder="Please select"
-      defaultValue={['All']}
-      multiple
-      treeDefaultExpandAll
-      onChange={onChange}
-      treeData={treeData}
-      //onClick={handelClick} type="primary"
-    />
   );
 }
 
@@ -291,8 +96,6 @@ export default function DataTable({ config, extra = [] }) {
     dispatchColumns = [...dataTableColumns];
   }
 
-  console.log('dispatchColumns: ', dispatchColumns);
-
   dataTableColumns = [
     ...dispatchColumns,
     {
@@ -336,6 +139,29 @@ export default function DataTable({ config, extra = [] }) {
     },
   ];
 
+  const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
+
+  const { pagination, items: dataSource } = listResult;
+
+  const all_label = [];   // Array to store unique labels
+  const all_family = [];
+  const all_cpu = [];
+
+  // Function to populate all_label, all_family, and all_cpu array
+  function checkLabels(data) {
+    data.forEach(item => {
+      if (!all_label.some(labelObj => labelObj.text === item.label)) {
+        all_label.push({ text: item.label, value: item.label });
+      }
+      if (!all_family.some(labelObj => labelObj.text === item.family)) {
+        all_family.push({ text: item.family, value: item.family });
+      }
+      if (!all_cpu.some(labelObj => labelObj.text === item.CPUArchitecture)) {
+        all_cpu.push({ text: item.CPUArchitecture, value: item.CPUArchitecture });
+      }
+    });
+  }
+  checkLabels(dataSource);
   const columns = [
     {
       title: 'Filename',
@@ -347,14 +173,7 @@ export default function DataTable({ config, extra = [] }) {
       dataIndex: ["label"],
       key: 'label',
       filters: [
-        {
-          text: 'benignware',
-          value: 'benignware',
-        },
-        {
-          text: 'malware',
-          value: 'malware',
-        },
+        ...all_label
       ],
       onFilter: (value, record) => record.label.indexOf(value) === 0,
     },
@@ -363,18 +182,7 @@ export default function DataTable({ config, extra = [] }) {
       dataIndex: ["family"],
       key: 'family',
       filters: [
-        {
-          text: 'mirai',
-          value: 'mirai',
-        },
-        {
-          text: 'gafgyt',
-          value: 'gafgyt',
-        },
-        {
-          text: 'dofloo',
-          value: 'dofloo',
-        },
+        ...all_family
       ],
       onFilter: (value, record) => record.family.indexOf(value) === 0,
     },
@@ -383,18 +191,7 @@ export default function DataTable({ config, extra = [] }) {
       dataIndex: ["CPUArchitecture"],
       key: 'CPUArchitecture',
       filters: [
-        {
-          text: 'PowerPC',
-          value: 'PowerPC',
-        },
-        {
-          text: 'MIPS',
-          value: 'MIPS',
-        },
-        {
-          text: 'ARM',
-          value: 'ARM',
-        },
+        ...all_cpu
       ],
       onFilter: (value, record) => record.CPUArchitecture.indexOf(value) === 0,
     },
@@ -445,133 +242,6 @@ export default function DataTable({ config, extra = [] }) {
     },
   ];
 
-  // const data = [
-  //   {
-  //     key: '1',
-  //     filename: 'aaa',
-  //     label: 'malware',
-  //     family: 'mirai',
-  //     CPUArchitecture: 'PowerPC',
-  //     fileSize: 111,
-  //   },
-  //   {
-  //     key: '2',
-  //     filename: 'bbb',
-  //     label: 'benignware',
-  //     family: 'gafgyt',
-  //     CPUArchitecture: 'MIPS',
-  //     fileSize: 1991,
-  //   },
-  //   {
-  //     key: '3',
-  //     filename: 'ccc',
-  //     label: 'malware',
-  //     family: 'dofloo',
-  //     CPUArchitecture: 'ARM',
-  //     fileSize: 113871,
-  //   },
-  //   {
-  //     key: '4',
-  //     filename: 'ddd',
-  //     label: 'malware',
-  //     family: 'mirai',
-  //     CPUArchitecture: 'ARM',
-  //     fileSize: 111,
-  //   },
-  //   {
-  //     key: '5',
-  //     filename: 'eee',
-  //     label: 'malware',
-  //     family: 'dofloo',
-  //     CPUArchitecture: 'ARM',
-  //     fileSize: 111,
-  //   },
-  //   {
-  //     key: '6',
-  //     filename: 'rrr',
-  //     label: 'malware',
-  //     family: 'mirai',
-  //     CPUArchitecture: 'PowerPC',
-  //     fileSize: 111,
-  //   },
-  //   {
-  //     key: '7',
-  //     filename: 'fff',
-  //     label: 'malware',
-  //     family: 'dofloo',
-  //     CPUArchitecture: 'PowerPC',
-  //     fileSize: 111,
-  //   },
-  //   {
-  //     key: '8',
-  //     filename: 'ggg',
-  //     label: 'malware',
-  //     family: 'mirai',
-  //     CPUArchitecture: 'PowerPC',
-  //     fileSize: 111,
-  //   },
-  //   {
-  //     key: '9',
-  //     filename: 'hh',
-  //     label: 'benignware',
-  //     family: 'gafgyt',
-  //     CPUArchitecture: 'PowerPC',
-  //     fileSize: 111,
-  //   },
-  //   {
-  //     key: '10',
-  //     filename: 'uuuuuu',
-  //     label: 'malware',
-  //     family: 'mirai',
-  //     CPUArchitecture: 'PowerPC',
-  //     fileSize: 111,
-  //   },
-  //   {
-  //     key: '11',
-  //     filename: 'kk',
-  //     label: 'benignware',
-  //     family: 'mirai',
-  //     CPUArchitecture: 'PowerPC',
-  //     fileSize: 111,
-  //   },
-  //   {
-  //     key: '12',
-  //     filename: 'qq',
-  //     label: 'benignware',
-  //     family: 'mirai',
-  //     CPUArchitecture: 'PowerPC',
-  //     fileSize: 111,
-  //   },
-  //   {
-  //     key: '13',
-  //     filename: 'xx',
-  //     label: 'malware',
-  //     family: 'mirai',
-  //     CPUArchitecture: 'PowerPC',
-  //     fileSize: 111,
-  //   },
-  //   {
-  //     key: '14',
-  //     filename: 'lol',
-  //     label: 'malware',
-  //     family: 'mirai',
-  //     CPUArchitecture: 'PowerPC',
-  //     fileSize: 111,
-  //   },
-  // ];
-
-  const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
-  // const { result: searchResult, isLoading: searchIsLoading } = useSelector(selectSearchedItems);
-  // console.log('Redux state listResult:', listResult);
-  // console.log('Redux state searchResult:', searchResult);
-  // console.log('Redux state isLoading:', listIsLoading);
-
-  const { pagination, items: dataSource } = listResult;
-  // const dataSource = searchResult.length ? searchResult : listResult.items;
-  // const pagination = searchResult.length ? {} : listResult.pagination;
-  // console.log('searchResult.length: ', searchResult.length);
-  //console.log('Data source:', dataSource);
-
   const dispatch = useDispatch();
 
   const handelDataTableLoad = useCallback((pagination) => {
@@ -579,14 +249,6 @@ export default function DataTable({ config, extra = [] }) {
     const options = { page: pagination.current || 1, items: pagination.pageSize || 10 };
     dispatch(crud.list({ entity, options }));
   }, []);
-
-  const filterTable = (e) => {
-    const value = e.target.value;
-    console.log(value);
-    const options = { q: value, fields: searchConfig?.searchFields || '' };
-    console.log(options);
-    dispatch(crud.list({ entity, options }));
-  };
 
   const dispatcher = () => {
     dispatch(crud.list({ entity }));
@@ -602,10 +264,6 @@ export default function DataTable({ config, extra = [] }) {
     };
   }, []);
 
-  const onChange = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-  };
-
   return (
     <>
       <PageHeader
@@ -613,15 +271,6 @@ export default function DataTable({ config, extra = [] }) {
         title={DATATABLE_TITLE}
         ghost={false}
         extra={[
-          // <Input
-          //   key={`searchFilterDataTable}`}
-          //   onChange={filterTable}
-          //   placeholder={translate('search')}
-          //   allowClear
-          // />,
-          //<Filter/>,
-          //<SelectTree key={`${uniqueId()}`} config={config} />,
-          //<DropdownItems/>,
           <Button onClick={handelDataTableLoad} key={`${uniqueId()}`}>
             <ReloadOutlined />
           </Button>,
@@ -637,7 +286,6 @@ export default function DataTable({ config, extra = [] }) {
         rowKey={(item) => item._id}
         dataSource={dataSource}
         pagination={pagination}
-        //loading={listIsLoading || searchIsLoading}
         loading={listIsLoading}
         onChange={handelDataTableLoad}
         bordered
