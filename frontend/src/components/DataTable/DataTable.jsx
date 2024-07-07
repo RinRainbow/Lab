@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
-import React from 'react';
+import React, { useState } from 'react';
 import { EyeOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ReloadOutlined } from '@ant-design/icons';
-import { Dropdown, Table, Button } from 'antd';
+import { Dropdown, Table, Button, message, Tag, Tooltip } from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -26,9 +26,11 @@ function AddNewItem({ config }) {
   };
 
   return (
-    <Button onClick={handelClick} type="primary">
-      {ADD_NEW_ENTITY}
-    </Button>
+    <Tooltip title="Add Data">
+      <Button shape="circle" onClick={handelClick} >
+        {ADD_NEW_ENTITY}
+      </Button>
+    </Tooltip>
   );
 }
 
@@ -76,68 +78,70 @@ export default function DataTable({ config, extra = [] }) {
     panel.open();
     collapsedBox.open();
   }
-  function handleDelete(record) {
-    dispatch(crud.currentAction({ actionType: 'delete', data: record }));
-    modal.open();
+  function handleDelete() {
+    console.log("delete: ", selectedRowKeys);
+    message.success('Delete was Clicked!');
+    //dispatch(crud.currentAction({ actionType: 'delete', data: record }));
+    //modal.open();
   }
 
-  function handleUpdatePassword(record) {
-    dispatch(crud.currentItem({ data: record }));
-    dispatch(crud.currentAction({ actionType: 'update', data: record }));
-    advancedBox.open();
-    panel.open();
-    collapsedBox.open();
-  }
+  // function handleUpdatePassword(record) {
+  //   dispatch(crud.currentItem({ data: record }));
+  //   dispatch(crud.currentAction({ actionType: 'update', data: record }));
+  //   advancedBox.open();
+  //   panel.open();
+  //   collapsedBox.open();
+  // }
 
-  let dispatchColumns = [];
-  if (fields) {
-    dispatchColumns = [...dataForTable({ fields, translate, moneyFormatter, dateFormat })];
-  } else {
-    dispatchColumns = [...dataTableColumns];
-  }
+  // let dispatchColumns = [];
+  // if (fields) {
+  //   dispatchColumns = [...dataForTable({ fields, translate, moneyFormatter, dateFormat })];
+  // } else {
+  //   dispatchColumns = [...dataTableColumns];
+  // }
 
-  dataTableColumns = [
-    ...dispatchColumns,
-    {
-      title: '',
-      key: 'action',
-      fixed: 'right',
-      render: (_, record) => (
-        <Dropdown
-          menu={{
-            items,
-            onClick: ({ key }) => {
-              switch (key) {
-                case 'read':
-                  handleRead(record);
-                  break;
-                case 'edit':
-                  handleEdit(record);
-                  break;
+  // dataTableColumns = [
+  //   ...dispatchColumns,
+  //   {
+  //     title: '',
+  //     key: 'action',
+  //     fixed: 'right',
+  //     render: (_, record) => (
+  //       <Dropdown
+  //         menu={{
+  //           items,
+  //           onClick: ({ key }) => {
+  //             switch (key) {
+  //               case 'read':
+  //                 handleRead(record);
+  //                 break;
+  //               case 'edit':
+  //                 handleEdit(record);
+  //                 break;
 
-                case 'delete':
-                  handleDelete(record);
-                  break;
-                case 'updatePassword':
-                  handleUpdatePassword(record);
-                  break;
+  //               case 'delete':
+  //                 handleDelete(record);
+  //                 break;
+  //               case 'updatePassword':
+  //                 handleUpdatePassword(record);
+  //                 break;
 
-                default:
-                  break;
-              }
-              // else if (key === '2')handleCloseTask
-            },
-          }}
-          trigger={['click']}
-        >
-          <EllipsisOutlined
-            style={{ cursor: 'pointer', fontSize: '24px' }}
-            onClick={(e) => e.preventDefault()}
-          />
-        </Dropdown>
-      ),
-    },
-  ];
+  //               default:
+  //                 break;
+  //             }
+  //             // else if (key === '2')handleCloseTask
+  //           },
+  //         }}
+  //         trigger={['click']}
+  //       >
+  //         <EllipsisOutlined
+  //           style={{ cursor: 'pointer', fontSize: '24px' }}
+  //           onClick={(e) => e.preventDefault()}
+  //         />
+  //       </Dropdown>
+  //     ),
+  //   },
+  // ];
 
   const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
 
@@ -202,44 +206,44 @@ export default function DataTable({ config, extra = [] }) {
       sorter: (a, b) => a.fileSize - b.fileSize,
     },
     {
+      title: 'Type',
+      key: 'tags',
+      dataIndex: 'tags',
+      render: (_, { tags }) => (
+        <>
+          {
+            <Tag color={tags === 'test' ? 'blue' : tags === 'train' ? 'green' : 'default'} key={tags}>
+              {tags}
+            </Tag>
+          }
+        </>
+      ),
+      filters: [
+        {
+          text: 'test',
+          value: 'test',
+        },
+        {
+          text: 'train',
+          value: 'train',
+        },
+      ],
+      onFilter: (value, record) => record.tags.indexOf(value) === 0,
+    },
+    {
       title: '',
       key: 'action',
       fixed: 'right',
       render: (_, record) => (
-        <Dropdown
-          menu={{
-            items,
-            onClick: ({ key }) => {
-              switch (key) {
-                case 'read':
-                  handleRead(record);
-                  break;
-                case 'edit':
-                  handleEdit(record);
-                  break;
-
-                case 'delete':
-                  handleDelete(record);
-                  break;
-                case 'updatePassword':
-                  handleUpdatePassword(record);
-                  break;
-
-                default:
-                  break;
-              }
-              // else if (key === '2')handleCloseTask
-            },
+        <EditOutlined
+          style={{ cursor: 'pointer', fontSize: '15px' }}
+          onClick={(e) => {
+            e.preventDefault();
+            handleEdit(record);
           }}
-          trigger={['click']}
-        >
-          <EllipsisOutlined
-            style={{ cursor: 'pointer', fontSize: '24px' }}
-            onClick={(e) => e.preventDefault()}
-          />
-        </Dropdown>
+        />
       ),
-    },
+    },        
   ];
 
   const dispatch = useDispatch();
@@ -256,13 +260,42 @@ export default function DataTable({ config, extra = [] }) {
   };
 
   useEffect(() => {
-    console.log('useEffect');
+    // console.log('useEffect');
     const controller = new AbortController();
     dispatcher();
     return () => {
       controller.abort();
     };
   }, []);
+
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const start = () => {
+    setLoading(true);
+    // ajax request after empty completing
+    // setTimeout(() => {
+    //   setSelectedRowKeys([]);
+    //   setLoading(false);
+    // }, 1000);
+    setSelectedRowKeys([]);
+    setLoading(false);
+    message.success('Training Successful!');
+  };
+  const onSelectChange = (newSelectedRowKeys, item) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    console.log('selected item: ', item);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+    selections: [
+      Table.SELECTION_ALL,
+      Table.SELECTION_INVERT,
+      Table.SELECTION_NONE,
+    ],
+  };
+  const hasSelected = selectedRowKeys.length > 0;
 
   return (
     <>
@@ -271,9 +304,15 @@ export default function DataTable({ config, extra = [] }) {
         title={DATATABLE_TITLE}
         ghost={false}
         extra={[
-          <Button onClick={handelDataTableLoad} key={`${uniqueId()}`}>
-            <ReloadOutlined />
+          <Tooltip title="Delete">
+            <Button danger shape="circle" onClick={handleDelete} icon={<DeleteOutlined />} disabled={!hasSelected} style={{ marginRight: 15 }} />
+          </Tooltip>,
+          <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+            {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
           </Button>,
+          <Tooltip title="Reload">
+            <Button shape="circle" onClick={handelDataTableLoad} key={`${uniqueId()}`} icon={<ReloadOutlined />} />
+          </Tooltip>,
           <AddNewItem key={`${uniqueId()}`} config={config} />,
         ]}
         style={{
@@ -290,6 +329,7 @@ export default function DataTable({ config, extra = [] }) {
         onChange={handelDataTableLoad}
         bordered
         scroll={{ x: true }}
+        rowSelection={rowSelection}
       />
     </>
   );

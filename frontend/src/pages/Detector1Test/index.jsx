@@ -10,7 +10,7 @@ export default function Detector1Test() {
   const entity = 'dataset';
   const searchConfig = {
     displayLabels: ['filename'],
-    searchFields: 'filename,label,family,CPUArchitecture',
+    searchFields: 'filename,label,family,CPUArchitecture,tags',
   };
   const deleteModalLabels = ['filename'];
 

@@ -210,11 +210,11 @@ export const crud = {
         payload: null,
       });
 
-      console.log('Dispatching search request(search):', { entity, options });
+      //console.log('Dispatching search request(search):', { entity, options });
 
       let data = await request.search({ entity, options });
 
-      console.log('API response(search):', data);
+      // console.log('API response(search):', data);
 
       if (data.success === true) {
         dispatch({

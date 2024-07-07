@@ -12,9 +12,15 @@ export const fields = {
   },
   CPUArchitecture: {
     type: 'string',
+    required: true,
   },
   fileSize: {
     type: 'string',
+    required: true,
+  },
+  tags: {
+    type: 'string',
+    required: true,
   },
 };
 /* export const fields = {

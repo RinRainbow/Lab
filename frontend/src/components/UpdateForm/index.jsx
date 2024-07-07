@@ -99,6 +99,7 @@ export default function UpdateForm({ config, formElements, withUpload = false })
       <Loading isLoading={isLoading}>
         <Form form={form} layout="vertical" onFinish={onSubmit}>
           {formElements}
+          <br></br>
           <Form.Item
             style={{
               display: 'inline-block',
@@ -118,6 +119,7 @@ export default function UpdateForm({ config, formElements, withUpload = false })
             <Button onClick={showCurrentRecord}>{translate('Cancel')}</Button>
           </Form.Item>
         </Form>
+        <br></br>
       </Loading>
     </div>
   );
