@@ -19,7 +19,11 @@ export const fields = {
     required: true,
   },
   tags: {
-    type: 'string',
+    type: 'tag',
+    options: [
+      { value: 'test', label: 'test', color: 'blue' },
+      { value: 'train', label: 'train', color: 'green' },
+    ],
     required: true,
   },
 };

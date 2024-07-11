@@ -99,7 +99,7 @@ export default function UpdateForm({ config, formElements, withUpload = false })
       <Loading isLoading={isLoading}>
         <Form form={form} layout="vertical" onFinish={onSubmit}>
           {formElements}
-          <br></br>
+          {/* <br></br> */}
           <Form.Item
             style={{
               display: 'inline-block',

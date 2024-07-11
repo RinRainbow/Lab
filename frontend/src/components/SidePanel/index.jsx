@@ -115,7 +115,7 @@ export default function SidePanel({ config, topContent, bottomContent, fixHeader
           bottomContent={bottomContent}
         ></CollapseBox>
         <br></br>
-        <UploadArea/>
+        {/* <UploadArea/> */}
       </div>
     </Drawer>
     // <Sider

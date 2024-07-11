@@ -234,6 +234,7 @@ function FormElement({ field, setFeedback }) {
   return (
     <Form.Item
       label={translate(field.label)}
+      style={{paddingBottom: 20}}
       name={field.name}
       rules={[
         {

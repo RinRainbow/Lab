@@ -49,7 +49,7 @@ export default function CreateForm({ config, formElements, withUpload = false })
       <Form form={form} layout="vertical" onFinish={onSubmit}>
         {formElements}
         <Form.Item>
-          <br></br>
+          {/* <br></br> */}
           <Button type="primary" htmlType="submit">
             {translate('Submit')}
           </Button>

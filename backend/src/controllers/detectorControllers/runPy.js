@@ -5,15 +5,46 @@ const pyFileName = 'src/test.py';
 const runPy = async (Model, req, res) => {
     const sort = parseInt(req.query.sort) || 'desc';
     //search the chosen data
-    const label = await Model.find({ removed: false, chosen: true }).sort({ created: sort }).populate().exec();
+    const label = await Model.find({ removed: false, "CPUArchitecture": "ARM"}).limit(10).sort({ created: sort }).populate().exec();
     
     //config.json
-    config = [
-        { config1: "abc", num1: 1 },
-        { config2: "def", num2: 2 },
-        { config3: "ghi", num3: 3 }
+    config = {
+            "path":{
+                "label":"./Dataset/dataset202312/dataset.csv",
+                "pretrained":null,
+                "position":"./position.csv",
+                "submodel_name":"./submodel_name.csv",
+                "unlearn":"",
 
-    ]
+                "record": "./record.csv",
+                "result": "./result.json"
+            },
+            "folder":{
+                "dataset":"./Dataset/dataset202312/data",
+                "vectorize":"./Vectorize/dataset202312_data",
+                "model":"./Model/dataset202312_data/",
+                "predict":"./Predict/dataset202312_data",
+                
+                "embedding": "./Embedding/",
+                "unlearn": "./Unlearn/",
+                "explain": "./Explain/"
+            },
+            "model":{
+                "model_name":"VGG16",
+                "batch_size":4,
+                "train_ratio":0.8,
+                "learning_rate":5e-4,
+                "epochs":3,
+                "shard":8,
+                "slice":8,
+                "print_information":"",
+
+                "hidden_dim": 100,
+                "shard_count": 2,
+                "slice_count": 2
+            },
+            "classify":false
+        }
 
     // merge 2 .json for input
     const userInput = JSON.stringify({
@@ -52,24 +83,27 @@ const runPy = async (Model, req, res) => {
                 resolve();
             });
 
-            /////////////////////////
-            // 分块写入数据到子进程
-            const chunkSize = 100000;  // 每个块的大小，根据需要调整
-            let i = 0;
+            ////////////////////////
+            /*
+            // 将数据分块写入子进程
+            const chunkSize = 100000; // 每个块的大小
+            let currentIndex = 0;
+
             function writeChunk() {
-                if (i < userInput.length) {
-                    if (pythonProcess.stdin.write(userInput.slice(i, i + chunkSize))) {
-                        i += chunkSize;
-                        writeChunk();
-                    } else {
-                        pythonProcess.stdin.once('drain', writeChunk);
-                    }
+                if (currentIndex < userInput.length) {
+                    const chunk = userInput.slice(currentIndex, currentIndex + chunkSize);
+                    currentIndex += chunkSize;
+                    pythonProcess.stdin.write(chunk, writeChunk);
                 } else {
                     pythonProcess.stdin.end();
                 }
             }
+
             writeChunk();
-            /////////////////////////
+            */
+           ////////////////////////
+           pythonProcess.stdin.write(userInput);
+           pythonProcess.stdin.end();
 
         }).then(() => {
             const theInput = JSON.parse(userInput);

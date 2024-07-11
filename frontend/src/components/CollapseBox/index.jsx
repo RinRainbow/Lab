@@ -1,9 +1,10 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 
-const CollapseBoxButton = ({ onChange, title }) => {
+const CollapseBoxButton = ({ onChange, title, isOpen }) => {
+  const show = isOpen ? { display: 'none', opacity: 0 } : { display: 'block', opacity: 1 };
   return (
-    <div className="collapseBoxHeader" onClick={onChange}>
+    <div className="collapseBoxHeader" onClick={onChange} style={show}>
       {title}
     </div>
   );
@@ -47,7 +48,7 @@ export default function CollapseBox({
     <>
       <TopCollapseBox isOpen={isCollapsed}>{topContent}</TopCollapseBox>
       <div className={'collapseBox ' + collapsed}>
-        <CollapseBoxButton title={buttonTitle} onChange={onCollapse} />
+        <CollapseBoxButton title={buttonTitle} onChange={onCollapse} isOpen={isCollapsed} />
         <div className="whiteBg"></div>
         <BottomCollapseBox isOpen={isCollapsed}>{bottomContent}</BottomCollapseBox>
       </div>

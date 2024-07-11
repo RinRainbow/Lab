@@ -18,7 +18,7 @@ except json.JSONDecodeError as e:
     sys.exit(1)
 
 # 将数据保存到文件中
-output_file = 'output.txt'
+output_file = 'output.json'
 with open(output_file, 'w') as f:
     json.dump(data, f)
 
