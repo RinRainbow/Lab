@@ -422,6 +422,28 @@ export default function DataTable({ config, extra = [] }) {
   const [loading, setLoading] = useState(false);
   const start = () => {
     setLoading(true);
+    const selectedData = dataSource.filter(item => selectedRowKeys.includes(item.key));
+    fetch('http://localhost:1624/api/detector', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(selectedData),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      message.success('Training Successful!');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      message.error('Training Error!');
+    });
     // ajax request after empty completing
     // setTimeout(() => {
     //   setSelectedRowKeys([]);
@@ -429,7 +451,7 @@ export default function DataTable({ config, extra = [] }) {
     // }, 1000);
     setSelectedRowKeys([]);
     setLoading(false);
-    message.success('Training Successful!');
+    // message.success('Training Successful!');
   };
 
   const [open, setOpen] = useState(false);
