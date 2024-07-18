@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import React, { useRef, useState } from 'react';
 import { EyeOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
-import { Dropdown, Table, Button, message, Tag, Tooltip, Input, Space } from 'antd';
+import { Checkbox, Table, Button, message, Tag, Tooltip, Input, Space, Modal, Select } from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -80,11 +80,49 @@ export default function DataTable({ config, extra = [] }) {
     panel.open();
     collapsedBox.open();
   }
+  function handleMultiEdit() {
+    selectedRowKeys.forEach(key => {
+      const index = dataSource.findIndex(item => item._id === key);
+      if (index !== -1) {
+        if(!FilenameDisabled) {
+          dataSource[index].filename = NewFilename;
+        }
+        if(!LabelDisabled) {
+          dataSource[index].label = NewLabel;
+        }
+        if(!FamilyDisabled) {
+          dataSource[index].family = NewFamily;
+        }
+        if(!CPUDisabled) {
+          dataSource[index].CPUArchitecture = NewCpu;
+        }
+        if(!FilesizeDisabled) {
+          dataSource[index].fileSize = NewFilesize;
+        }
+        if(!TypeDisabled) {
+          dataSource[index].tags = NewType;
+        }
+        dispatch(crud.currentAction({ actionType: 'update', data: dataSource[index] }));
+      }
+    });
+    setSelectedRowKeys([]);
+    // dispatch(crud.currentItem({ data: record }));
+    // dispatch(crud.currentAction({ actionType: 'update', data: record }));
+    // editBox.open();
+    // panel.open();
+    // collapsedBox.open();
+  }
   function handleDelete() {
-    console.log("delete: ", selectedRowKeys);
-    message.success('Delete was Clicked!');
-    //dispatch(crud.currentAction({ actionType: 'delete', data: record }));
-    //modal.open();
+    selectedRowKeys.forEach(key => {
+      const index = dataSource.findIndex(item => item._id === key);
+      if (index !== -1) {
+        dispatch(crud.currentAction({ actionType: 'delete', data: dataSource[index] }));
+        modal.open();
+      }
+    });
+    setSelectedRowKeys([]);
+    // dispatch(crud.currentAction({ actionType: 'delete', data: record }));
+    // modal.open();
   }
 
   // function handleUpdatePassword(record) {
@@ -255,6 +293,7 @@ export default function DataTable({ config, extra = [] }) {
   const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
 
   const { pagination, items: dataSource } = listResult;
+  console.log("Data source: ", dataSource);
 
   const all_label = [];   // Array to store unique labels
   const all_family = [];
@@ -392,9 +431,90 @@ export default function DataTable({ config, extra = [] }) {
     setLoading(false);
     message.success('Training Successful!');
   };
-  const onSelectChange = (newSelectedRowKeys, item) => {
+
+  const [open, setOpen] = useState(false);
+  const showModal = () => {
+    setOpen(true);
+    message.success('Edit was clicked!');
+  };
+  const handleOk = (e) => {
+    handleMultiEdit();
+    console.log(e);
+    setOpen(false);
+  };
+  const handleCancel = (e) => {
+    console.log(e);
+    setOpen(false);
+  };
+
+  const [FilenameDisabled, setFilenameDisabled] = useState(false);
+  const [NewFilename, setNewFilename] = useState();
+  const onChangeFilename = (e) => {
+    setFilenameDisabled(e.target.checked);
+    console.log(`checked = ${e.target.checked}`);
+  };
+  const filenameInput = (e) => {
+    setNewFilename(e.target.value);
+    console.log('new filename: ', e.target.value);
+  };
+
+  const [LabelDisabled, setLabelDisabled] = useState(false);
+  const [NewLabel, setNewLabel] = useState();
+  const onChangeLabel = (e) => {
+    setLabelDisabled(e.target.checked);
+    console.log(`checked = ${e.target.checked}`);
+  };
+  const labelInput = (e) => {
+    setNewLabel(e.target.value);
+    console.log('new label: ', e.target.value);
+  };
+
+  const [FamilyDisabled, setFamilyDisabled] = useState(false);
+  const [NewFamily, setNewFamily] = useState();
+  const onChangeFamily = (e) => {
+    setFamilyDisabled(e.target.checked);
+    console.log(`checked = ${e.target.checked}`);
+  };
+  const familyInput = (e) => {
+    setNewFamily(e.target.value);
+    console.log('new family: ', e.target.value);
+  };
+
+  const [CPUDisabled, setCPUDisabled] = useState(false);
+  const [NewCpu, setNewCpu] = useState();
+  const onChangeCPU = (e) => {
+    setCPUDisabled(e.target.checked);
+    console.log(`checked = ${e.target.checked}`);
+  };
+  const cpuInput = (e) => {
+    setNewCpu(e.target.value);
+    console.log('new cpu: ', e.target.value);
+  };
+
+  const [FilesizeDisabled, setFilesizeDisabled] = useState(false);
+  const [NewFilesize, setNewFilesize] = useState();
+  const onChangeFilesize = (e) => {
+    setFilesizeDisabled(e.target.checked);
+    console.log(`checked = ${e.target.checked}`);
+  };
+  const filesizeInput = (e) => {
+    setNewFilesize(e.target.value);
+    console.log('new filesize: ', e.target.value);
+  };
+
+  const [TypeDisabled, setTypeDisabled] = useState(false);
+  const [NewType, setNewType] = useState();
+  const onChangeType = (e) => {
+    setTypeDisabled(e.target.checked);
+    console.log(`checked = ${e.target.checked}`);
+  };
+  const typeInput = (e) => {
+    setNewType(e);
+    console.log('new type: ', e);
+  };
+
+  const onSelectChange = (newSelectedRowKeys) => {
     console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-    console.log('selected item: ', item);
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const rowSelection = {
@@ -421,6 +541,114 @@ export default function DataTable({ config, extra = [] }) {
           <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
             {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
           </Button>,
+          <Button onClick={showModal} disabled={!hasSelected} key={`${uniqueId()}`}>
+            {hasSelected ? `Edit ${selectedRowKeys.length} items` : 'Edit'}
+          </Button>,
+          <Modal
+            title="Edit Items"
+            open={open}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            okText="Edit"
+          >
+            <Checkbox 
+              checked={FilenameDisabled}
+              onChange={onChangeFilename}
+            >
+              Filename
+            </Checkbox>
+            <Input 
+              name='filename'
+              onChange={filenameInput}
+              disabled={!FilenameDisabled} 
+              allowClear
+            />
+
+            <Checkbox 
+              checked={LabelDisabled}
+              onChange={onChangeLabel}
+            >
+              Label
+            </Checkbox>
+            <Input
+              name='label'
+              onChange={labelInput}
+              disabled={!LabelDisabled}
+              allowClear
+            />
+
+            <Checkbox 
+              checked={FamilyDisabled}
+              onChange={onChangeFamily}
+            >
+              Family
+            </Checkbox>
+            <Input 
+              name='family'
+              onChange={familyInput}
+              allowClear
+              disabled={!FamilyDisabled}
+            />
+
+            <Checkbox 
+              checked={CPUDisabled}
+              onChange={onChangeCPU}
+            >
+              Cpuarchitecture
+            </Checkbox>
+            <Input 
+              name='cpu'
+              onChange={cpuInput}
+              allowClear
+              disabled={!CPUDisabled}
+            />
+
+            <Checkbox 
+              checked={FilesizeDisabled}
+              onChange={onChangeFilesize}
+            >
+              Filesize
+            </Checkbox>
+            <Input 
+              name='filesize'
+              onChange={filesizeInput}
+              allowClear
+              disabled={!FilesizeDisabled}
+            />
+
+            <Checkbox 
+              checked={TypeDisabled}
+              onChange={onChangeType}
+            >
+              Type
+            </Checkbox>
+            {/* <Input 
+              name='type'
+              onChange={typeInput}
+              allowClear
+              disabled={!TypeDisabled}
+            /> */}
+            <Select
+              onChange={typeInput}
+              placeholder="Select a tag"
+              style={{
+                width: 472,
+              }}
+              options={[
+                {
+                  value: 'test',
+                  label: 'test',
+                },
+                {
+                  value: 'train',
+                  label: 'train',
+                },
+              ]}
+              allowClear
+              disabled={!TypeDisabled}
+            />
+
+          </Modal>,
           <Tooltip title="Reload">
             <Button shape="circle" onClick={handelDataTableLoad} key={`${uniqueId()}`} icon={<ReloadOutlined />} />
           </Tooltip>,
