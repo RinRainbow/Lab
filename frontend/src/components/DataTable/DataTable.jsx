@@ -424,7 +424,7 @@ export default function DataTable({ config, extra = [] }) {
     setLoading(true);
     const selectedData = dataSource.filter(item => selectedRowKeys.includes(item.key));
     fetch('http://localhost:1624/api/detector', {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
