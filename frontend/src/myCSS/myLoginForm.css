@@ -14,8 +14,17 @@
     padding-left: 24px;
     padding-bottom: 24px;
     padding-right: 24px;
-    background: #FFF;
-    box-shadow: 0px 0px 20px 3px rgba(150, 190, 238, 0.15);
+    /* background: #FFF; */
+    box-shadow: 0px 0px 20px 3px rgba(150, 190, 238, 0.5);
+    z-index: 5;
+    background-color: rgba(255, 255, 255, 0.3); /* 背景色 */
+    border: 1px solid rgba(255, 255, 255, 0.4); /* ボーダー */
+    border-right-color: rgba(255, 255, 255, 0.2);
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+    /* border-radius: 15px; */
+    -webkit-backdrop-filter: blur(50px); /* ぼかしエフェクト */
+    backdrop-filter: blur(50px);
+    /* box-shadow: 0 5px 20px rgba(79, 211, 255, 0.5); */
 }
 
 .TopBlank {
@@ -38,6 +47,12 @@
     height: 55px;
     font-size: 15px;
     margin-bottom: 8px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+:where(.css-dev-only-do-not-override-1vh6e7z).ant-input:hover {
+    border-color: #3b65e3;
 }
 
 .myPassword {
@@ -51,6 +66,12 @@
     padding-left: 16px;
     padding-bottom: 16px;
     padding-right: 16px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+:where(.css-dev-only-do-not-override-1vh6e7z).ant-input-affix-wrapper >input.ant-input {
+    background-color: rgba(255, 255, 255, 0);
 }
 
 .ant-form-item-explain-error {
@@ -157,13 +178,15 @@ a {
     height: 17px;
     margin-top: 24px;
     margin-bottom: 0px;
-    background: #FFF;
+    padding-top: 6.5px;
+    /* background: #FFF; */
+    background-color: transparent !important;
     display: flex;
     justify-content: center;
     position: relative;
 }
 
-.OrText {
+/* .OrText {
     width: 74px;
     height: 21px;
     background-color: #FFF;
@@ -178,7 +201,7 @@ a {
     z-index: 1;
     font-weight: 500;
     bottom: 2px;
-}
+} */
 
 .Line {
     width: 372px;
@@ -195,35 +218,19 @@ a {
     width: 370px;
     height: 87px;
     align-items: center;
-    background: #FFF;
+    /* background: #FFF; */
     border-radius: 16px;
     font-size: 15px;
     display: flex;
     cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.7);
 }
-
-/*
-.Option {
-    width: 370px;
-    height: 87px;
-    align-items: center;
-    background: #FFF;
-    border-radius: 16px;
-    font-size: 15px;
-    border: 1px solid rgba(0, 0, 0, 0.30);
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-bottom: 20px;
-    padding-right: 12px;
-    display: flex;
-    cursor: pointer;
-}
-*/
 
 .Icon {
     width: 55px;
     height: 55px;
-    background-color: #FFF;
+    background-color: transparent !important;
 }
 
 .OptionText {
@@ -231,7 +238,7 @@ a {
     height: 87px;
     font-size: 15px;
     font-family: Arial, Helvetica, sans-serif;
-    background: #FFF;
+    background-color: transparent !important;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -242,6 +249,6 @@ a {
 .Arrow {
     width: 16px;
     height: 16px;
-    background-color: #FFF;
+    background-color: transparent !important;
     padding: 0px;
 }

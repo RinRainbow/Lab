@@ -57,9 +57,9 @@ const LoginPage = () => {
               {translate('Forgot password')}
             </a>
             <div className="Or">
-              <div className="OrText">
+              {/* <div className="OrText">
                 or
-              </div>
+              </div> */}
               <hr className="Line"></hr>
             </div>
           </Form.Item>
