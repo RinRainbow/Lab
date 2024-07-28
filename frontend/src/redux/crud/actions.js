@@ -44,15 +44,16 @@ export const crud = {
         payload: null,
       });
 
-      console.log('Fetching data with options(list):', options);
+      // console.log('Fetching data with options(list):', options);
 
       let data = await request.list({ entity, options });
 
-      console.log('API response(list):', data);
+      // console.log('API response(list):', data);
 
       if (data.success === true) {
         const result = {
           items: data.result,
+          // items: data.result.map(item => ({ ...item })),
           pagination: {
             current: parseInt(data.pagination.page, 10),
             pageSize: options?.items,
@@ -92,11 +93,13 @@ export const crud = {
           type: actionTypes.REQUEST_SUCCESS,
           keyState: 'create',
           payload: data.result,
+          // payload: { ...data.result },
         });
 
         dispatch({
           type: actionTypes.CURRENT_ITEM,
           payload: data.result,
+          // payload: { ...data.result },
         });
       } else {
         dispatch({
@@ -121,11 +124,13 @@ export const crud = {
         dispatch({
           type: actionTypes.CURRENT_ITEM,
           payload: data.result,
+          // payload: { ...data.result },
         });
         dispatch({
           type: actionTypes.REQUEST_SUCCESS,
           keyState: 'read',
           payload: data.result,
+          // payload: { ...data.result },
         });
       } else {
         dispatch({
@@ -157,10 +162,12 @@ export const crud = {
           type: actionTypes.REQUEST_SUCCESS,
           keyState: 'update',
           payload: data.result,
+          // payload: { ...data.result },
         });
         dispatch({
           type: actionTypes.CURRENT_ITEM,
           payload: data.result,
+          // payload: { ...data.result },
         });
       } else {
         dispatch({
@@ -221,6 +228,7 @@ export const crud = {
           type: actionTypes.REQUEST_SUCCESS,
           keyState: 'search',
           payload: data.result,
+          // payload: data.result.map(item => ({ ...item })),
         });
       } else {
         dispatch({

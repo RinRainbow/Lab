@@ -84,33 +84,33 @@ export default function DataTable({ config, extra = [] }) {
     selectedRowKeys.forEach(key => {
       const index = dataSource.findIndex(item => item._id === key);
       if (index !== -1) {
-        if(!FilenameDisabled) {
-          dataSource[index].filename = NewFilename;
+        const updatedItem = { ...dataSource[index] };
+  
+        if (FilenameDisabled) {
+          updatedItem.filename = NewFilename;
         }
-        if(!LabelDisabled) {
-          dataSource[index].label = NewLabel;
+        if (LabelDisabled) {
+          updatedItem.label = NewLabel;
         }
-        if(!FamilyDisabled) {
-          dataSource[index].family = NewFamily;
+        if (FamilyDisabled) {
+          updatedItem.family = NewFamily;
         }
-        if(!CPUDisabled) {
-          dataSource[index].CPUArchitecture = NewCpu;
+        if (CPUDisabled) {
+          updatedItem.CPUArchitecture = NewCpu;
         }
-        if(!FilesizeDisabled) {
-          dataSource[index].fileSize = NewFilesize;
+        if (FilesizeDisabled) {
+          updatedItem.fileSize = NewFilesize;
         }
-        if(!TypeDisabled) {
-          dataSource[index].tags = NewType;
+        if (TypeDisabled) {
+          updatedItem.tags = NewType;
         }
-        dispatch(crud.currentAction({ actionType: 'update', data: dataSource[index] }));
+  
+        dispatch(crud.currentItem({ data: updatedItem }));
+        dispatch(crud.currentAction({ actionType: 'update', data: updatedItem }));
+        dispatch(crud.update({ entity, id: key, jsonData: updatedItem }));
       }
     });
     setSelectedRowKeys([]);
-    // dispatch(crud.currentItem({ data: record }));
-    // dispatch(crud.currentAction({ actionType: 'update', data: record }));
-    // editBox.open();
-    // panel.open();
-    // collapsedBox.open();
   }
   function handleDelete() {
     selectedRowKeys.forEach(key => {
@@ -362,7 +362,7 @@ export default function DataTable({ config, extra = [] }) {
       render: (_, { tags }) => (
         <>
           {
-            <Tag color={tags === 'test' ? 'blue' : tags === 'train' ? 'green' : 'default'} key={tags}>
+            <Tag color={tags === 'test' ? 'blue' : tags === 'train' ? 'green' : 'default'} key={tags} >
               {tags}
             </Tag>
           }
@@ -464,6 +464,7 @@ export default function DataTable({ config, extra = [] }) {
     handleMultiEdit();
     console.log(e);
     setOpen(false);
+    dispatcher();
   };
   const handleCancel = (e) => {
     console.log(e);
