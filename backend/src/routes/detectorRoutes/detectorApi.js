@@ -11,7 +11,7 @@ router
     .get(catchErrors(detector("Dataset").listChosen));
 router
     .route(`/detector`)
-    .get(catchErrors(detector("Dataset").runPy));
+    .post(catchErrors(detector("Dataset").runPy));
 
 
 module.exports = router;
