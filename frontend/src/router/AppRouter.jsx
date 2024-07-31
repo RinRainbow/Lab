@@ -50,10 +50,9 @@ const Company = lazy(() => import('@/pages/Company'));
 const About = lazy(() => import('@/pages/About'));
 
 const Detector1Test = lazy(() => import('@/pages/Detector1Test'));
-const Detector1Train = lazy(() => import('@/pages/Detector1Train'));
-const Detector1Valid = lazy(() => import('@/pages/Detector1Valid'));
-const Detector2 = lazy(() => import('@/pages/Detector2'));
-const Detector3 = lazy(() => import('@/pages/Detector3'));
+const Dataset = lazy(() => import('@/pages/Dataset'));
+const Detector = lazy(() => import('@/pages/Detector'));
+const Unlearn = lazy(() => import('@/pages/Unlearn'));
 
 export default function AppRouter() {
   let element = useRoutes([
@@ -90,20 +89,16 @@ export default function AppRouter() {
       element: <Detector1Test />,
     },
     {
-      path: '/detector1Train',
-      element: <Detector1Train />,
+      path: '/dataset',
+      element: <Dataset />,
     },
     {
-      path: '/detector1Valid',
-      element: <Detector1Valid />,
+      path: '/detector',
+      element: <Detector />,
     },
     {
-      path: '/detector2',
-      element: <Detector2 />,
-    },
-    {
-      path: '/detector3',
-      element: <Detector3 />,
+      path: '/unlearn',
+      element: <Unlearn />,
     },
     {
       path: '/people',
