@@ -11,23 +11,12 @@ import { useNavigate } from 'react-router-dom';
 import useResponsive from '@/hooks/useResponsive';
 
 import {
-  SettingOutlined,
-  CustomerServiceOutlined,
-  ContainerOutlined,
-  FileSyncOutlined,
   DashboardOutlined,
-  TagOutlined,
-  TagsOutlined,
-  UserOutlined,
-  CreditCardOutlined,
   MenuOutlined,
-  FileOutlined,
-  ShopOutlined,
-  FilterOutlined,
-  WalletOutlined,
   FieldBinaryOutlined,
   CodeOutlined,
-  ApartmentOutlined
+  ApartmentOutlined,
+  FileSyncOutlined,
 } from '@ant-design/icons';
 
 const { Sider } = Layout;
@@ -57,33 +46,24 @@ function Sidebar({ collapsible, isMobile = false }) {
       label: <Link to={'/'}>{translate('dashboard')}</Link>,
     },
     {
-      label: translate('detector1'),
-      key: 'detector1',
+      key: 'detector1Test',
+      label: <Link to={'/detector1Test'}>{translate('detector1Test')}</Link>,
       icon: <FieldBinaryOutlined />,
-      children: [
-        {
-          key: 'detector1Train',
-          label: <Link to={'/detector1Train'}>{translate('detector1Train')}</Link>,
-        },
-        {
-          key: 'detector1Valid',
-          label: <Link to={'/detector1Valid'}>{translate('detector1Valid')}</Link>,
-        },
-        {
-          key: 'detector1Test',
-          label: <Link to={'/detector1Test'}>{translate('detector1Test')}</Link>,
-        },
-      ],
     },
     {
-      key: 'detector2',
-      icon: <CodeOutlined />,
-      label: <Link to={'/detector2'}>{translate('detector2')}</Link>,
-    },
-    {
-      key: 'detector3',
+      key: 'dataset',
       icon: <ApartmentOutlined />,
-      label: <Link to={'/detector3'}>{translate('detector3')}</Link>,
+      label: <Link to={'/dataset'}>Dataset</Link>,
+    },
+    {
+      key: 'detector',
+      icon: <CodeOutlined />,
+      label: <Link to={'/detector'}>Detector</Link>,
+    },
+    {
+      key: 'unlearn',
+      icon: <FileSyncOutlined />,
+      label: <Link to={'/unlearn'}>Unlearn</Link>,
     },
   ];
 
