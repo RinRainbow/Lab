@@ -1,50 +1,50 @@
 const fs = require('fs');
 const { spawn } = require('child_process');
-const pyFileName = 'src/test.py';
+//const pyFileName = '/home/senior/Lab/pysrc/pycode/isLab/IMCFN/Code/main.py';
+const pyFileName = '/home/senior/Lab/pysrc/pycode/Malware-detection-for-IoT-with-opcodes/Code/main.py'; 
+const configPath = '/home/senior/Lab/pysrc/dataToPython.json'
+const datasetfolder = "/home/senior/Lab/pysrc/data/dataset202312/data";
 
 const runPy = async (Model, req, res) => {
     const sort = parseInt(req.query.sort) || 'desc';
     //search the chosen data
-    const label = await Model.find({ removed: false, "CPUArchitecture": "ARM"}).limit(10).sort({ created: sort }).populate().exec();
-    
+    //const label = await Model.find({ removed: false, "CPUArchitecture": "ARM"}).limit(10).sort({ created: sort }).populate().exec();
+    const label = req.body;
+
     //config.json
     config = {
-            "path":{
-                "label":"./Dataset/dataset202312/dataset.csv",
-                "pretrained":null,
-                "position":"./position.csv",
-                "submodel_name":"./submodel_name.csv",
-                "unlearn":"",
-
-                "record": "./record.csv",
-                "result": "./result.json"
-            },
-            "folder":{
-                "dataset":"./Dataset/dataset202312/data",
-                "vectorize":"./Vectorize/dataset202312_data",
-                "model":"./Model/dataset202312_data/",
-                "predict":"./Predict/dataset202312_data",
-                
-                "embedding": "./Embedding/",
-                "unlearn": "./Unlearn/",
-                "explain": "./Explain/"
-            },
-            "model":{
-                "model_name":"VGG16",
-                "batch_size":4,
-                "train_ratio":0.8,
-                "learning_rate":5e-4,
-                "epochs":3,
-                "shard":8,
-                "slice":8,
-                "print_information":"",
-
-                "hidden_dim": 100,
-                "shard_count": 2,
-                "slice_count": 2
-            },
-            "classify":false
-        }
+        "path": {
+            "identifier": "id",
+            "pretrained": null,
+            "label_file": "label.json"
+        },
+        "folder": {
+            "dataset": "/home/senior/Lab/pysrc/data/dataset202312/data",
+            "disassemble": "/home/senior/Lab/pysrc/othersData/Malware-detection-for-IoT-with-opcodes/Disassemble",
+            "feature": "/home/senior/Lab/pysrc/othersData/Malware-detection-for-IoT-with-opcodes/Feature",
+            "vectorize": "/home/senior/Lab/pysrc/othersData/Malware-detection-for-IoT-with-opcodes/Vectorize",
+            "model": "/home/senior/Lab/pysrc/othersData/Malware-detection-for-IoT-with-opcodes/Model",
+            "predict": "/home/senior/Lab/pysrc/othersData/Malware-detection-for-IoT-with-opcodes/Predict",
+            "log": "/home/senior/Lab/pysrc/othersData/Malware-detection-for-IoT-with-opcodes/Log"
+        },
+        "model": {
+            "model_name": "CNN",
+            "batch_size": 4,
+            "train_ratio": 0.8,
+            "learning_rate": 0.0005,
+            "epochs": 3,
+            "shard": 8,
+            "slice": 8,
+            "hidden_dim": 100,
+            "shard_count": 2,
+            "slice_count": 2
+        },
+        "classify": false,
+        "train": true,
+        "predict": false,
+        "unlearn": false
+    }
+    
 
     // merge 2 .json for input
     const userInput = JSON.stringify({
@@ -52,10 +52,17 @@ const runPy = async (Model, req, res) => {
         label
     });
 
+    fs.writeFile(configPath, userInput, (err) => {
+        if (err) {
+            console.error('Error writing file:', err);
+            return;
+        }
+        console.log('File has been overwritten');
+    });
 
     if (userInput.length > 0) {
         new Promise((resolve, reject) => {
-            const pythonProcess = spawn('python3', [pyFileName]);
+            const pythonProcess = spawn('python3', [pyFileName, configPath]);
 
             // failed to start subprocess
             pythonProcess.on('error', (err) => {
@@ -75,37 +82,17 @@ const runPy = async (Model, req, res) => {
 
             // subprocess ends
             pythonProcess.on('close', (code) => {
-                console.log(`child_process ends, code:${code}`);
-                if (code !== 0) {
-                    reject(new Error(`.py ends, code: ${code}`));
-                    return;
+                console.log(`child process closed with code ${code}`);
+                if (code === 0) {
+                    resolve();
+                } else {
+                    reject(new Error(`.py closed with code: ${code}`));
                 }
-                resolve();
             });
 
-            ////////////////////////
-            /*
-            // 将数据分块写入子进程
-            const chunkSize = 100000; // 每个块的大小
-            let currentIndex = 0;
-
-            function writeChunk() {
-                if (currentIndex < userInput.length) {
-                    const chunk = userInput.slice(currentIndex, currentIndex + chunkSize);
-                    currentIndex += chunkSize;
-                    pythonProcess.stdin.write(chunk, writeChunk);
-                } else {
-                    pythonProcess.stdin.end();
-                }
-            }
-
-            writeChunk();
-            */
-           ////////////////////////
-           pythonProcess.stdin.write(userInput);
-           pythonProcess.stdin.end();
 
         }).then(() => {
+            console.log("123done");
             const theInput = JSON.parse(userInput);
             return res.status(200).json({
                 success: true,
