@@ -53,6 +53,8 @@ const Detector1Test = lazy(() => import('@/pages/Detector1Test'));
 const Dataset = lazy(() => import('@/pages/Dataset'));
 const Detector = lazy(() => import('@/pages/Detector'));
 const Unlearn = lazy(() => import('@/pages/Unlearn'));
+const SelectData = lazy(() => import('@/pages/SelectData'));
+const DetectorSetting = lazy(() => import('@/pages/DetectorSetting'));
 
 export default function AppRouter() {
   let element = useRoutes([
@@ -99,6 +101,14 @@ export default function AppRouter() {
     {
       path: '/unlearn',
       element: <Unlearn />,
+    },
+    {
+      path: '/selectdata',
+      element: <SelectData />,
+    },
+    {
+      path: '/detectorSetting',
+      element: <DetectorSetting />,
     },
     {
       path: '/people',
