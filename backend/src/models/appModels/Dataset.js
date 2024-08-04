@@ -13,8 +13,13 @@ const schema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
-
+  
   filename: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  origFileName: {
     type: String,
     trim: true,
     required: true,
