@@ -7,7 +7,7 @@ const gridStyle = {
   textAlign: 'center',
 };
 
-export default function Dataset() {
+export default function Unlearn() {
     return (
       <div className="whiteBox shadow">
         <div className='button set' style={{padding: '30px 30px 0px 0px'}}>

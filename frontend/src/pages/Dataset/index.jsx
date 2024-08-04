@@ -12,7 +12,7 @@ export default function Dataset() {
       <div className="whiteBox shadow">
         <div className='button set' style={{padding: '30px 30px 0px 0px'}}>
           <Flex justify="flex-end" gap="small" wrap>
-            <Button type="primary">Create</Button>
+            <Button type="primary" href='/selectData'>Create</Button>
             <Button danger>Delete</Button>
           </Flex>
         </div>

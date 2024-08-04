@@ -7,13 +7,13 @@ const gridStyle = {
   textAlign: 'center',
 };
 
-export default function Dataset() {
+export default function Detector() {
     return (
       <div className="whiteBox shadow">
         <div className='button set' style={{padding: '30px 30px 0px 0px'}}>
           <Flex justify="flex-end" gap="small" wrap>
             <Button type="primary">Train</Button>
-            <Button>Create</Button>
+            <Button href='/detectorSetting'>Create</Button>
             <Button danger>Delete</Button>
           </Flex>
         </div>
