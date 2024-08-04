@@ -23,17 +23,17 @@ export default function DetectorSetting() {
         switch (value) {
             case 'detector1':
             form.setFieldsValue({
-                modelname: 'Hi, man!',
+                modelname: 'Hi, detector1!',
             });
             break;
             case 'detector2':
             form.setFieldsValue({
-                modelname: 'Hi, lady!',
+                modelname: 'Hi, detector2!',
             });
             break;
-            case 'detector3':
+            case 'MalwareExpert':
             form.setFieldsValue({
-                modelname: 'Hi there!',
+                modelname: 'Hi MalwareExpert!',
             });
             break;
             default:
@@ -90,7 +90,7 @@ export default function DetectorSetting() {
                         >
                         <Option value="detector1">detector1</Option>
                         <Option value="detector2">detector2</Option>
-                        <Option value="detector3">detector3</Option>
+                        <Option value="MalwareExpert">MalwareExpert</Option>
                         </Select>
                     </Form.Item>
                     <Form.Item
@@ -98,10 +98,10 @@ export default function DetectorSetting() {
                         shouldUpdate={(prevValues, currentValues) => prevValues.model !== currentValues.model}
                     >
                         {({ getFieldValue }) =>
-                        getFieldValue('model') === 'detector3' ? (
+                        getFieldValue('model') === 'MalwareExpert' ? ([
                             <Form.Item
-                            name="customizeModel"
-                            label="Customize Model"
+                            name="epoch"
+                            label="Epoch"
                             rules={[
                                 {
                                 required: true,
@@ -109,8 +109,92 @@ export default function DetectorSetting() {
                             ]}
                             >
                             <Input />
-                            </Form.Item>
-                        ) : null
+                            </Form.Item>,
+                            <Form.Item
+                            name="learningRate"
+                            label="Learning Rate"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input />
+                            </Form.Item>,
+                            <Form.Item
+                            name="batchSize"
+                            label="Batch Size"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input />
+                            </Form.Item>,
+                            <Form.Item
+                            name="hiddenDim"
+                            label="Hidden Dim"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="100"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="shardCount"
+                            label="Shard Count"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input />
+                            </Form.Item>,
+                            <Form.Item
+                            name="sliceCount"
+                            label="Slice Count"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input />
+                            </Form.Item>,
+                            <Form.Item
+                            name="dropoutValue"
+                            label="Dropout Value"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="0.5"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="preprocessMethod"
+                            label="Preprocess Method"
+                            rules={[
+                            {
+                                required: true,
+                            },
+                            ]}
+                        >
+                            <Select
+                            placeholder="Select a method"
+                            // onChange={onModelChange}
+                            allowClear
+                            >
+                            <Option value="asm2vec">asm2vec</Option>
+                            <Option value="safe">SAFE</Option>
+                            </Select>
+                        </Form.Item>,
+                        ]) : null
                         }
                     </Form.Item>
                     <Form.Item {...tailLayout}>
