@@ -23,6 +23,8 @@ export const fields = {
     options: [
       { value: 'test', label: 'test', color: 'blue' },
       { value: 'train', label: 'train', color: 'green' },
+      { value: 'unlearn', label: 'unlearn', color: 'purple' },
+      { value: 'predict', label: 'predict', color: 'orange' },
     ],
     required: true,
   },

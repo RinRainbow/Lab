@@ -362,7 +362,7 @@ export default function DataTable({ config, extra = [] }) {
       render: (_, { tags }) => (
         <>
           {
-            <Tag color={tags === 'test' ? 'blue' : tags === 'train' ? 'green' : 'default'} key={tags} >
+            <Tag color={tags === 'test' ? 'blue' : tags === 'train' ? 'green' : tags === 'unlearn' ? 'purple' : tags === 'predict' ? 'orange' : 'default'} key={tags} >
               {tags}
             </Tag>
           }
@@ -376,6 +376,14 @@ export default function DataTable({ config, extra = [] }) {
         {
           text: 'train',
           value: 'train',
+        },
+        {
+          text: 'unlearn',
+          value: 'unlearn',
+        },
+        {
+          text: 'predict',
+          value: 'predict',
         },
       ],
       onFilter: (value, record) => record.tags.indexOf(value) === 0,
@@ -666,6 +674,14 @@ export default function DataTable({ config, extra = [] }) {
                 {
                   value: 'train',
                   label: 'train',
+                },
+                {
+                  value: 'unlearn',
+                  label: 'unlearn',
+                },
+                {
+                  value: 'predict',
+                  label: 'predict',
                 },
               ]}
               allowClear
