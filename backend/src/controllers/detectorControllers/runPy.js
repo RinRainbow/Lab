@@ -1,9 +1,10 @@
 const fs = require('fs');
 const { spawn } = require('child_process');
-//const pyFileName = '/home/senior/Lab/pysrc/pycode/isLab/IMCFN/Code/main.py';
-const pyFileName = '/home/senior/Lab/pysrc/pycode/Malware-detection-for-IoT-with-opcodes/Code/main.py'; 
-const configPath = '/home/senior/Lab/pysrc/dataToPython.json'
-const datasetfolder = "/home/senior/Lab/pysrc/data/dataset202312/data";
+//const pyFileName = '/home/senior/pysrc/pycode/isLab/IMCFN/Code/main.py';
+///const pyFileName = '/home/senior/pysrc/pycode/Malware-detection-for-IoT-with-opcodes/Code/main.py'; 
+const pyFileName = '/home/senior/pysrc/pycode/MalwareExpertForBackend/src/main.py'; 
+const configPath = '/home/senior/pysrc/dataToPython.json'
+const datasetfolder = "/home/senior/pysrc/data/dataset202312/data";
 
 const runPy = async (Model, req, res) => {
     const sort = parseInt(req.query.sort) || 'desc';
@@ -14,31 +15,35 @@ const runPy = async (Model, req, res) => {
     //config.json
     config = {
         "path": {
-            "identifier": "id",
-            "pretrained": null,
-            "label_file": "label.json"
+            "word2id": "/home/senior/pysrc/othersData/MalwareExpertForBackend/SAFE_model/word2id.json",
+            "SAFEtorch": "/home/senior/pysrc/othersData/MalwareExpertForBackend/SAFE_model/SAFEtorch.pt",
+            "asm2vec_model": "/home/senior/pysrc/othersData/MalwareExpertForBackend/asm2vec.pt",
+            "record": "/home/senior/pysrc/othersData/MalwareExpertForBackend/record.json",
+            "result": "/home/senior/pysrc/othersData/MalwareExpertForBackend/predict_result.json",
+            "score": "/home/senior/pysrc/othersData/MalwareExpertForBackend/score.json"
         },
         "folder": {
-            "dataset": "/home/senior/Lab/pysrc/data/dataset202312/data",
-            "disassemble": "/home/senior/Lab/pysrc/othersData/Malware-detection-for-IoT-with-opcodes/Disassemble",
-            "feature": "/home/senior/Lab/pysrc/othersData/Malware-detection-for-IoT-with-opcodes/Feature",
-            "vectorize": "/home/senior/Lab/pysrc/othersData/Malware-detection-for-IoT-with-opcodes/Vectorize",
-            "model": "/home/senior/Lab/pysrc/othersData/Malware-detection-for-IoT-with-opcodes/Model",
-            "predict": "/home/senior/Lab/pysrc/othersData/Malware-detection-for-IoT-with-opcodes/Predict",
-            "log": "/home/senior/Lab/pysrc/othersData/Malware-detection-for-IoT-with-opcodes/Log"
+            "dataset": "/home/senior/pysrc/data/dataset202312/data",
+            "vectorize": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Vec/",
+            "feature": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Feature/",
+            "model": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Model/",
+            "predict": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Predict",
+            "embedding": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Embedding/",
+            "unlearn": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Unlearn",
+            "explain": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Explain/"
         },
         "model": {
-            "model_name": "CNN",
-            "batch_size": 4,
-            "train_ratio": 0.8,
-            "learning_rate": 0.0005,
-            "epochs": 3,
-            "shard": 8,
-            "slice": 8,
+            "epoch": 10,
+            "learning_rate": 0.01,
+            "batch_size": 32,
             "hidden_dim": 100,
             "shard_count": 2,
-            "slice_count": 2
+            "slice_count": 2,
+            "dropout_value": 0.5,
+            "output_dim": 2,
+            "softmax_dim": 1
         },
+        "preprocess_method": "asm2vec",
         "classify": false,
         "train": true,
         "predict": false,
@@ -77,7 +82,7 @@ const runPy = async (Model, req, res) => {
 
             // err from .py
             pythonProcess.stderr.on('data', (data) => {
-                console.error(`err from .py: ${data.toString()}`);
+                console.error(`from .py: ${data.toString()}`);
             });
 
             // subprocess ends
