@@ -89,7 +89,7 @@ export default function DetectorSetting() {
                         allowClear
                         >
                         <Option value="detector1">detector1</Option>
-                        <Option value="detector2">detector2</Option>
+                        <Option value="IMCFN">IMCFN</Option>
                         <Option value="MalwareExpert">MalwareExpert</Option>
                         </Select>
                     </Form.Item>
@@ -194,6 +194,151 @@ export default function DetectorSetting() {
                             <Option value="safe">SAFE</Option>
                             </Select>
                         </Form.Item>,
+                        ]) : 
+                        getFieldValue('model') === 'IMCFN' ? ([
+                            <Form.Item
+                            name="batch_size"
+                            label="Batch Size"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="4"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="learning_rate"
+                            label="Learning Rate"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="1e-5"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="rotation"
+                            label="Rotation"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="[0, 0]"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="width_shift"
+                            label="Width Shift"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="0.0"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="height_shift"
+                            label="Height Shift"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="0.0"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="zoom"
+                            label="Zoom"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="[1.0, 1.0]"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="shear"
+                            label="Shear"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="[0, 0, 0, 0]"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="fill"
+                            label="Fill"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="null"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="horizontal_flip"
+                            label="Horizontal Flip"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="0"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="train_ratio"
+                            label="Train Ratio"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="0.8"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="epochs"
+                            label="Epochs"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="15"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="shard"
+                            label="Shard"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="8"/>
+                            </Form.Item>,
+                            <Form.Item
+                            name="slice"
+                            label="Slice"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input defaultValue="8"/>
+                            </Form.Item>,
                         ]) : null
                         }
                     </Form.Item>
