@@ -13,133 +13,178 @@ import SummaryCard from './components/SummaryCard';
 import PreviewCard from './components/PreviewCard';
 import CustomerPreviewCard from './components/CustomerPreviewCard';
 
+import React from 'react';
+import { Button, Flex, Form, Input, Select, Space, List } from 'antd';
+import FormItem from 'antd/es/form/FormItem';
+
+const { Option } = Select;
+const layout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 16,
+  },
+};
+const data = [
+  'Racing car sprays burning fuel into crowd.',
+  'Japanese princess to wed commoner.',
+  'Australian walks 100km after outback crash.',
+  'Man charged over missing wedding girl.',
+  'Los Angeles battles huge wildfires.',
+];
+
 export default function DashboardModule() {
   const translate = useLanguage();
-  const { moneyFormatter } = useMoney();
-  const { result: invoiceResult, isLoading: invoiceLoading } = useFetch(() =>
-    request.summary({ entity: 'invoice' })
-  );
+  const [form] = Form.useForm();
+  // const onModelChange = (value) => {
+  //     switch (value) {
+  //         case 'detector1':
+  //         form.setFieldsValue({
+  //             modelname: 'Hi, detector1!',
+  //         });
+  //         break;
+  //         case 'detector2':
+  //         form.setFieldsValue({
+  //             modelname: 'Hi, detector2!',
+  //         });
+  //         break;
+  //         case 'MalwareExpert':
+  //         form.setFieldsValue({
+  //             modelname: 'Hi MalwareExpert!',
+  //         });
+  //         break;
+  //         default:
+  //     }
+  // };
+  // const onFinish = (values) => {
+  //     console.log(values);
+  // };
+  // const { moneyFormatter } = useMoney();
+  // const { result: invoiceResult, isLoading: invoiceLoading } = useFetch(() =>
+  //   request.summary({ entity: 'invoice' })
+  // );
 
-  const { result: quoteResult, isLoading: quoteLoading } = useFetch(() =>
-    request.summary({ entity: 'quote' })
-  );
+  // const { result: quoteResult, isLoading: quoteLoading } = useFetch(() =>
+  //   request.summary({ entity: 'quote' })
+  // );
 
-  const { result: offerResult, isLoading: offerLoading } = useFetch(() =>
-    request.summary({ entity: 'offer' })
-  );
+  // const { result: offerResult, isLoading: offerLoading } = useFetch(() =>
+  //   request.summary({ entity: 'offer' })
+  // );
 
-  const { result: paymentResult, isLoading: paymentLoading } = useFetch(() =>
-    request.summary({ entity: 'payment' })
-  );
+  // const { result: paymentResult, isLoading: paymentLoading } = useFetch(() =>
+  //   request.summary({ entity: 'payment' })
+  // );
 
-  const { result: clientResult, isLoading: clientLoading } = useFetch(() =>
-    request.summary({ entity: 'client' })
-  );
+  // const { result: clientResult, isLoading: clientLoading } = useFetch(() =>
+  //   request.summary({ entity: 'client' })
+  // );
 
-  const dataTableColumns = [
-    {
-      title: translate('number'),
-      dataIndex: 'number',
-    },
-    {
-      title: translate('Client'),
-      dataIndex: ['client', 'name'],
-    },
+  // const dataTableColumns = [
+  //   {
+  //     title: translate('number'),
+  //     dataIndex: 'number',
+  //   },
+  //   {
+  //     title: translate('Client'),
+  //     dataIndex: ['client', 'name'],
+  //   },
 
-    {
-      title: translate('Total'),
-      dataIndex: 'total',
-      onCell: () => {
-        return {
-          style: {
-            textAlign: 'right',
-            whiteSpace: 'nowrap',
-          },
-        };
-      },
-      render: (total) => moneyFormatter({ amount: total }),
-    },
-    {
-      title: translate('Status'),
-      dataIndex: 'status',
-      render: (status) => {
-        return <Tag color={tagColor(status)?.color}>{translate(status)}</Tag>;
-      },
-    },
-  ];
+  //   {
+  //     title: translate('Total'),
+  //     dataIndex: 'total',
+  //     onCell: () => {
+  //       return {
+  //         style: {
+  //           textAlign: 'right',
+  //           whiteSpace: 'nowrap',
+  //         },
+  //       };
+  //     },
+  //     render: (total) => moneyFormatter({ amount: total }),
+  //   },
+  //   {
+  //     title: translate('Status'),
+  //     dataIndex: 'status',
+  //     render: (status) => {
+  //       return <Tag color={tagColor(status)?.color}>{translate(status)}</Tag>;
+  //     },
+  //   },
+  // ];
 
-  const entityData = [
-    {
-      result: invoiceResult,
-      isLoading: invoiceLoading,
-      entity: 'invoice',
-      title: translate('Invoices preview'),
-    },
-    {
-      result: quoteResult,
-      isLoading: quoteLoading,
-      entity: 'quote',
-      title: translate('quotes preview'),
-    },
-    {
-      result: offerResult,
-      isLoading: offerLoading,
-      entity: 'offer',
-      title: translate('offers preview'),
-    },
-    {
-      result: paymentResult,
-      isLoading: paymentLoading,
-      entity: 'payment',
-      title: translate('payments preview'),
-    },
-  ];
+  // const entityData = [
+  //   {
+  //     result: invoiceResult,
+  //     isLoading: invoiceLoading,
+  //     entity: 'invoice',
+  //     title: translate('Invoices preview'),
+  //   },
+  //   {
+  //     result: quoteResult,
+  //     isLoading: quoteLoading,
+  //     entity: 'quote',
+  //     title: translate('quotes preview'),
+  //   },
+  //   {
+  //     result: offerResult,
+  //     isLoading: offerLoading,
+  //     entity: 'offer',
+  //     title: translate('offers preview'),
+  //   },
+  //   {
+  //     result: paymentResult,
+  //     isLoading: paymentLoading,
+  //     entity: 'payment',
+  //     title: translate('payments preview'),
+  //   },
+  // ];
 
-  const cards = entityData.map((data, index) => {
-    const { result, entity, isLoading } = data;
+  // const cards = entityData.map((data, index) => {
+  //   const { result, entity, isLoading } = data;
 
-    if (entity === 'offer') return null;
+  //   if (entity === 'offer') return null;
 
-    return (
-      <SummaryCard
-        key={index}
-        title={data?.entity === 'payment' ? translate('Payment') : translate(data?.entity)}
-        tagColor={
-          data?.entity === 'invoice' ? 'cyan' : data?.entity === 'quote' ? 'purple' : 'green'
-        }
-        prefix={translate('This month')}
-        isLoading={isLoading}
-        tagContent={moneyFormatter({ amount: result?.total })}
-      />
-    );
-  });
+  //   return (
+  //     <SummaryCard
+  //       key={index}
+  //       title={data?.entity === 'payment' ? translate('Payment') : translate(data?.entity)}
+  //       tagColor={
+  //         data?.entity === 'invoice' ? 'cyan' : data?.entity === 'quote' ? 'purple' : 'green'
+  //       }
+  //       prefix={translate('This month')}
+  //       isLoading={isLoading}
+  //       tagContent={moneyFormatter({ amount: result?.total })}
+  //     />
+  //   );
+  // });
 
-  const statisticCards = entityData.map((data, index) => {
-    const { result, entity, isLoading, title } = data;
+  // const statisticCards = entityData.map((data, index) => {
+  //   const { result, entity, isLoading, title } = data;
 
-    if (entity === 'payment') return null;
+  //   if (entity === 'payment') return null;
 
-    return (
-      <PreviewCard
-        key={index}
-        title={title}
-        isLoading={isLoading}
-        entity={entity}
-        statistics={
-          !isLoading &&
-          result?.performance?.map((item) => ({
-            tag: item?.status,
-            color: 'blue',
-            value: item?.percentage,
-          }))
-        }
-      />
-    );
-  });
+  //   return (
+  //     <PreviewCard
+  //       key={index}
+  //       title={title}
+  //       isLoading={isLoading}
+  //       entity={entity}
+  //       statistics={
+  //         !isLoading &&
+  //         result?.performance?.map((item) => ({
+  //           tag: item?.status,
+  //           color: 'blue',
+  //           value: item?.percentage,
+  //         }))
+  //       }
+  //     />
+  //   );
+  // });
 
   return (
     <>
-      <Row gutter={[32, 32]}>
+      {/* <Row gutter={[32, 32]}>
         {cards}
         <SummaryCard
           title={translate('Due Balance')}
@@ -148,9 +193,9 @@ export default function DashboardModule() {
           isLoading={invoiceLoading}
           tagContent={moneyFormatter({ amount: invoiceResult?.total_undue })}
         />
-      </Row>
-      <div className="space30"></div>
-      <Row gutter={[32, 32]}>
+      </Row> */}
+      {/* <div className="space30"></div> */}
+      {/* <Row gutter={[32, 32]}>
         <Col className="gutter-row w-full" sm={{ span: 24 }} md={{ span: 24 }} lg={{ span: 18 }}>
           <div className="whiteBox shadow" style={{ height: 458 }}>
             <Row className="pad20" gutter={[0, 0]}>
@@ -165,9 +210,9 @@ export default function DashboardModule() {
             newCustomer={clientResult?.new}
           />
         </Col>
-      </Row>
-      <div className="space30"></div>
-      <Row gutter={[32, 32]}>
+      </Row> */}
+      {/* <div className="space30"></div> */}
+      {/* <Row gutter={[32, 32]}>
         <Col className="gutter-row w-full" sm={{ span: 24 }} lg={{ span: 12 }}>
           <div className="whiteBox shadow pad20" style={{ height: '100%' }}>
             <h3 style={{ color: '#22075e', marginBottom: 5, padding: '0 20px 20px' }}>
@@ -186,7 +231,56 @@ export default function DashboardModule() {
             <RecentTable entity={'quote'} dataTableColumns={dataTableColumns} />
           </div>
         </Col>
-      </Row>
+      </Row> */}
+      <div className="whiteBox shadow">
+          <div className='setting area' style={{padding: '30px 30px 30px 30px'}}>
+              <Form
+                  {...layout}
+                  form={form}
+                  name="control-hooks"
+                  // onFinish={onFinish}
+                  style={{
+                    maxWidth: 600,
+                  }}
+              >
+                  <Form.Item
+                      name="modelname"
+                      label="Model Name"
+                  >
+                      <Select
+                      placeholder="Select a model name"
+                      // onChange={onModelChange}
+                      allowClear
+                      >
+                      <Option value="aaa">aaa</Option>
+                      <Option value="bbb">bbb</Option>
+                      <Option value="ccc">ccc</Option>
+                      </Select>
+                  </Form.Item>
+                  <Form.Item
+                      noStyle
+                      shouldUpdate={(prevValues, currentValues) => prevValues.modelname !== currentValues.modelname}
+                  >
+                      {({ getFieldValue }) =>
+                      getFieldValue('modelname') === 'ccc' ? ([
+                          <List
+                            header={<div>Header</div>}
+                            footer={<div>Footer</div>}
+                            bordered
+                            dataSource={data}
+                            renderItem={(item) => (
+                              <List.Item>
+                                {item}
+                              </List.Item>
+                            )}
+                          />
+                      ]) : null
+                      }
+                  </Form.Item>
+              </Form>
+          </div>
+          
+      </div>
     </>
   );
 }
