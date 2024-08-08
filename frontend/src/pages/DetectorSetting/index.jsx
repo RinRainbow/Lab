@@ -59,12 +59,12 @@ export default function DetectorSetting() {
     const onReset = () => {
         form.resetFields();
     };
-    const onFill = () => {
-        form.setFieldsValue({
-            modelname: 'Hey MDOEL!',
-            model: 'MDOEL',
-        });
-    };
+    // const onFill = () => {
+    //     form.setFieldsValue({
+    //         modelname: 'Hey MDOEL!',
+    //         model: 'MDOEL',
+    //     });
+    // };
     return (
         <div className="whiteBox shadow">
             <div className='setting area' style={{padding: '30px 30px 30px 30px'}}>
@@ -87,6 +87,22 @@ export default function DetectorSetting() {
                         ]}
                     >
                         <Input allowClear/>
+                    </Form.Item>
+                    <br></br>
+                    <Form.Item
+                        name="dataset"
+                        label="Dataset"
+                        rules={[
+                        {
+                            required: true,
+                        },
+                        ]}
+                    >
+                        <Select
+                        placeholder="Select a dataset"
+                        allowClear
+                        >
+                        </Select>
                     </Form.Item>
                     <br></br>
                     <Form.Item
@@ -468,14 +484,14 @@ export default function DetectorSetting() {
                     <Form.Item {...tailLayout}>
                         <Space>
                         <Button type="primary" htmlType="submit">
-                            Submit
+                            Save
                         </Button>
                         <Button htmlType="button" onClick={onReset}>
                             Reset
                         </Button>
-                        <Button type="link" htmlType="button" onClick={onFill}>
+                        {/* <Button type="link" htmlType="button" onClick={onFill}>
                             Fill form
-                        </Button>
+                        </Button> */}
                         </Space>
                     </Form.Item>
                 </Form>
