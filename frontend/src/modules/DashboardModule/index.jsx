@@ -14,16 +14,17 @@ import PreviewCard from './components/PreviewCard';
 import CustomerPreviewCard from './components/CustomerPreviewCard';
 
 import React from 'react';
-import { Button, Flex, Form, Input, Select, Space, List } from 'antd';
+import { Button, Flex, Form, Input, Select, Space, List, Progress, Divider, Spin, Statistic, Card } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
+import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 const layout = {
   labelCol: {
-    span: 8,
+    // span: 8,
   },
   wrapperCol: {
-    span: 16,
+    span: 5,
   },
 };
 const data = [
@@ -33,6 +34,11 @@ const data = [
   'Man charged over missing wedding girl.',
   'Los Angeles battles huge wildfires.',
 ];
+const conicColors = {
+  '0%': '#ffccc7',
+  '50%': '#ffe58f',
+  '100%': '#87d068',
+};
 
 export default function DashboardModule() {
   const translate = useLanguage();
@@ -240,7 +246,7 @@ export default function DashboardModule() {
                   name="control-hooks"
                   // onFinish={onFinish}
                   style={{
-                    maxWidth: 600,
+                    maxWidth: '100%',
                   }}
               >
                   <Form.Item
@@ -263,17 +269,44 @@ export default function DashboardModule() {
                   >
                       {({ getFieldValue }) =>
                       getFieldValue('modelname') === 'ccc' ? ([
-                          <List
-                            header={<div>Header</div>}
-                            footer={<div>Footer</div>}
-                            bordered
-                            dataSource={data}
-                            renderItem={(item) => (
-                              <List.Item>
-                                {item}
-                              </List.Item>
-                            )}
-                          />
+                          <br></br>,
+                          <Flex justify='space-evenly' align='center'>
+                              <Card>
+                                <List
+                                header={<div>Header</div>}
+                                footer={<div>Footer</div>}
+                                // bordered
+                                dataSource={data}
+                                renderItem={(item) => (
+                                  <List.Item>
+                                    {item}
+                                  </List.Item>
+                                )}
+                                />
+                              </Card>
+                              <Card style={{ height: 300, width: 300 }}>
+                                <div
+                                  className="pad20"
+                                  style={{
+                                    textAlign: 'center',
+                                    justifyContent: 'center',
+                                  }}
+                                >
+                                  <h3 style={{ color: '#22075e', marginBottom: 40, marginTop: 15, fontSize: 'large' }}>
+                                    Predict Score
+                                  </h3>
+
+                                  <div
+                                    style={{
+                                      display: 'grid',
+                                      justifyContent: 'center',
+                                    }}
+                                  >
+                                    <Progress type="dashboard" percent={93} strokeColor={conicColors} format={(percent) => `${percent}`} size={148} />
+                                  </div>
+                                </div>
+                              </Card>
+                          </Flex>,
                       ]) : null
                       }
                   </Form.Item>

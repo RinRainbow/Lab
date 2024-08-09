@@ -463,6 +463,48 @@ export default function DataTable({ config, extra = [] }) {
     // message.success('Training Successful!');
   };
 
+  const saved = () => {
+    setLoading(true);
+    const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
+    console.log('Selected Data:', selectedData);
+
+    // combine selectedData and DatasetName into a single object
+    const requestData = {
+      datasetname: DatasetName,
+      selectedData: selectedData,
+    };
+
+    fetch('http://localhost:1624/api/detector', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestData),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      message.success('Saving Successful!');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      message.error('Saving Error!');
+    });
+    // ajax request after empty completing
+    // setTimeout(() => {
+    //   setSelectedRowKeys([]);
+    //   setLoading(false);
+    // }, 1000);
+    setSelectedRowKeys([]);
+    setLoading(false);
+    // message.success('Training Successful!');
+  };
+
   const [open, setOpen] = useState(false);
   const showModal = () => {
     setOpen(true);
@@ -477,6 +519,23 @@ export default function DataTable({ config, extra = [] }) {
   const handleCancel = (e) => {
     console.log(e);
     setOpen(false);
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showSaveModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleSaveOk = () => {
+    saved();
+    setIsModalOpen(false);
+  };
+  const handleSaveCancel = () => {
+    setIsModalOpen(false);
+  };
+  const [DatasetName, setDatasetName] = useState();
+  const saveInput = (e) => {
+    setDatasetName(e.target.value);
+    console.log('dataset name: ', e.target.value);
   };
 
   const [FilenameDisabled, setFilenameDisabled] = useState(false);
@@ -573,6 +632,16 @@ export default function DataTable({ config, extra = [] }) {
           <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
             {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
           </Button>,
+          <Button onClick={showSaveModal} disabled={!hasSelected} key={`${uniqueId()}`}>
+            {hasSelected ? `Save ${selectedRowKeys.length} items` : 'Save'}
+          </Button>,
+          <Modal title="Saving Dataset" open={isModalOpen} onOk={handleSaveOk} onCancel={handleSaveCancel}>
+            <Input 
+              name='Dataset Name'
+              onChange={saveInput}
+              allowClear
+            />
+          </Modal>,
           <Button onClick={showModal} disabled={!hasSelected} key={`${uniqueId()}`}>
             {hasSelected ? `Edit ${selectedRowKeys.length} items` : 'Edit'}
           </Button>,
