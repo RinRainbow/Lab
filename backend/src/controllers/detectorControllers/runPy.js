@@ -102,7 +102,7 @@ const runPy = async (Model, req, res) => {
             return res.status(200).json({
                 success: true,
                 theInput,
-                message: 'Successfully found all documents',
+                message: 'Successfully trained',
             });
         }).catch((error) => {
             return res.status(500).json({

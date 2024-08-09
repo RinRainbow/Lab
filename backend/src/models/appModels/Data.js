@@ -5,15 +5,10 @@ const schema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  chosen: {
-    type: Boolean,
-    default: true,
-  },
   enabled: {
     type: Boolean,
     default: true,
   },
-  
   filename: {
     type: String,
     trim: true,
@@ -66,4 +61,4 @@ const schema = new mongoose.Schema({
 });
 
 schema.plugin(require('mongoose-autopopulate'));
-module.exports = mongoose.model('Dataset', schema);
+module.exports = mongoose.model('Data', schema);

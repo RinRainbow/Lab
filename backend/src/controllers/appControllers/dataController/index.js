@@ -8,7 +8,7 @@ const paginatedList = require('./paginatedList');
 const listAll = require('./listAll');
 
 function modelController() {
-  const modelName = 'Dataset';
+  const modelName = 'Data';
   const Model = mongoose.model(modelName);
   const methods = createCRUDController(modelName);
   methods.create = (req, res) => create(Model, req, res);
