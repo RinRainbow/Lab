@@ -640,6 +640,7 @@ export default function DataTable({ config, extra = [] }) {
               name='Dataset Name'
               onChange={saveInput}
               allowClear
+              placeholder='enter your dataset name...'
             />
           </Modal>,
           <Button onClick={showModal} disabled={!hasSelected} key={`${uniqueId()}`}>
