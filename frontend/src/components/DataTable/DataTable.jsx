@@ -529,6 +529,7 @@ export default function DataTable({ config, extra = [] }) {
     console.log(e);
     setOpen(false);
     dispatcher();
+    // handelDataTableLoad();
   };
   const handleCancel = (e) => {
     console.log(e);
