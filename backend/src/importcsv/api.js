@@ -5,7 +5,7 @@ const url = "mongodb://localhost:27017";
 mongoose.connect(url);
 
 //.
-const dataset = require('../models/appModels/Dataset');
+const dataset = require('../models/appModels/Data');
 //
 
 const fs = require('fs');
@@ -47,6 +47,7 @@ async function setupDataset(data) {
     try {
         const savingData = {
             filename: data.filename,
+            origFileName: data.filename,
             label: data.label,
             family: data.family,
             CPUArchitecture: data["CPU Architecture"],

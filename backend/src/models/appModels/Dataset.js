@@ -1,50 +1,19 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-  removed: {
-    type: Boolean,
-    default: false,
-  },
-  chosen: {
-    type: Boolean,
-    default: true,
-  },
   enabled: {
     type: Boolean,
     default: true,
   },
-
-  filename: {
+  dataId: {
     type: String,
     trim: true,
     required: true,
   },
-  label: {
+  datasetName: {
     type: String,
     trim: true,
     required: true,
-  },
-  family: {
-    type: String,
-    trim: true,
-    required: false,
-  },
-  CPUArchitecture: {
-    type: String,
-    trim: true,
-    required: true,
-  },
-  fileSize: {
-    type: String,
-    trim: true,
-    required: true,
-  },
-  tags: {
-      type: String,
-      trim: true,
-      lowercase: true,
-      required: true,
-      default:"test",
   },
   created: {
     type: Date,

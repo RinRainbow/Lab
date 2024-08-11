@@ -12,7 +12,6 @@ const runPy = async (Model, req, res) => {
     //const label = await Model.find({ removed: false, "CPUArchitecture": "ARM"}).limit(10).sort({ created: sort }).populate().exec();
     const label = req.body;
 
-
     //config.json
     config = {
         "path": {
@@ -103,7 +102,7 @@ const runPy = async (Model, req, res) => {
             return res.status(200).json({
                 success: true,
                 theInput,
-                message: 'Successfully found all documents',
+                message: 'Successfully trained',
             });
         }).catch((error) => {
             return res.status(500).json({
