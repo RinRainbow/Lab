@@ -81,6 +81,7 @@ export default function DataTable({ config, extra = [] }) {
     collapsedBox.open();
   }
   function handleMultiEdit() {
+    const all_updatedItems = [];
     selectedRowKeys.forEach(key => {
       const index = dataSource.findIndex(item => item._id === key);
       if (index !== -1) {
@@ -104,12 +105,18 @@ export default function DataTable({ config, extra = [] }) {
         if (TypeDisabled) {
           updatedItem.tags = NewType;
         }
+
+        all_updatedItems.push(updatedItem);
   
-        dispatch(crud.currentItem({ data: updatedItem }));
-        dispatch(crud.currentAction({ actionType: 'update', data: updatedItem }));
-        dispatch(crud.update({ entity, id: key, jsonData: updatedItem }));
+        // dispatch(crud.currentItem({ data: updatedItem }));
+        // dispatch(crud.currentAction({ actionType: 'update', data: updatedItem }));
+        // dispatch(crud.update({ entity, id: key, jsonData: updatedItem }));
       }
     });
+    console.log('all_updatedItems: ', all_updatedItems);
+    dispatch(crud.currentItem({ data: all_updatedItems }));
+    dispatch(crud.currentAction({ actionType: 'updateAll', data: all_updatedItems }));
+    dispatch(crud.update({ entity, id: selectedRowKeys, jsonData: all_updatedItems }));
     setSelectedRowKeys([]);
   }
   function handleDelete() {
