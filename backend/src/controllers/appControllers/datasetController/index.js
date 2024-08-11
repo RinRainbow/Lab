@@ -5,9 +5,10 @@ const create = require('./create');
 const read = require('./read');
 const remove = require('./remove');
 const paginatedList = require('./paginatedList');
+const listAll = require('./listAll');
 
 function modelController() {
-  const modelName = 'Detector1Valid';
+  const modelName = 'Dataset';
   const Model = mongoose.model(modelName);
   const methods = createCRUDController(modelName);
   methods.create = (req, res) => create(Model, req, res);

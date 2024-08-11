@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const create = require('./create');
 const read = require('./read');
 const update = require('./update');
+const updateAll = require('./updateAll');
 const remove = require('./remove');
 const search = require('./search');
 const filter = require('./filter');
@@ -22,6 +23,7 @@ const createCRUDController = (modelName) => {
     create: (req, res) => create(Model, req, res),
     read: (req, res) => read(Model, req, res),
     update: (req, res) => update(Model, req, res),
+    updateAll: (req, res) => updateAll(Model, req, res),
     delete: (req, res) => remove(Model, req, res),
     list: (req, res) => paginatedList(Model, req, res),
     listAll: (req, res) => listAll(Model, req, res),
@@ -29,6 +31,7 @@ const createCRUDController = (modelName) => {
     filter: (req, res) => filter(Model, req, res),
     summary: (req, res) => summary(Model, req, res),
   };
+
   return crudMethods;
 };
 

@@ -1,24 +1,40 @@
-const update = async (Model, req, res) => {
-    // Find document by id and updates with the required fields
+const updateAll = async (Model, req, res) => {
+  let errormeg = [];
+  try {
 
-    const result = await Model.findOneAndUpdate({ _id: req.params.id, removed: false }, req.body, {
-      new: true, // return the new result instead of the old one
-      runValidators: true,
-    }).exec();
-    if (!result) {
-      return res.status(404).json({
-        success: false,
-        result: null,
-        message: 'No document found by this id: ' + req.params.id,
+      const results = await Promise.all(req.body.map(async (element) => {
+          try {
+              const result = await Model.updateOne({ _id: element["_id"] }, element, {
+                  new: true, // return the new result instead of the old one
+                  runValidators: true,
+              });
+              return result;
+          } catch (err) {
+              errormeg.push(err);
+              return { error: err.message };
+          }
+      }));
+
+      if (errormeg != 0) {
+          return res.status(404).json({
+              success: false,
+              result: null,
+              message: 'Some documents could not be updated:' + errormeg,
+          });
+      } else {
+          return res.status(200).json({
+              success: true,
+              result: results,
+              message: 'All documents were updated successfully',
+          });
+      }
+  } catch (error) {
+      return res.status(500).json({
+          success: false,
+          result: null,
+          message: `Error updating documents: ${error.message}`,
       });
-    } else {
-      return res.status(200).json({
-        success: true,
-        result,
-        message: 'we update this document by this id: ' + req.params.id,
-      });
-    }
-  };
-  
-  module.exports = updateAll;
-  
+  }
+};
+
+module.exports = updateAll;

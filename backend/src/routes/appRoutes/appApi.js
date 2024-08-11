@@ -14,6 +14,9 @@ const routerApp = (entity, controller) => {
   router
     .route(`/${entity}/update/:id`)
     .patch(hasPermission('update'), catchErrors(controller['update']));
+    router
+    .route(`/${entity}/updateAll/:id`)
+    .patch(hasPermission('updateAll'), catchErrors(controller['updateAll']));
   router
     .route(`/${entity}/delete/:id`)
     .delete(hasPermission('delete'), catchErrors(controller['delete']));

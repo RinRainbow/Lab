@@ -1,47 +1,20 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-  removed: {
-    type: Boolean,
-    default: false,
-  },
   enabled: {
     type: Boolean,
     default: true,
   },
-
-  filename: {
+  dataId: {
     type: String,
     trim: true,
     required: true,
   },
-  label: {
+  datasetName: {
     type: String,
     trim: true,
     required: true,
   },
-  family: {
-    type: String,
-    trim: true,
-  },
-  CPUArchitecture: {
-    type: String,
-    trim: true,
-    required: true,
-  },
-  fileSize: {
-    type: String,
-    trim: true,
-    required: true,
-  },
-
-  tags: [
-    {
-      type: String,
-      trim: true,
-      lowercase: true,
-    },
-  ],
   created: {
     type: Date,
     default: Date.now,
@@ -57,4 +30,4 @@ const schema = new mongoose.Schema({
 });
 
 schema.plugin(require('mongoose-autopopulate'));
-module.exports = mongoose.model('Detector2', schema);
+module.exports = mongoose.model('Dataset', schema);
