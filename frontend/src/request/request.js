@@ -76,6 +76,18 @@ const request = {
       return errorHandler(error);
     }
   },
+  updateAll: async ({ entity, id, jsonData }) => {
+    try {
+      const response = await axios.patch(entity + '/updateAll/' + id, jsonData);
+      successHandler(response, {
+        notifyOnSuccess: true,
+        notifyOnFailed: true,
+      });
+      return response.data;
+    } catch (error) {
+      return errorHandler(error);
+    }
+  },
 
   delete: async ({ entity, id }) => {
     try {

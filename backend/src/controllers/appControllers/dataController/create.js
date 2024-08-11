@@ -8,9 +8,11 @@ const create = async (Model, req, res) => {
   body['createdBy'] = req.admin._id;
 
   const settings = await loadSettings();
+
   const last_data_number = settings['last_data_number'];
 
   body.number = generateUniqueNumber(last_data_number);
+  
   // Creating a new document in the collection
   const result = await new Model(body).save();
 

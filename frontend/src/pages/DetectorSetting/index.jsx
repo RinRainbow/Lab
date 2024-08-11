@@ -21,14 +21,14 @@ export default function DetectorSetting() {
     const [form] = Form.useForm();
     const onModelChange = (value) => {
         switch (value) {
-            case 'detector1':
+            case 'MDOEL':
             form.setFieldsValue({
-                modelname: 'Hi, detector1!',
+                modelname: 'Hi, MDOEL!',
             });
             break;
-            case 'detector2':
+            case 'IMCFN':
             form.setFieldsValue({
-                modelname: 'Hi, detector2!',
+                modelname: 'Hi, IMCFN!',
             });
             break;
             case 'MalwareExpert':
@@ -39,21 +39,35 @@ export default function DetectorSetting() {
             default:
         }
     };
-    const onFinish = (values) => {
+    const onFinish = async (values) => {
         console.log(values);
+        try {
+            const response = await fetch('http://localhost:1624/api/detector', 
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            });
+            const result = await response.json();
+            console.log('Success: ', result);
+        } catch(error) {
+            console.log('Error: ', error);
+        }
     };
     const onReset = () => {
         form.resetFields();
     };
-    const onFill = () => {
-        form.setFieldsValue({
-            modelname: 'Hello world!',
-            model: 'detector1',
-        });
-    };
+    // const onFill = () => {
+    //     form.setFieldsValue({
+    //         modelname: 'Hey MDOEL!',
+    //         model: 'MDOEL',
+    //     });
+    // };
     return (
         <div className="whiteBox shadow">
-            <div className='setting area' style={{padding: '30px 30px 15px 30px'}}>
+            <div className='setting area' style={{padding: '30px 30px 30px 30px'}}>
                 <Form
                     {...layout}
                     form={form}
@@ -72,8 +86,25 @@ export default function DetectorSetting() {
                         },
                         ]}
                     >
-                        <Input />
+                        <Input allowClear/>
                     </Form.Item>
+                    <br></br>
+                    <Form.Item
+                        name="dataset"
+                        label="Dataset"
+                        rules={[
+                        {
+                            required: true,
+                        },
+                        ]}
+                    >
+                        <Select
+                        placeholder="Select a dataset"
+                        allowClear
+                        >
+                        </Select>
+                    </Form.Item>
+                    <br></br>
                     <Form.Item
                         name="model"
                         label="Model"
@@ -88,11 +119,12 @@ export default function DetectorSetting() {
                         onChange={onModelChange}
                         allowClear
                         >
-                        <Option value="detector1">detector1</Option>
+                        <Option value="MDOEL">MDOEL</Option>
                         <Option value="IMCFN">IMCFN</Option>
                         <Option value="MalwareExpert">MalwareExpert</Option>
                         </Select>
                     </Form.Item>
+                    <br></br>
                     <Form.Item
                         noStyle
                         shouldUpdate={(prevValues, currentValues) => prevValues.model !== currentValues.model}
@@ -110,6 +142,7 @@ export default function DetectorSetting() {
                             >
                             <Input />
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="learningRate"
                             label="Learning Rate"
@@ -121,6 +154,7 @@ export default function DetectorSetting() {
                             >
                             <Input />
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="batchSize"
                             label="Batch Size"
@@ -132,6 +166,7 @@ export default function DetectorSetting() {
                             >
                             <Input />
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="hiddenDim"
                             label="Hidden Dim"
@@ -141,8 +176,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="100"/>
+                            <Input placeholder='100'/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="shardCount"
                             label="Shard Count"
@@ -154,6 +190,7 @@ export default function DetectorSetting() {
                             >
                             <Input />
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="sliceCount"
                             label="Slice Count"
@@ -165,6 +202,7 @@ export default function DetectorSetting() {
                             >
                             <Input />
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="dropoutValue"
                             label="Dropout Value"
@@ -174,8 +212,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="0.5"/>
+                            <Input placeholder="0.5"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="preprocessMethod"
                             label="Preprocess Method"
@@ -184,16 +223,17 @@ export default function DetectorSetting() {
                                 required: true,
                             },
                             ]}
-                        >
-                            <Select
-                            placeholder="Select a method"
-                            // onChange={onModelChange}
-                            allowClear
                             >
-                            <Option value="asm2vec">asm2vec</Option>
-                            <Option value="safe">SAFE</Option>
-                            </Select>
-                        </Form.Item>,
+                                <Select
+                                placeholder="Select a method"
+                                // onChange={onModelChange}
+                                allowClear
+                                >
+                                <Option value="asm2vec">asm2vec</Option>
+                                <Option value="safe">SAFE</Option>
+                                </Select>
+                            </Form.Item>,
+                            <br></br>,
                         ]) : 
                         getFieldValue('model') === 'IMCFN' ? ([
                             <Form.Item
@@ -205,8 +245,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="4"/>
+                            <Input placeholder="4"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="learning_rate"
                             label="Learning Rate"
@@ -216,8 +257,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="1e-5"/>
+                            <Input placeholder="1e-5"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="rotation"
                             label="Rotation"
@@ -227,8 +269,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="[0, 0]"/>
+                            <Input placeholder="[0, 0]"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="width_shift"
                             label="Width Shift"
@@ -238,8 +281,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="0.0"/>
+                            <Input placeholder="0.0"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="height_shift"
                             label="Height Shift"
@@ -249,8 +293,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="0.0"/>
+                            <Input placeholder="0.0"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="zoom"
                             label="Zoom"
@@ -260,8 +305,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="[1.0, 1.0]"/>
+                            <Input placeholder="[1.0, 1.0]"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="shear"
                             label="Shear"
@@ -271,8 +317,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="[0, 0, 0, 0]"/>
+                            <Input placeholder="[0, 0, 0, 0]"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="fill"
                             label="Fill"
@@ -282,8 +329,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="null"/>
+                            <Input placeholder="null"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="horizontal_flip"
                             label="Horizontal Flip"
@@ -293,8 +341,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="0"/>
+                            <Input placeholder="0"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="train_ratio"
                             label="Train Ratio"
@@ -304,8 +353,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="0.8"/>
+                            <Input placeholder="0.8"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="epochs"
                             label="Epochs"
@@ -315,8 +365,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="15"/>
+                            <Input placeholder="15"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="shard"
                             label="Shard"
@@ -326,8 +377,9 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="8"/>
+                            <Input placeholder="8"/>
                             </Form.Item>,
+                            <br></br>,
                             <Form.Item
                             name="slice"
                             label="Slice"
@@ -337,31 +389,118 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input defaultValue="8"/>
+                            <Input placeholder="8"/>
                             </Form.Item>,
+                            <br></br>,
+                        ]) : 
+                        getFieldValue('model') === 'MDOEL' ? ([
+                            <Form.Item
+                            name="batch_size"
+                            label="Batch Size"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input placeholder="4"/>
+                            </Form.Item>,
+                            <br></br>,
+                            <Form.Item
+                            name="train_ratio"
+                            label="Train Ratio"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input placeholder="0.8"/>
+                            </Form.Item>,
+                            <br></br>,
+                            <Form.Item
+                            name="validation_ratio"
+                            label="Validation Ratio"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input placeholder="0.2"/>
+                            </Form.Item>,
+                            <br></br>,
+                            <Form.Item
+                            name="learning_rate"
+                            label="Learning Rate"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input placeholder="0.0005"/>
+                            </Form.Item>,
+                            <br></br>,
+                            <Form.Item
+                            name="epochs"
+                            label="Epochs"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input placeholder="3"/>
+                            </Form.Item>,
+                            <br></br>,
+                            <Form.Item
+                            name="shard"
+                            label="Shard"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input placeholder="8"/>
+                            </Form.Item>,
+                            <br></br>,
+                            <Form.Item
+                            name="slice"
+                            label="Slice"
+                            rules={[
+                                {
+                                required: true,
+                                },
+                            ]}
+                            >
+                            <Input placeholder="8"/>
+                            </Form.Item>,
+                            <br></br>,
                         ]) : null
                         }
                     </Form.Item>
                     <Form.Item {...tailLayout}>
                         <Space>
                         <Button type="primary" htmlType="submit">
-                            Submit
+                            Save
                         </Button>
                         <Button htmlType="button" onClick={onReset}>
                             Reset
                         </Button>
-                        <Button type="link" htmlType="button" onClick={onFill}>
+                        {/* <Button type="link" htmlType="button" onClick={onFill}>
                             Fill form
-                        </Button>
+                        </Button> */}
                         </Space>
                     </Form.Item>
                 </Form>
             </div>
-            <div className='button set' style={{padding: '15px 30px 30px 0px'}}>
+            {/* <div className='button set' style={{padding: '15px 30px 30px 0px'}}>
                 <Flex justify="flex-end" align='flex-end' gap="small" wrap>
                     <Button type="primary">Save</Button>
                 </Flex>
-            </div>
+            </div> */}
             
         </div>
     );

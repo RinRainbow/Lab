@@ -178,6 +178,42 @@ export const crud = {
       }
     },
 
+  updateAll:
+  ({ entity, jsonData }) =>
+  async (dispatch) => {
+    
+    dispatch({
+      type: actionTypes.REQUEST_LOADING,
+      keyState: 'updateAll',
+      payload: null,
+    });
+
+    try {
+      console.log(request);
+      const data = await request.updateAll({ entity, jsonData });
+
+      if (data.success === true) {
+        dispatch({
+          type: actionTypes.REQUEST_SUCCESS,
+          keyState: 'updateAll',
+          payload: data.result,
+        });
+      } else {
+        dispatch({
+          type: actionTypes.REQUEST_FAILED,
+          keyState: 'updateAll',
+          payload: null,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: actionTypes.REQUEST_FAILED,
+        keyState: 'updateAll',
+        payload: null,
+      });
+    }
+  },
+
   delete:
     ({ entity, id }) =>
     async (dispatch) => {
