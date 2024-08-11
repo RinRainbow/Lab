@@ -116,7 +116,7 @@ export default function DataTable({ config, extra = [] }) {
     console.log('all_updatedItems: ', all_updatedItems);
     dispatch(crud.currentItem({ data: all_updatedItems }));
     dispatch(crud.currentAction({ actionType: 'updateAll', data: all_updatedItems }));
-    dispatch(crud.update({ entity, id: selectedRowKeys, jsonData: all_updatedItems }));
+    dispatch(crud.updateAll({ entity, id: selectedRowKeys, jsonData: all_updatedItems }));
     setSelectedRowKeys([]);
   }
   function handleDelete() {
@@ -472,14 +472,20 @@ export default function DataTable({ config, extra = [] }) {
 
   const saved = () => {
     setLoading(true);
-    const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
-    console.log('Selected Data:', selectedData);
+    // const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
+    // console.log('Selected Data:', selectedData);
+    // console.log('Selected Keys: ', selectedRowKeys);
 
     // combine selectedData and DatasetName into a single object
-    const requestData = {
-      datasetname: DatasetName,
-      selectedData: selectedData,
-    };
+    // const requestData = {
+    //   datasetname: DatasetName,
+    //   selectedData: selectedData,
+    // };
+    const requestData = [DatasetName, ...selectedRowKeys];
+    // requestData.push(DatasetName);
+    // requestData.push(selectedRowKeys);
+    // console.log('requestData: ', requestData);
+    // console.log('requestData[2]: ', requestData[2]);
 
     fetch('http://localhost:1624/api/detector', {
       method: 'POST',
@@ -502,6 +508,7 @@ export default function DataTable({ config, extra = [] }) {
       console.error('Error:', error);
       message.error('Saving Error!');
     });
+
     // ajax request after empty completing
     // setTimeout(() => {
     //   setSelectedRowKeys([]);
