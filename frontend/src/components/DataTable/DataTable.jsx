@@ -411,6 +411,15 @@ export default function DataTable({ config, extra = [] }) {
     },        
   ];
 
+  const dataset_columns = [
+    {
+      title: 'Dataset Name',
+      dataIndex: ["datasetName"],
+      key: 'datasetName',
+      ...getColumnSearchProps('datasetName'),
+    },
+  ];
+
   const dispatch = useDispatch();
 
   const handelDataTableLoad = useCallback((pagination) => {
@@ -634,6 +643,182 @@ export default function DataTable({ config, extra = [] }) {
   };
   const hasSelected = selectedRowKeys.length > 0;
 
+  const renderTable = () => {
+    if(DATATABLE_TITLE === 'Dataset') {
+      return (
+        <Table 
+          columns={dataset_columns}
+          rowKey={(item) => item._id}
+          dataSource={dataSource}
+          pagination={pagination}
+          loading={listIsLoading}
+          onChange={handelDataTableLoad}
+          bordered
+          scroll={{ x: true }}
+          rowSelection={rowSelection}
+        />
+      );
+    } else {
+      // DATATABLE_TITLE === 'Detector1 Testing Data'
+      return (
+        <Table
+          columns={columns}
+          rowKey={(item) => item._id}
+          dataSource={dataSource}
+          pagination={pagination}
+          loading={listIsLoading}
+          onChange={handelDataTableLoad}
+          bordered
+          scroll={{ x: true }}
+          rowSelection={rowSelection}
+        />
+      );
+    }
+  };
+
+  const renderButtons = () => {
+    if (DATATABLE_TITLE !== 'Dataset') {
+      return [
+        <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+          {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
+        </Button>,
+        <Button onClick={showSaveModal} disabled={!hasSelected} key={`${uniqueId()}`}>
+          {hasSelected ? `Save ${selectedRowKeys.length} items` : 'Save'}
+        </Button>,
+        <Modal title="Saving Dataset" open={isModalOpen} onOk={handleSaveOk} onCancel={handleSaveCancel}>
+          <Input 
+            name='Dataset Name'
+            onChange={saveInput}
+            allowClear
+            placeholder='enter your dataset name...'
+          />
+        </Modal>,
+        <Button onClick={showModal} disabled={!hasSelected} key={`${uniqueId()}`}>
+          {hasSelected ? `Edit ${selectedRowKeys.length} items` : 'Edit'}
+        </Button>,
+        <Modal
+          title="Edit Items"
+          open={open}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          okText="Edit"
+        >
+          <Checkbox 
+            checked={FilenameDisabled}
+            onChange={onChangeFilename}
+          >
+            Filename
+          </Checkbox>
+          <Input 
+            name='filename'
+            onChange={filenameInput}
+            disabled={!FilenameDisabled} 
+            allowClear
+          />
+
+          <Checkbox 
+            checked={LabelDisabled}
+            onChange={onChangeLabel}
+          >
+            Label
+          </Checkbox>
+          <Input
+            name='label'
+            onChange={labelInput}
+            disabled={!LabelDisabled}
+            allowClear
+          />
+
+          <Checkbox 
+            checked={FamilyDisabled}
+            onChange={onChangeFamily}
+          >
+            Family
+          </Checkbox>
+          <Input 
+            name='family'
+            onChange={familyInput}
+            allowClear
+            disabled={!FamilyDisabled}
+          />
+
+          <Checkbox 
+            checked={CPUDisabled}
+            onChange={onChangeCPU}
+          >
+            Cpuarchitecture
+          </Checkbox>
+          <Input 
+            name='cpu'
+            onChange={cpuInput}
+            allowClear
+            disabled={!CPUDisabled}
+          />
+
+          <Checkbox 
+            checked={FilesizeDisabled}
+            onChange={onChangeFilesize}
+          >
+            Filesize
+          </Checkbox>
+          <Input 
+            name='filesize'
+            onChange={filesizeInput}
+            allowClear
+            disabled={!FilesizeDisabled}
+          />
+
+          <Checkbox 
+            checked={TypeDisabled}
+            onChange={onChangeType}
+          >
+            Type
+          </Checkbox>
+          {/* <Input 
+            name='type'
+            onChange={typeInput}
+            allowClear
+            disabled={!TypeDisabled}
+          /> */}
+          <Select
+            onChange={typeInput}
+            placeholder="Select a tag"
+            style={{
+              width: 472,
+            }}
+            options={[
+              {
+                value: 'test',
+                label: 'test',
+              },
+              {
+                value: 'train',
+                label: 'train',
+              },
+              {
+                value: 'unlearn',
+                label: 'unlearn',
+              },
+              {
+                value: 'predict',
+                label: 'predict',
+              },
+            ]}
+            allowClear
+            disabled={!TypeDisabled}
+          />
+        </Modal>,
+        <AddNewItem key={`${uniqueId()}`} config={config} />,
+      ];
+    } else {
+      return [
+        <Button type="primary" href='/Detector1Test' key={`${uniqueId()}`}>
+          Create
+        </Button>,
+      ];
+    }
+  };
+
   return (
     <>
       <PageHeader
@@ -641,150 +826,153 @@ export default function DataTable({ config, extra = [] }) {
         title={DATATABLE_TITLE}
         ghost={false}
         extra={[
+          ...renderButtons(),
           <Tooltip title="Delete">
             <Button danger shape="circle" onClick={handleDelete} icon={<DeleteOutlined />} disabled={!hasSelected} style={{ marginRight: 15 }} />
           </Tooltip>,
-          <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
-            {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
-          </Button>,
-          <Button onClick={showSaveModal} disabled={!hasSelected} key={`${uniqueId()}`}>
-            {hasSelected ? `Save ${selectedRowKeys.length} items` : 'Save'}
-          </Button>,
-          <Modal title="Saving Dataset" open={isModalOpen} onOk={handleSaveOk} onCancel={handleSaveCancel}>
-            <Input 
-              name='Dataset Name'
-              onChange={saveInput}
-              allowClear
-              placeholder='enter your dataset name...'
-            />
-          </Modal>,
-          <Button onClick={showModal} disabled={!hasSelected} key={`${uniqueId()}`}>
-            {hasSelected ? `Edit ${selectedRowKeys.length} items` : 'Edit'}
-          </Button>,
-          <Modal
-            title="Edit Items"
-            open={open}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            okText="Edit"
-          >
-            <Checkbox 
-              checked={FilenameDisabled}
-              onChange={onChangeFilename}
-            >
-              Filename
-            </Checkbox>
-            <Input 
-              name='filename'
-              onChange={filenameInput}
-              disabled={!FilenameDisabled} 
-              allowClear
-            />
+          // <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+          //   {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
+          // </Button>,
+          // <Button onClick={showSaveModal} disabled={!hasSelected} key={`${uniqueId()}`}>
+          //   {hasSelected ? `Save ${selectedRowKeys.length} items` : 'Save'}
+          // </Button>,
+          // <Modal title="Saving Dataset" open={isModalOpen} onOk={handleSaveOk} onCancel={handleSaveCancel}>
+          //   <Input 
+          //     name='Dataset Name'
+          //     onChange={saveInput}
+          //     allowClear
+          //     placeholder='enter your dataset name...'
+          //   />
+          // </Modal>,
+          // <Button onClick={showModal} disabled={!hasSelected} key={`${uniqueId()}`}>
+          //   {hasSelected ? `Edit ${selectedRowKeys.length} items` : 'Edit'}
+          // </Button>,
+          // <Modal
+          //   title="Edit Items"
+          //   open={open}
+          //   onOk={handleOk}
+          //   onCancel={handleCancel}
+          //   okText="Edit"
+          // >
+          //   <Checkbox 
+          //     checked={FilenameDisabled}
+          //     onChange={onChangeFilename}
+          //   >
+          //     Filename
+          //   </Checkbox>
+          //   <Input 
+          //     name='filename'
+          //     onChange={filenameInput}
+          //     disabled={!FilenameDisabled} 
+          //     allowClear
+          //   />
 
-            <Checkbox 
-              checked={LabelDisabled}
-              onChange={onChangeLabel}
-            >
-              Label
-            </Checkbox>
-            <Input
-              name='label'
-              onChange={labelInput}
-              disabled={!LabelDisabled}
-              allowClear
-            />
+          //   <Checkbox 
+          //     checked={LabelDisabled}
+          //     onChange={onChangeLabel}
+          //   >
+          //     Label
+          //   </Checkbox>
+          //   <Input
+          //     name='label'
+          //     onChange={labelInput}
+          //     disabled={!LabelDisabled}
+          //     allowClear
+          //   />
 
-            <Checkbox 
-              checked={FamilyDisabled}
-              onChange={onChangeFamily}
-            >
-              Family
-            </Checkbox>
-            <Input 
-              name='family'
-              onChange={familyInput}
-              allowClear
-              disabled={!FamilyDisabled}
-            />
+          //   <Checkbox 
+          //     checked={FamilyDisabled}
+          //     onChange={onChangeFamily}
+          //   >
+          //     Family
+          //   </Checkbox>
+          //   <Input 
+          //     name='family'
+          //     onChange={familyInput}
+          //     allowClear
+          //     disabled={!FamilyDisabled}
+          //   />
 
-            <Checkbox 
-              checked={CPUDisabled}
-              onChange={onChangeCPU}
-            >
-              Cpuarchitecture
-            </Checkbox>
-            <Input 
-              name='cpu'
-              onChange={cpuInput}
-              allowClear
-              disabled={!CPUDisabled}
-            />
+          //   <Checkbox 
+          //     checked={CPUDisabled}
+          //     onChange={onChangeCPU}
+          //   >
+          //     Cpuarchitecture
+          //   </Checkbox>
+          //   <Input 
+          //     name='cpu'
+          //     onChange={cpuInput}
+          //     allowClear
+          //     disabled={!CPUDisabled}
+          //   />
 
-            <Checkbox 
-              checked={FilesizeDisabled}
-              onChange={onChangeFilesize}
-            >
-              Filesize
-            </Checkbox>
-            <Input 
-              name='filesize'
-              onChange={filesizeInput}
-              allowClear
-              disabled={!FilesizeDisabled}
-            />
+          //   <Checkbox 
+          //     checked={FilesizeDisabled}
+          //     onChange={onChangeFilesize}
+          //   >
+          //     Filesize
+          //   </Checkbox>
+          //   <Input 
+          //     name='filesize'
+          //     onChange={filesizeInput}
+          //     allowClear
+          //     disabled={!FilesizeDisabled}
+          //   />
 
-            <Checkbox 
-              checked={TypeDisabled}
-              onChange={onChangeType}
-            >
-              Type
-            </Checkbox>
-            {/* <Input 
-              name='type'
-              onChange={typeInput}
-              allowClear
-              disabled={!TypeDisabled}
-            /> */}
-            <Select
-              onChange={typeInput}
-              placeholder="Select a tag"
-              style={{
-                width: 472,
-              }}
-              options={[
-                {
-                  value: 'test',
-                  label: 'test',
-                },
-                {
-                  value: 'train',
-                  label: 'train',
-                },
-                {
-                  value: 'unlearn',
-                  label: 'unlearn',
-                },
-                {
-                  value: 'predict',
-                  label: 'predict',
-                },
-              ]}
-              allowClear
-              disabled={!TypeDisabled}
-            />
+          //   <Checkbox 
+          //     checked={TypeDisabled}
+          //     onChange={onChangeType}
+          //   >
+          //     Type
+          //   </Checkbox>
+          //   {/* <Input 
+          //     name='type'
+          //     onChange={typeInput}
+          //     allowClear
+          //     disabled={!TypeDisabled}
+          //   /> */}
+          //   <Select
+          //     onChange={typeInput}
+          //     placeholder="Select a tag"
+          //     style={{
+          //       width: 472,
+          //     }}
+          //     options={[
+          //       {
+          //         value: 'test',
+          //         label: 'test',
+          //       },
+          //       {
+          //         value: 'train',
+          //         label: 'train',
+          //       },
+          //       {
+          //         value: 'unlearn',
+          //         label: 'unlearn',
+          //       },
+          //       {
+          //         value: 'predict',
+          //         label: 'predict',
+          //       },
+          //     ]}
+          //     allowClear
+          //     disabled={!TypeDisabled}
+          //   />
 
-          </Modal>,
+          // </Modal>,
           <Tooltip title="Reload">
             <Button shape="circle" onClick={handelDataTableLoad} key={`${uniqueId()}`} icon={<ReloadOutlined />} />
           </Tooltip>,
-          <AddNewItem key={`${uniqueId()}`} config={config} />,
+          // <AddNewItem key={`${uniqueId()}`} config={config} />,
         ]}
         style={{
           padding: '20px 0px',
         }}
       ></PageHeader>
 
-      <Table
+      {renderTable()}
+
+      {/* <Table
         columns={columns}
         rowKey={(item) => item._id}
         dataSource={dataSource}
@@ -794,7 +982,7 @@ export default function DataTable({ config, extra = [] }) {
         bordered
         scroll={{ x: true }}
         rowSelection={rowSelection}
-      />
+      /> */}
     </>
   );
 }
