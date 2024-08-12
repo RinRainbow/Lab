@@ -1,47 +1,40 @@
-import React from 'react';
-import { Card, Button, Flex } from 'antd';
+import CrudModule from '@/modules/CrudModule/CrudModule';
+import DynamicForm from '@/forms/DynamicForm';
+import { fields } from './config';
+import { PlusOutlined } from '@ant-design/icons';
 
-const gridStyle = {
-  width: '100%',
-  heigth: '100%',
-  textAlign: 'center',
-};
+import useLanguage from '@/locale/useLanguage';
 
-export default function Dataset() {
-    return (
-      <div className="whiteBox shadow">
-        <div className='button set' style={{padding: '30px 30px 0px 0px'}}>
-          <Flex justify="flex-end" gap="small" wrap>
-            <Button type="primary" href='/detector1Test'>Create</Button>
-            <Button danger>Delete</Button>
-          </Flex>
-        </div>
-        <div className='data card' style={{padding: '15px 30px 30px 30px'}}>
-          <Card>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-          </Card>
-        </div>
-        
-      </div>
-    );
-  }  
+export default function Detector1Test() {
+  const translate = useLanguage();
+  const entity = 'dataset';
+  const searchConfig = {
+    displayLabels: ['datsetName'],
+    searchFields: 'datasetName',
+  };
+  const deleteModalLabels = ['datasetName'];
+
+  const Labels = {
+    PANEL_TITLE: translate('Dataset'),
+    DATATABLE_TITLE: translate('Dataset'),
+    ADD_NEW_ENTITY: <PlusOutlined />,
+    ENTITY_NAME: translate('Dataset'),
+  };
+  const configPage = {
+    entity,
+    ...Labels,
+  };
+  const config = {
+    ...configPage,
+    fields,
+    searchConfig,
+    deleteModalLabels,
+  };
+  return (
+    <CrudModule
+      createForm={<DynamicForm fields={fields} />}
+      updateForm={<DynamicForm fields={fields} />}
+      config={config}
+    />
+  );
+}
