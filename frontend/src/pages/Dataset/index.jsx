@@ -7,7 +7,7 @@ import useLanguage from '@/locale/useLanguage';
 
 export default function Detector1Test() {
   const translate = useLanguage();
-  const entity = 'dataset';
+  const entity = 'datasetname';
   const searchConfig = {
     displayLabels: ['datsetName'],
     searchFields: 'datasetName',
