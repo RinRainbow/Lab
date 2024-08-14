@@ -481,51 +481,14 @@ export default function DataTable({ config, extra = [] }) {
 
   const saved = () => {
     setLoading(true);
-    // const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
-    // console.log('Selected Data:', selectedData);
-    // console.log('Selected Keys: ', selectedRowKeys);
-
-    // combine selectedData and DatasetName into a single object
-    // const requestData = {
-    //   datasetname: DatasetName,
-    //   selectedData: selectedData,
-    // };
+    const entity = 'dataset';
     const requestData = [DatasetName, ...selectedRowKeys];
-    // requestData.push(DatasetName);
-    // requestData.push(selectedRowKeys);
-    // console.log('requestData: ', requestData);
-    // console.log('requestData[2]: ', requestData[2]);
+    console.log('requestData: ', requestData);
 
-    fetch('http://localhost:1624/api/detector', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestData),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Success:', data);
-      message.success('Saving Successful!');
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      message.error('Saving Error!');
-    });
+    dispatch(crud.create({ entity, jsonData: requestData }));
 
-    // ajax request after empty completing
-    // setTimeout(() => {
-    //   setSelectedRowKeys([]);
-    //   setLoading(false);
-    // }, 1000);
     setSelectedRowKeys([]);
     setLoading(false);
-    // message.success('Training Successful!');
   };
 
   const [open, setOpen] = useState(false);

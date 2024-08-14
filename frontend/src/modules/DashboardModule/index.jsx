@@ -14,7 +14,7 @@ import PreviewCard from './components/PreviewCard';
 import CustomerPreviewCard from './components/CustomerPreviewCard';
 
 import React from 'react';
-import { Button, Flex, Form, Input, Select, Space, List, Progress, Divider, Spin, Statistic, Card } from 'antd';
+import { Flex, Form, Select, List, Progress, Card } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 
