@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Flex, Form, Input, Select, Space } from 'antd';
+import { request } from '@/request';
+import errorHandler from '@/request/errorHandler';
 
 const { Option } = Select;
+
+const asyncList = (entity) => {
+    return request.list({ entity });
+};
+
 const layout = {
   labelCol: {
     span: 8,
@@ -19,6 +26,18 @@ const tailLayout = {
 
 export default function DetectorSetting() {
     const [form] = Form.useForm();
+    const [options, setOptions] = useState([]);
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const data = await asyncList('datasetname');
+                setOptions(data.result);
+            } catch (error) {
+                errorHandler(error);
+            }
+        }
+        fetchData();
+    }, []);
     const onModelChange = (value) => {
         switch (value) {
             case 'MDOEL':
@@ -102,6 +121,11 @@ export default function DetectorSetting() {
                         placeholder="Select a dataset"
                         allowClear
                         >
+                            {options.map((option) => (
+                                <Option key={option._id} value={option.datasetName}>
+                                {option.datasetName}
+                                </Option>
+                            ))}
                         </Select>
                     </Form.Item>
                     <br></br>

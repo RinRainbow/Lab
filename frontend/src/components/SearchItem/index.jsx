@@ -13,6 +13,8 @@ import { selectSearchedItems } from '@/redux/crud/selectors';
 
 function SearchItemComponent({ config, onRerender }) {
   let { entity, searchConfig } = config;
+  console.log('SearchItem entity: ', entity);
+  console.log('SearchItem searchConfig: ', searchConfig);
 
   const { displayLabels, searchFields, outputValue = '_id' } = searchConfig;
 
