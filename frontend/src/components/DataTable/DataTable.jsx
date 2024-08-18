@@ -408,7 +408,7 @@ export default function DataTable({ config, extra = [] }) {
           }}
         />
       ),
-    },        
+    },
   ];
 
   const dataset_columns = [
@@ -417,6 +417,20 @@ export default function DataTable({ config, extra = [] }) {
       dataIndex: ["datasetName"],
       key: 'datasetName',
       ...getColumnSearchProps('datasetName'),
+    },
+    {
+      title: '',
+      key: 'operation',
+      width: 80,
+      render: (_, record) => (
+        <EditOutlined
+          style={{ cursor: 'pointer', fontSize: '15px' }}
+          onClick={(e) => {
+            e.preventDefault();
+            handleEdit(record);
+          }}
+        />
+      ),
     },
   ];
 
