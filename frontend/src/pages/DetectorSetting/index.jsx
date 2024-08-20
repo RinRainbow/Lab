@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Flex, Form, Input, Select, Space } from 'antd';
+import { Button, Flex, Form, Input, Select, Space, message } from 'antd';
 import { request } from '@/request';
 import errorHandler from '@/request/errorHandler';
 
@@ -27,12 +27,15 @@ const tailLayout = {
 export default function DetectorSetting() {
     const [form] = Form.useForm();
     const [options, setOptions] = useState([]);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         async function fetchData() {
             try {
                 const data = await asyncList('datasetname');
+                console.log('useEffect data: ', data);
                 setOptions(data.result);
             } catch (error) {
+                console.log('useEffect erorr!');
                 errorHandler(error);
             }
         }
@@ -59,20 +62,32 @@ export default function DetectorSetting() {
         }
     };
     const onFinish = async (values) => {
+        setLoading(true);
         console.log(values);
         try {
-            const response = await fetch('http://localhost:1624/api/detector', 
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values),
-            });
-            const result = await response.json();
-            console.log('Success: ', result);
+            const entity = 'model';
+            const requestData = [values];
+            console.log('onFinish requestData: ', requestData);
+            dispatch(crud.create({ entity, jsonData: requestData }));
+            // const response = await fetch('http://localhost:1624/api/detector', 
+            // {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify(values),
+            // });
+            // const result = await response.json();
+            // console.log('Success: ', result);
         } catch(error) {
-            console.log('Error: ', error);
+            console.log('onFinish erorr!');
+            message.open({
+                type: 'error',
+                content: 'onFinish erorr!',
+            });
+            errorHandler(error);
+        } finally {
+            setLoading(false);
         }
     };
     const onReset = () => {
@@ -92,6 +107,7 @@ export default function DetectorSetting() {
                     form={form}
                     name="control-hooks"
                     onFinish={onFinish}
+                    // disabled={loading}
                     style={{
                       maxWidth: 600,
                     }}
@@ -507,11 +523,14 @@ export default function DetectorSetting() {
                     </Form.Item>
                     <Form.Item {...tailLayout}>
                         <Space>
-                        <Button type="primary" htmlType="submit">
+                        <Button type="primary" htmlType="submit" loading={loading}>
                             Save
                         </Button>
                         <Button htmlType="button" onClick={onReset}>
                             Reset
+                        </Button>
+                        <Button href='/Detector'>
+                            Back
                         </Button>
                         {/* <Button type="link" htmlType="button" onClick={onFill}>
                             Fill form
