@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import React, { useRef, useState } from 'react';
 import { EyeOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
-import { Checkbox, Table, Button, message, Tag, Tooltip, Input, Space, Modal, Select } from 'antd';
+import { Checkbox, Table, Button, message, Tag, Tooltip, Input, Space, Modal, Select, Dropdown } from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -434,6 +434,54 @@ export default function DataTable({ config, extra = [] }) {
     },
   ];
 
+  const detector_columns = [
+    {
+      title: 'Model Name',
+      dataIndex: ["modelName"],
+      key: 'modelName',
+      ...getColumnSearchProps('modelName'),
+    },
+    {
+      title: '',
+      key: 'action',
+      fixed: 'right',
+      render: (_, record) => (
+        <Dropdown
+          menu={{
+            items,
+            onClick: ({ key }) => {
+              switch (key) {
+                case 'read':
+                  handleRead(record);
+                  break;
+                case 'edit':
+                  handleEdit(record);
+                  break;
+
+                case 'delete':
+                  handleDelete(record);
+                  break;
+                case 'updatePassword':
+                  handleUpdatePassword(record);
+                  break;
+
+                default:
+                  break;
+              }
+              // else if (key === '2')handleCloseTask
+            },
+          }}
+          trigger={['click']}
+        >
+          <EllipsisOutlined
+            style={{ cursor: 'pointer', fontSize: '24px' }}
+            onClick={(e) => e.preventDefault()}
+          />
+        </Dropdown>
+      ),
+    },
+  ];
+
   const dispatch = useDispatch();
 
   const handelDataTableLoad = useCallback((pagination) => {
@@ -635,6 +683,21 @@ export default function DataTable({ config, extra = [] }) {
           rowSelection={rowSelection}
         />
       );
+    } else if(DATATABLE_TITLE === 'Detector') {
+      return (
+        <Table
+          columns={detector_columns}
+          rowKey={(item) => item._id}
+          dataSource={dataSource}
+          pagination={pagination}
+          loading={listIsLoading}
+          onChange={handelDataTableLoad}
+          bordered
+          scroll={{ x: true }}
+          rowSelection={rowSelection}
+        />
+      );
+      
     } else {
       // DATATABLE_TITLE === 'Detector1 Testing Data'
       return (
@@ -654,7 +717,7 @@ export default function DataTable({ config, extra = [] }) {
   };
 
   const renderButtons = () => {
-    if (DATATABLE_TITLE !== 'Dataset') {
+    if (DATATABLE_TITLE === 'Detector1 Testing Data') {
       return [
         <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
           {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
@@ -787,10 +850,19 @@ export default function DataTable({ config, extra = [] }) {
         </Modal>,
         <AddNewItem key={`${uniqueId()}`} config={config} />,
       ];
-    } else {
+    } else if (DATATABLE_TITLE === 'Dataset') {
       return [
         <Button type="primary" href='/Detector1Test' key={`${uniqueId()}`}>
           Create
+        </Button>,
+      ];
+    } else if (DATATABLE_TITLE === 'Detector') {
+      return [
+        <Button type="primary" href='/detectorSetting' key={`${uniqueId()}`}>
+          Create
+        </Button>,
+        <Button onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+          {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
         </Button>,
       ];
     }

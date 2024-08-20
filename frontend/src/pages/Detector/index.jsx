@@ -1,48 +1,45 @@
-import React from 'react';
-import { Card, Button, Flex } from 'antd';
+import CrudModule from '@/modules/CrudModule/CrudModule';
+import DynamicForm from '@/forms/DynamicForm';
+import { fields } from './config';
+import { PlusOutlined } from '@ant-design/icons';
 
-const gridStyle = {
-  width: '100%',
-  heigth: '100%',
-  textAlign: 'center',
-};
+import useLanguage from '@/locale/useLanguage';
 
 export default function Detector() {
-    return (
-      <div className="whiteBox shadow">
-        <div className='button set' style={{padding: '30px 30px 0px 0px'}}>
-          <Flex justify="flex-end" gap="small" wrap>
-            <Button type="primary">Train</Button>
-            <Button href='/detectorSetting'>Create</Button>
-            <Button danger>Delete</Button>
-          </Flex>
-        </div>
-        <div className='data card' style={{padding: '15px 30px 30px 30px'}}>
-          <Card>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-            <Card.Grid style={gridStyle}>
-              Content
-            </Card.Grid>
-          </Card>
-        </div>
-        
-      </div>
-    );
-  }  
+  const translate = useLanguage();
+  const entity = 'model';
+  const searchConfig = {
+    displayLabels: ['modelName'],
+    searchFields: 'modelName',
+  };
+  const deleteModalLabels = ['modelName'];
+
+  const Labels = {
+    PANEL_TITLE: translate('Detector'),
+    DATATABLE_TITLE: translate('Detector'),
+    ADD_NEW_ENTITY: <PlusOutlined />,
+    ENTITY_NAME: translate('Detector'),
+  };
+  const configPage = {
+    entity,
+    ...Labels,
+  };
+  const config = {
+    ...configPage,
+    fields,
+    searchConfig,
+    deleteModalLabels,
+  };
+  return (
+    <CrudModule
+      createForm={<DynamicForm fields={fields} />}
+      updateForm={<DynamicForm fields={fields} />}
+      config={config}
+    />
+  );
+}
+
+
+{/* <Button type="primary">Train</Button>
+<Button href='/detectorSetting'>Create</Button>
+<Button danger>Delete</Button> */}
