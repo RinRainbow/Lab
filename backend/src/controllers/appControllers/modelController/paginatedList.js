@@ -2,7 +2,7 @@ const paginatedList = async (Model, req, res) => {
   /////////////////////////////
   const fieldsArray = req.query.fields
     ? req.query.fields.split(',')
-    : ['label'];
+    : ['modelName'];
 
   const fields = { $and: [{ removed: false }, { $or: [] }] };
   
@@ -20,7 +20,6 @@ const paginatedList = async (Model, req, res) => {
   //    .skip(0)
   //    .limit(limit)
       .sort({ created: 'desc' })
-      .populate('filename', 'label')
       .exec();
     const [result] = await Promise.all([resultsPromise]);
   

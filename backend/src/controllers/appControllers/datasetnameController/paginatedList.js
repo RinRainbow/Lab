@@ -1,6 +1,5 @@
 const paginatedList = async (Model, req, res) => {
   try {
-    console.log("pagelist dataset");
     const fieldsArray = req.query.fields
       ? req.query.fields.split(',')
       : ['datasetName'];
@@ -14,21 +13,16 @@ const paginatedList = async (Model, req, res) => {
     };
     
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.items) || 10;
+    const limit = 1;
     const skip = (page - 1) * limit;
-
     // Query the database
     const [result, totalCount] = await Promise.all([
       Model.find(query)
         .sort({ created: sort })
-        .skip(skip)
-        .limit(limit)
         .exec(),
       Model.countDocuments(query)
     ]);
-
     const pages = Math.ceil(totalCount / limit);
-
     // Getting Pagination Object
     const pagination = { page, pages, totalCount };
     if (totalCount > 0) {
