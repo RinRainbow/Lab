@@ -7,7 +7,7 @@ import useLanguage from '@/locale/useLanguage';
 
 export default function Detector() {
   const translate = useLanguage();
-  const entity = 'model';
+  const entity = 'modelsetting';
   const searchConfig = {
     displayLabels: ['modelName'],
     searchFields: 'modelName',
@@ -38,8 +38,3 @@ export default function Detector() {
     />
   );
 }
-
-
-{/* <Button type="primary">Train</Button>
-<Button href='/detectorSetting'>Create</Button>
-<Button danger>Delete</Button> */}

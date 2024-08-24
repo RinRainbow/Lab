@@ -3,6 +3,10 @@ export const fields = {
         type: 'string',
         required: true,
     },
+    datasetId: {
+        type: 'string',
+        required: true,
+    },
     detector: {
         type: 'string',
         required: true,
