@@ -445,6 +445,7 @@ export default function DataTable({ config, extra = [] }) {
       title: '',
       key: 'action',
       fixed: 'right',
+      width: 80,
       render: (_, record) => (
         <Dropdown
           menu={{

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Flex, Form, Input, Select, Space, message } from 'antd';
+import { Button, Flex, Form, Input, Select, Space, message, InputNumber } from 'antd';
 import { request } from '@/request';
 import errorHandler from '@/request/errorHandler';
+import { crud } from '@/redux/crud/actions';
+import { useDispatch } from 'react-redux';
 
 const { Option } = Select;
 
@@ -25,6 +27,7 @@ const tailLayout = {
 };
 
 export default function DetectorSetting() {
+    const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [options, setOptions] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -65,8 +68,8 @@ export default function DetectorSetting() {
         setLoading(true);
         console.log(values);
         try {
-            const entity = 'model';
-            const requestData = [values];
+            const entity = 'modelsetting';
+            const requestData = values;
             console.log('onFinish requestData: ', requestData);
             dispatch(crud.create({ entity, jsonData: requestData }));
             // const response = await fetch('http://localhost:1624/api/detector', 
@@ -80,10 +83,10 @@ export default function DetectorSetting() {
             // const result = await response.json();
             // console.log('Success: ', result);
         } catch(error) {
-            console.log('onFinish erorr!');
+            console.log('onFinish error!');
             message.open({
-                type: 'error',
-                content: 'onFinish erorr!',
+            type: 'error',
+            content: 'onFinish error!',
             });
             errorHandler(error);
         } finally {
@@ -113,7 +116,7 @@ export default function DetectorSetting() {
                     }}
                 >
                     <Form.Item
-                        name="modelname"
+                        name="modelName"
                         label="Modelname"
                         rules={[
                         {
@@ -125,7 +128,7 @@ export default function DetectorSetting() {
                     </Form.Item>
                     <br></br>
                     <Form.Item
-                        name="dataset"
+                        name="datasetId"
                         label="Dataset"
                         rules={[
                         {
@@ -138,7 +141,7 @@ export default function DetectorSetting() {
                         allowClear
                         >
                             {options.map((option) => (
-                                <Option key={option._id} value={option.datasetName}>
+                                <Option key={option._id} value={option._id}>
                                 {option.datasetName}
                                 </Option>
                             ))}
@@ -146,7 +149,7 @@ export default function DetectorSetting() {
                     </Form.Item>
                     <br></br>
                     <Form.Item
-                        name="model"
+                        name="detector"
                         label="Model"
                         rules={[
                         {
@@ -170,7 +173,7 @@ export default function DetectorSetting() {
                         shouldUpdate={(prevValues, currentValues) => prevValues.model !== currentValues.model}
                     >
                         {({ getFieldValue }) =>
-                        getFieldValue('model') === 'MalwareExpert' ? ([
+                        getFieldValue('detector') === 'MalwareExpert' ? ([
                             <Form.Item
                             name="epoch"
                             label="Epoch"
@@ -180,7 +183,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input />
+                            {/* <Input /> */}
+                            <InputNumber />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -192,7 +196,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input />
+                            {/* <Input /> */}
+                            <InputNumber />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -204,7 +209,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input />
+                            {/* <Input /> */}
+                            <InputNumber />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -216,7 +222,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder='100'/>
+                            {/* <Input placeholder='100'/> */}
+                            <InputNumber placeholder={100} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -228,7 +235,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input />
+                            {/* <Input /> */}
+                            <InputNumber />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -240,7 +248,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input />
+                            {/* <Input /> */}
+                            <InputNumber />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -252,7 +261,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="0.5"/>
+                            {/* <Input placeholder="0.5"/> */}
+                            <InputNumber placeholder={0.5} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -275,7 +285,7 @@ export default function DetectorSetting() {
                             </Form.Item>,
                             <br></br>,
                         ]) : 
-                        getFieldValue('model') === 'IMCFN' ? ([
+                        getFieldValue('detector') === 'IMCFN' ? ([
                             <Form.Item
                             name="batch_size"
                             label="Batch Size"
@@ -285,7 +295,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="4"/>
+                            {/* <Input placeholder="4"/> */}
+                            <InputNumber placeholder={4} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -321,7 +332,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="0.0"/>
+                            {/* <Input placeholder="0.0"/> */}
+                            <InputNumber placeholder={0.0} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -333,7 +345,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="0.0"/>
+                            {/* <Input placeholder="0.0"/> */}
+                            <InputNumber placeholder={0.0} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -381,7 +394,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="0"/>
+                            {/* <Input placeholder="0"/> */}
+                            <InputNumber placeholder={0} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -393,7 +407,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="0.8"/>
+                            {/* <Input placeholder="0.8"/> */}
+                            <InputNumber placeholder={0.8} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -405,7 +420,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="15"/>
+                            {/* <Input placeholder="15"/> */}
+                            <InputNumber placeholder={15} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -417,7 +433,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="8"/>
+                            {/* <Input placeholder="8"/> */}
+                            <InputNumber placeholder={8} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -429,13 +446,14 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="8"/>
+                            {/* <Input placeholder="8"/> */}
+                            <InputNumber placeholder={8} />
                             </Form.Item>,
                             <br></br>,
                         ]) : 
-                        getFieldValue('model') === 'MDOEL' ? ([
+                        getFieldValue('detector') === 'MDOEL' ? ([
                             <Form.Item
-                            name="batch_size"
+                            name="batchSize"
                             label="Batch Size"
                             rules={[
                                 {
@@ -443,11 +461,12 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="4"/>
+                            {/* <Input placeholder="4"/> */}
+                            <InputNumber placeholder={4} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
-                            name="train_ratio"
+                            name="trainRatio"
                             label="Train Ratio"
                             rules={[
                                 {
@@ -455,11 +474,12 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="0.8"/>
+                            {/* <Input placeholder="0.8"/> */}
+                            <InputNumber placeholder={0.8} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
-                            name="validation_ratio"
+                            name="validationRatio"
                             label="Validation Ratio"
                             rules={[
                                 {
@@ -467,11 +487,12 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="0.2"/>
+                            {/* <Input placeholder="0.2"/> */}
+                            <InputNumber placeholder={0.2} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
-                            name="learning_rate"
+                            name="learningRate"
                             label="Learning Rate"
                             rules={[
                                 {
@@ -479,7 +500,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="0.0005"/>
+                            {/* <Input placeholder="0.0005"/> */}
+                            <InputNumber placeholder={0.0005} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -491,7 +513,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="3"/>
+                            {/* <Input placeholder="3"/> */}
+                            <InputNumber placeholder={3} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -503,7 +526,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="8"/>
+                            {/* <Input placeholder="8"/> */}
+                            <InputNumber placeholder={8} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -515,7 +539,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="8"/>
+                            {/* <Input placeholder="8"/> */}
+                            <InputNumber placeholder={8} />
                             </Form.Item>,
                             <br></br>,
                         ]) : null
