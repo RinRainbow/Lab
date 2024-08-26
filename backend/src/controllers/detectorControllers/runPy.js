@@ -1,10 +1,10 @@
 const fs = require('fs');
 const { spawn } = require('child_process');
-//const pyFileName = '/home/senior/pysrc/pycode/isLab/IMCFN/Code/main.py';
-///const pyFileName = '/home/senior/pysrc/pycode/Malware-detection-for-IoT-with-opcodes/Code/main.py'; 
-const pyFileName = '/home/senior/pysrc/pycode/MalwareExpertForBackend/src/main.py'; 
-const configPath = '/home/senior/pysrc/dataToPython.json'
-const datasetfolder = "/home/senior/pysrc/data/dataset202312/data";
+//const pyFileName = '/mnt/pysrc/pycode/isLab/IMCFN/Code/main.py';
+///const pyFileName = '/mnt/pysrc/pycode/Malware-detection-for-IoT-with-opcodes/Code/main.py'; 
+const pyFileName = '/mnt/pysrc/pycode/MalwareExpertForBackend/src/main.py'; 
+const configPath = '/mnt/pysrc/dataToPython.json'
+const datasetfolder = "/mnt/pysrc/data/dataset202312/data";
 
 const runPy = async (Model, req, res) => {
     const sort = parseInt(req.query.sort) || 'desc';
@@ -15,22 +15,22 @@ const runPy = async (Model, req, res) => {
     //config.json
     config = {
         "path": {
-            "word2id": "/home/senior/pysrc/othersData/MalwareExpertForBackend/SAFE_model/word2id.json",
-            "SAFEtorch": "/home/senior/pysrc/othersData/MalwareExpertForBackend/SAFE_model/SAFEtorch.pt",
-            "asm2vec_model": "/home/senior/pysrc/othersData/MalwareExpertForBackend/asm2vec.pt",
-            "record": "/home/senior/pysrc/othersData/MalwareExpertForBackend/record.json",
-            "result": "/home/senior/pysrc/othersData/MalwareExpertForBackend/predict_result.json",
-            "score": "/home/senior/pysrc/othersData/MalwareExpertForBackend/score.json"
+            "word2id": "/mnt/pysrc/othersData/MalwareExpertForBackend/SAFE_model/word2id.json",
+            "SAFEtorch": "/mnt/pysrc/othersData/MalwareExpertForBackend/SAFE_model/SAFEtorch.pt",
+            "asm2vec_model": "/mnt/pysrc/othersData/MalwareExpertForBackend/asm2vec.pt",
+            "record": "/mnt/pysrc/othersData/MalwareExpertForBackend/record.json",
+            "result": "/mnt/pysrc/othersData/MalwareExpertForBackend/predict_result.json",
+            "score": "/mnt/pysrc/othersData/MalwareExpertForBackend/score.json"
         },
         "folder": {
-            "dataset": "/home/senior/pysrc/data/dataset202312/data",
-            "vectorize": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Vec/",
-            "feature": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Feature/",
-            "model": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Model/",
-            "predict": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Predict",
-            "embedding": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Embedding/",
-            "unlearn": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Unlearn",
-            "explain": "/home/senior/pysrc/othersData/MalwareExpertForBackend/Explain/"
+            "dataset": "/mnt/pysrc/data/dataset202312/data",
+            "vectorize": "/mnt/pysrc/othersData/MalwareExpertForBackend/Vec/",
+            "feature": "/mnt/pysrc/othersData/MalwareExpertForBackend/Feature/",
+            "model": "/mnt/pysrc/othersData/MalwareExpertForBackend/Model/",
+            "predict": "/mnt/pysrc/othersData/MalwareExpertForBackend/Predict",
+            "embedding": "/mnt/pysrc/othersData/MalwareExpertForBackend/Embedding/",
+            "unlearn": "/mnt/pysrc/othersData/MalwareExpertForBackend/Unlearn",
+            "explain": "/mnt/pysrc/othersData/MalwareExpertForBackend/Explain/"
         },
         "model": {
             "epoch": 10,

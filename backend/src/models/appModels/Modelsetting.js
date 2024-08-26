@@ -11,8 +11,8 @@ const schema = new mongoose.Schema({
     required: true,
   },
   datasetId: {
-    type: String,
-    trim: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Datasetname',
     required: true,
   },
   detector: {
@@ -74,4 +74,4 @@ const schema = new mongoose.Schema({
 });
 
 schema.plugin(require('mongoose-autopopulate'));
-module.exports = mongoose.model('Model', schema);
+module.exports = mongoose.model('Modelsetting', schema);

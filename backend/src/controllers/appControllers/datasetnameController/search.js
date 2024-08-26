@@ -23,8 +23,9 @@ const search = async (Model, req, res) => {
   // console.log(fields)
 
   let results = await Model.find(fields).limit(10).exec();
-
-  const migratedData = results.map((x) => migrate(x));
+  results = results || [];
+  // 若 results 是陣列才執行 map，否則使用空陣列
+  const migratedData = Array.isArray(results) ? results.map((x) => migrate(x)) : [];
 
   if (results.length >= 1) {
     return res.status(200).json({

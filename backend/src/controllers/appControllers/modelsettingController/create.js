@@ -4,7 +4,7 @@ const { generateUniqueNumber } = require('@/middlewares/inventory');
 
 const create = async (Model, req, res) => {
   let body = req.body;
-  console.log(body);
+
   body['createdBy'] = req.admin._id;
 
   const settings = await loadSettings();

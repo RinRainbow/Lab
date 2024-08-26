@@ -4,7 +4,7 @@ const paginatedList = async (Model, req, res) => {
     ? req.query.fields.split(',')
     : ['modelName'];
 
-  const fields = { $and: [{ removed: false }, { $or: [] }] };
+  const fields = { $and: [{  }, { $or: [] }] };
   
   let findedCount = 0;
   for (const field of fieldsArray) {
