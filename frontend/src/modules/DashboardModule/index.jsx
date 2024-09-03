@@ -1,5 +1,6 @@
 import { Tag, Row, Col } from 'antd';
 import useLanguage from '@/locale/useLanguage';
+import errorHandler from '@/request/errorHandler';
 
 import { useMoney } from '@/settings';
 
@@ -13,12 +14,15 @@ import SummaryCard from './components/SummaryCard';
 import PreviewCard from './components/PreviewCard';
 import CustomerPreviewCard from './components/CustomerPreviewCard';
 
-import React from 'react';
-import { Flex, Form, Select, List, Progress, Card } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Flex, Form, Select, List, Progress, Card, Typography } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
+const asyncList = (entity) => {
+  return request.list({ entity });
+};
 const layout = {
   labelCol: {
     // span: 8,
@@ -27,20 +31,107 @@ const layout = {
     span: 5,
   },
 };
-const data = [
-  'Racing car sprays burning fuel into crowd.',
-  'Japanese princess to wed commoner.',
-  'Australian walks 100km after outback crash.',
-  'Man charged over missing wedding girl.',
-  'Los Angeles battles huge wildfires.',
-];
-const conicColors = {
-  '0%': '#ffccc7',
-  '50%': '#ffe58f',
-  '100%': '#87d068',
+const { Text } = Typography;
+
+const ObjectDisplay = ({ obj }) => {
+  const renderValue = (value) => {
+    if (typeof value === 'object' && value !== null) {
+      return <ObjectDisplay obj={value} />;
+    }
+    return <Text>{String(value)}</Text>;
+  };
+
+  return (
+    <List
+      dataSource={Object.entries(obj)}
+      renderItem={([key, value]) => (
+        <List.Item>
+          <Text strong>{key}:</Text> {renderValue(value)}
+        </List.Item>
+      )}
+    />
+  );
+};
+const ModelDisplay = ({ getFieldValue, options }) => {
+  const selectedModel = options.find(item => item.modelName === getFieldValue('modelname'));
+  console.log('selectedModel: ', selectedModel);
+
+  if (!selectedModel) return null;
+
+  // const { settingData, predictScore } = selectedModel;
+
+  const conicColors = {
+    '0%': '#ffccc7',
+    '50%': '#ffe58f',
+    '100%': '#87d068',
+  };
+
+  return (
+    <>
+      <br />
+      <Flex justify='space-evenly' align='center'>
+        <Card>
+        {/* <Card title="Model Details" style={{ width: '100%', maxWidth: 600 }}> */}
+          {/* <List
+            header={<div>Header</div>}
+            footer={<div>Footer</div>}
+            dataSource={selectedModel}
+            renderItem={(item) => (
+              <List.Item>
+                {item}
+              </List.Item>
+            )}
+          /> */}
+          <ObjectDisplay obj={selectedModel} />
+        </Card>
+        <Card style={{ height: 300, width: 300 }}>
+          <div
+            className="pad20"
+            style={{
+              textAlign: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <h3 style={{ color: '#22075e', marginBottom: 40, marginTop: 15, fontSize: 'large' }}>
+              Predict Score
+            </h3>
+
+            <div
+              style={{
+                display: 'grid',
+                justifyContent: 'center',
+              }}
+            >
+              <Progress 
+                type="dashboard" 
+                percent={93} 
+                strokeColor={conicColors} 
+                format={(percent) => `${percent}`} 
+                size={148} 
+              />
+            </div>
+          </div>
+        </Card>
+      </Flex>
+    </>
+  );
 };
 
 export default function DashboardModule() {
+  const [options, setOptions] = useState([]);
+  useEffect(() => {
+      async function fetchData() {
+          try {
+              const data = await asyncList('modelsetting');
+              console.log('useEffect data: ', data);
+              setOptions(data.result);
+          } catch (error) {
+              console.log('useEffect erorr!');
+              errorHandler(error);
+          }
+      }
+      fetchData();
+  }, []);
   const translate = useLanguage();
   const [form] = Form.useForm();
   // const onModelChange = (value) => {
@@ -256,11 +347,13 @@ export default function DashboardModule() {
                       <Select
                       placeholder="Select a model name"
                       // onChange={onModelChange}
-                      allowClear
+                      // allowClear
                       >
-                      <Option value="aaa">aaa</Option>
-                      <Option value="bbb">bbb</Option>
-                      <Option value="ccc">ccc</Option>
+                      {Array.isArray(options) && options.length > 0 && options.map((option) => (
+                          <Option key={option._id} value={option.modelName}>
+                          {option.modelName}
+                          </Option>
+                      ))}
                       </Select>
                   </Form.Item>
                   <Form.Item
@@ -268,47 +361,49 @@ export default function DashboardModule() {
                       shouldUpdate={(prevValues, currentValues) => prevValues.modelname !== currentValues.modelname}
                   >
                       {({ getFieldValue }) =>
-                      getFieldValue('modelname') === 'ccc' ? ([
-                          <br></br>,
-                          <Flex justify='space-evenly' align='center'>
-                              <Card>
-                                <List
-                                header={<div>Header</div>}
-                                footer={<div>Footer</div>}
-                                // bordered
-                                dataSource={data}
-                                renderItem={(item) => (
-                                  <List.Item>
-                                    {item}
-                                  </List.Item>
-                                )}
-                                />
-                              </Card>
-                              <Card style={{ height: 300, width: 300 }}>
-                                <div
-                                  className="pad20"
-                                  style={{
-                                    textAlign: 'center',
-                                    justifyContent: 'center',
-                                  }}
-                                >
-                                  <h3 style={{ color: '#22075e', marginBottom: 40, marginTop: 15, fontSize: 'large' }}>
-                                    Predict Score
-                                  </h3>
+                      // getFieldValue('modelname') === 'MDOELtest2' ? ([
+                      //     <br></br>,
+                      //     <Flex justify='space-evenly' align='center'>
+                      //         <Card>
+                      //           <List
+                      //           header={<div>Header</div>}
+                      //           footer={<div>Footer</div>}
+                      //           // bordered
+                      //           dataSource={settingData}
+                      //           renderItem={(item) => (
+                      //             <List.Item>
+                      //               {item}
+                      //             </List.Item>
+                      //           )}
+                      //           />
+                      //         </Card>
+                      //         <Card style={{ height: 300, width: 300 }}>
+                      //           <div
+                      //             className="pad20"
+                      //             style={{
+                      //               textAlign: 'center',
+                      //               justifyContent: 'center',
+                      //             }}
+                      //           >
+                      //             <h3 style={{ color: '#22075e', marginBottom: 40, marginTop: 15, fontSize: 'large' }}>
+                      //               Predict Score
+                      //             </h3>
 
-                                  <div
-                                    style={{
-                                      display: 'grid',
-                                      justifyContent: 'center',
-                                    }}
-                                  >
-                                    <Progress type="dashboard" percent={93} strokeColor={conicColors} format={(percent) => `${percent}`} size={148} />
-                                  </div>
-                                </div>
-                              </Card>
-                          </Flex>,
-                      ]) : null
+                      //             <div
+                      //               style={{
+                      //                 display: 'grid',
+                      //                 justifyContent: 'center',
+                      //               }}
+                      //             >
+                      //               <Progress type="dashboard" percent={93} strokeColor={conicColors} format={(percent) => `${percent}`} size={148} />
+                      //             </div>
+                      //           </div>
+                      //         </Card>
+                      //     </Flex>,
+                      // ]) : null
+                      <ModelDisplay getFieldValue={form.getFieldValue} options={options} />
                       }
+                      {/* <ModelDisplay getFieldValue={form.getFieldValue} options={options} /> */}
                   </Form.Item>
               </Form>
           </div>

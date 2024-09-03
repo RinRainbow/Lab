@@ -418,20 +418,20 @@ export default function DataTable({ config, extra = [] }) {
       key: 'datasetName',
       ...getColumnSearchProps('datasetName'),
     },
-    {
-      title: '',
-      key: 'operation',
-      width: 80,
-      render: (_, record) => (
-        <EditOutlined
-          style={{ cursor: 'pointer', fontSize: '15px' }}
-          onClick={(e) => {
-            e.preventDefault();
-            handleEdit(record);
-          }}
-        />
-      ),
-    },
+    // {
+    //   title: '',
+    //   key: 'operation',
+    //   width: 80,
+    //   render: (_, record) => (
+    //     <EditOutlined
+    //       style={{ cursor: 'pointer', fontSize: '15px' }}
+    //       onClick={(e) => {
+    //         e.preventDefault();
+    //         handleEdit(record);
+    //       }}
+    //     />
+    //   ),
+    // },
   ];
 
   const detector_columns = [

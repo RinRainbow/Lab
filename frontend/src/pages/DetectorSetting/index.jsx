@@ -140,7 +140,7 @@ export default function DetectorSetting() {
                         placeholder="Select a dataset"
                         allowClear
                         >
-                            {options.map((option) => (
+                            {Array.isArray(options) && options.length > 0 && options.map((option) => (
                                 <Option key={option._id} value={option._id}>
                                 {option.datasetName}
                                 </Option>
