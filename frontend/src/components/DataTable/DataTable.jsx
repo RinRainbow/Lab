@@ -418,6 +418,46 @@ export default function DataTable({ config, extra = [] }) {
       key: 'datasetName',
       ...getColumnSearchProps('datasetName'),
     },
+    {
+      title: '',
+      key: 'action',
+      fixed: 'right',
+      width: 80,
+      render: (_, record) => (
+        <Dropdown
+          menu={{
+            items,
+            onClick: ({ key }) => {
+              switch (key) {
+                case 'read':
+                  handleRead(record);
+                  break;
+                case 'edit':
+                  handleEdit(record);
+                  break;
+
+                case 'delete':
+                  handleDelete(record);
+                  break;
+                case 'updatePassword':
+                  handleUpdatePassword(record);
+                  break;
+
+                default:
+                  break;
+              }
+              // else if (key === '2')handleCloseTask
+            },
+          }}
+          trigger={['click']}
+        >
+          <EllipsisOutlined
+            style={{ cursor: 'pointer', fontSize: '24px' }}
+            onClick={(e) => e.preventDefault()}
+          />
+        </Dropdown>
+      ),
+    },
     // {
     //   title: '',
     //   key: 'operation',
@@ -595,7 +635,8 @@ export default function DataTable({ config, extra = [] }) {
     setLoading(true);
     const entity = 'dataset';
     // const requestData = [DatasetName, ...selectedRowKeys];
-    const requestData = dataSource.filter(item => selectedRowKeys.includes(item._id));
+    const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
+    const requestData = [DatasetName, ...selectedData];
     console.log('requestData: ', requestData);
 
     dispatch(crud.create({ entity, jsonData: requestData }));
