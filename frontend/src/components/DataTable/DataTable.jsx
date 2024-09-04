@@ -700,6 +700,21 @@ export default function DataTable({ config, extra = [] }) {
         />
       );
       
+    } else if(DATATABLE_TITLE === 'Unlearn') {
+      return (
+        <Table
+          columns={dataset_columns}
+          rowKey={(item) => item._id}
+          dataSource={dataSource}
+          pagination={pagination}
+          loading={listIsLoading}
+          onChange={handelDataTableLoad}
+          bordered
+          scroll={{ x: true }}
+          rowSelection={rowSelection}
+        />
+      );
+      
     } else {
       // DATATABLE_TITLE === 'Detector1 Testing Data'
       return (
@@ -865,6 +880,12 @@ export default function DataTable({ config, extra = [] }) {
         </Button>,
         <Button onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
           {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
+        </Button>,
+      ];
+    } else if (DATATABLE_TITLE === 'Unlearn') {
+      return [
+        <Button onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+          {hasSelected ? `Unlearn ${selectedRowKeys.length} items` : 'Unlearn'}
         </Button>,
       ];
     }
