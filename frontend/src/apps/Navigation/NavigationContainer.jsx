@@ -45,11 +45,11 @@ function Sidebar({ collapsible, isMobile = false }) {
       icon: <DashboardOutlined />,
       label: <Link to={'/'}>{translate('dashboard')}</Link>,
     },
-    {
-      key: 'detector1Test',
-      label: <Link to={'/detector1Test'}>{translate('detector1Test')}</Link>,
-      icon: <FieldBinaryOutlined />,
-    },
+    // {
+    //   key: 'detector1Test',
+    //   label: <Link to={'/detector1Test'}>{translate('detector1Test')}</Link>,
+    //   icon: <FieldBinaryOutlined />,
+    // },
     {
       key: 'dataset',
       icon: <ApartmentOutlined />,
