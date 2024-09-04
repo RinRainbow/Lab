@@ -545,7 +545,8 @@ export default function DataTable({ config, extra = [] }) {
   const saved = () => {
     setLoading(true);
     const entity = 'dataset';
-    const requestData = [DatasetName, ...selectedRowKeys];
+    // const requestData = [DatasetName, ...selectedRowKeys];
+    const requestData = dataSource.filter(item => selectedRowKeys.includes(item._id));
     console.log('requestData: ', requestData);
 
     dispatch(crud.create({ entity, jsonData: requestData }));
