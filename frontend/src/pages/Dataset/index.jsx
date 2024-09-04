@@ -5,7 +5,7 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import useLanguage from '@/locale/useLanguage';
 
-export default function Detector1Test() {
+export default function Dataset() {
   const translate = useLanguage();
   const entity = 'datasetname';
   const searchConfig = {
