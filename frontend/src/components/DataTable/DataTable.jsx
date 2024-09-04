@@ -483,6 +483,55 @@ export default function DataTable({ config, extra = [] }) {
     },
   ];
 
+  const unlearn_columns = [
+    {
+      title: 'Dataset Name',
+      dataIndex: ["datasetName"],
+      key: 'datasetName',
+      ...getColumnSearchProps('datasetName'),
+    },
+    {
+      title: '',
+      key: 'action',
+      fixed: 'right',
+      width: 80,
+      render: (_, record) => (
+        <Dropdown
+          menu={{
+            items,
+            onClick: ({ key }) => {
+              switch (key) {
+                case 'read':
+                  handleRead(record);
+                  break;
+                case 'edit':
+                  handleEdit(record);
+                  break;
+
+                case 'delete':
+                  handleDelete(record);
+                  break;
+                case 'updatePassword':
+                  handleUpdatePassword(record);
+                  break;
+
+                default:
+                  break;
+              }
+              // else if (key === '2')handleCloseTask
+            },
+          }}
+          trigger={['click']}
+        >
+          <EllipsisOutlined
+            style={{ cursor: 'pointer', fontSize: '24px' }}
+            onClick={(e) => e.preventDefault()}
+          />
+        </Dropdown>
+      ),
+    },
+  ];
+
   const dispatch = useDispatch();
 
   const handelDataTableLoad = useCallback((pagination) => {
@@ -703,7 +752,7 @@ export default function DataTable({ config, extra = [] }) {
     } else if(DATATABLE_TITLE === 'Unlearn') {
       return (
         <Table
-          columns={dataset_columns}
+          columns={unlearn_columns}
           rowKey={(item) => item._id}
           dataSource={dataSource}
           pagination={pagination}
@@ -715,8 +764,7 @@ export default function DataTable({ config, extra = [] }) {
         />
       );
       
-    } else {
-      // DATATABLE_TITLE === 'Detector1 Testing Data'
+    } else if(DATATABLE_TITLE === 'Select Your Dataset') {
       return (
         <Table
           columns={columns}
@@ -734,12 +782,12 @@ export default function DataTable({ config, extra = [] }) {
   };
 
   const renderButtons = () => {
-    if (DATATABLE_TITLE === 'Detector1 Testing Data') {
+    if (DATATABLE_TITLE === 'Select Your Dataset') {
       return [
-        <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
-          {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
-        </Button>,
-        <Button onClick={showSaveModal} disabled={!hasSelected} key={`${uniqueId()}`}>
+        // <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+        //   {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
+        // </Button>,
+        <Button type='primary' onClick={showSaveModal} disabled={!hasSelected} key={`${uniqueId()}`}>
           {hasSelected ? `Save ${selectedRowKeys.length} items` : 'Save'}
         </Button>,
         <Modal title="Saving Dataset" open={isModalOpen} onOk={handleSaveOk} onCancel={handleSaveCancel}>
@@ -884,7 +932,7 @@ export default function DataTable({ config, extra = [] }) {
       ];
     } else if (DATATABLE_TITLE === 'Unlearn') {
       return [
-        <Button onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+        <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
           {hasSelected ? `Unlearn ${selectedRowKeys.length} items` : 'Unlearn'}
         </Button>,
       ];

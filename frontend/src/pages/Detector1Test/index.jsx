@@ -15,8 +15,8 @@ export default function Detector1Test() {
   const deleteModalLabels = ['filename'];
 
   const Labels = {
-    PANEL_TITLE: translate('Detector1 Testing Data'),
-    DATATABLE_TITLE: translate('Detector1 Testing Data'),
+    PANEL_TITLE: translate('Select Your Dataset'),
+    DATATABLE_TITLE: translate('Select Your Dataset'),
     ADD_NEW_ENTITY: <PlusOutlined />,
     ENTITY_NAME: translate('Detector1_test'),
   };
