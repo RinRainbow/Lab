@@ -8,10 +8,12 @@ const detector = require('@/controllers/detectorControllers');
 
 router
     .route(`/dasw`)
-    .get(catchErrors(detector("Dataset").listChosen));
+    .get(catchErrors(detector().listChosen));
 router
     .route(`/detector`)
-    .post(catchErrors(detector("Dataset").runPy));
-
+    .post(catchErrors(detector().runPy));
+router
+    .route(`/detector/fullSetting`)
+    .post(catchErrors(detector().train));
 
 module.exports = router;

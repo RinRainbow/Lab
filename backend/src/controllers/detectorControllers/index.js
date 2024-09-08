@@ -1,9 +1,9 @@
 const { modelsFiles } = require('@/models/utils');
 const mongoose = require('mongoose');
-const listChosen = require('./listChosen.js');
-const runPy = require('./runPy.js')
+const runPy = require('./runPy.js');
+const train = require('./train.js');
 
-const detectorControllers = (modelName) => {
+const detectorControllers = () => {
   modelName = "Dataset";
   
   if (!modelsFiles.includes(modelName)) {
@@ -12,8 +12,8 @@ const detectorControllers = (modelName) => {
 
   const Model = mongoose.model(modelName);
   let crudMethods = {
-    listChosen: (req, res) => listChosen(Model, req, res),
     runPy: (req, res) => runPy(Model, req, res),
+    train: (req, res) => train(Model, req, res),
   };
 
   
