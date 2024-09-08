@@ -59,13 +59,13 @@ const train = async (Model, req, res) => {
     if(detector == "MalwareExpert"){
         pyFileName = '/mnt/pysrc/pycode/MalwareExpertForBackend/src/main.py'; 
         model =  {
-            "epoch": 10,
-            "learning_rate": 0.01,
-            "batch_size": 32,
-            "hidden_dim": 100,
-            "shard_count": 2,
-            "slice_count": 2,
-            "dropout_value": 0.5,
+            "epoch":  remainbody.epochs,
+            "learning_rate": remainbody.learningRate,
+            "batch_size": remainbody.batchSize,
+            "hidden_dim": remainbody.hiddenDim,
+            "shard_count": remainbody.shard,
+            "slice_count": remainbody.slice,
+            "dropout_value": remainbody.dropoutValue,
             "output_dim": 2,
             "softmax_dim": 1
         }
@@ -75,33 +75,30 @@ const train = async (Model, req, res) => {
         model =  {
             "model_name": "CNN",
             "batch_size": remainbody.batchSize,
-            "train_ratio": 0.8,
+            "train_ratio": remainbody.trainRatio,
             "learning_rate": remainbody.learningRate,
             "epochs": remainbody.epochs,
             "shard": remainbody.shard,
             "slice":  remainbody.slice,
-            "hidden_dim": 100,
-            "shard_count": 2,
-            "slice_count": 2
         }
     }
     else if(detector == "IMCNF"){
         pyFileName = '/mnt/pysrc/pycode/isLab/IMCFN/Code/main.py';
         model =  {
             "model_name": "VGG16",
-            "batch_size": 4,
-            "learning_rate": 5e-6,
-            "rotation": [0, 0],
-            "width_shift": 0.0,
-            "height_shift": 0.0,
-            "zoom": [1.0, 1.0],
-            "shear": [0, 0, 0, 0],
-            "fill": null,
-            "horizontal_flip": 0,
-            "train_ratio": 0.8,
-            "epochs": 30,
-            "shard": 1,
-            "slice": 1,
+            "batch_size":  remainbody.batchSize,
+            "learning_rate": remainbody.learningRate,
+            "rotation": remainbody.rotation,
+            "width_shift":  remainbody.widthShift,
+            "height_shift": remainbody.heightShift,
+            "zoom": remainbody.zoom,
+            "shear": remainbody.shear,
+            "fill": remainbody.fill,
+            "horizontal_flip": remainbody.horizontalFlip,
+            "train_ratio": remainbody.trainRatio,
+            "epochs": remainbody.epochs,
+            "shard": remainbody.shard,
+            "slice":remainbody.slice,
             "print_information": "",
             "save_image": false
         }
