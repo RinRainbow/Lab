@@ -600,7 +600,7 @@ export default function DataTable({ config, extra = [] }) {
     setLoading(true);
     const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
     console.log('Selected Data:', selectedData);
-    fetch('http://localhost:1624/api/detector', {
+    fetch('http://localhost:1624/api/detector/fullSetting', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
