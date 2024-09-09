@@ -287,7 +287,7 @@ export default function DetectorSetting() {
                         ]) : 
                         getFieldValue('detector') === 'IMCFN' ? ([
                             <Form.Item
-                            name="batch_size"
+                            name="batchSize"
                             label="Batch Size"
                             rules={[
                                 {
@@ -300,7 +300,7 @@ export default function DetectorSetting() {
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
-                            name="learning_rate"
+                            name="learningRate"
                             label="Learning Rate"
                             rules={[
                                 {
@@ -324,7 +324,7 @@ export default function DetectorSetting() {
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
-                            name="width_shift"
+                            name="widthShift"
                             label="Width Shift"
                             rules={[
                                 {
@@ -337,7 +337,7 @@ export default function DetectorSetting() {
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
-                            name="height_shift"
+                            name="heightShift"
                             label="Height Shift"
                             rules={[
                                 {
@@ -386,7 +386,7 @@ export default function DetectorSetting() {
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
-                            name="horizontal_flip"
+                            name="horizontalFlip"
                             label="Horizontal Flip"
                             rules={[
                                 {
@@ -399,7 +399,7 @@ export default function DetectorSetting() {
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
-                            name="train_ratio"
+                            name="trainRatio"
                             label="Train Ratio"
                             rules={[
                                 {
