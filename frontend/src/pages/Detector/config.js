@@ -11,6 +11,7 @@ export const fields = {
         type: 'string',
         required: true,
     },
+
     batchSize: {
         type: 'number',
         required: false,
@@ -37,6 +38,48 @@ export const fields = {
     },
     slice: {
         type: 'number',
+        required: false,
+    },
+
+    rotation:{
+        type: '[number]',
+        required: false,
+    },
+    widthShift:{
+        type: 'number',
+        required: false,
+    },
+    heightShift:{
+        type: 'number',
+        required: false,
+    },
+    zoom:{
+        type: '[number]',
+        required: false,
+    },
+    shear:{
+        type: '[number]',
+        required: false,
+    },
+    fill:{
+        type: 'string',
+        required: false,
+    },
+    horizontalFlip:{
+        type: 'number',
+        required: false,
+    },
+
+    hiddenDim:{
+        type: 'number',
+        required: false,
+    },
+    dropoutValue:{
+        type: 'number',
+        required: false,
+    },
+    preprocessMethod:{
+        type: 'string',
         required: false,
     },
   };
