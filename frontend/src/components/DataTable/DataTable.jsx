@@ -786,7 +786,11 @@ export default function DataTable({ config, extra = [] }) {
           onChange={handelDataTableLoad}
           bordered
           scroll={{ x: true }}
-          rowSelection={rowSelection}
+          // rowSelection={rowSelection}
+          rowSelection={{
+            type: 'radio',
+            ...rowSelection,
+          }}
         />
       );
       
@@ -964,12 +968,13 @@ export default function DataTable({ config, extra = [] }) {
       ];
     } else if (DATATABLE_TITLE === 'Detector') {
       return [
-        <Button type="primary" href='/detectorSetting' key={`${uniqueId()}`}>
-          Create
+        <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+          {/* {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'} */}
+          Train
         </Button>,
-        <Button onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
-          {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
-        </Button>,
+        <Button href='/detectorSetting' key={`${uniqueId()}`}>
+        Create
+      </Button>,
       ];
     } else if (DATATABLE_TITLE === 'Unlearn') {
       return [
