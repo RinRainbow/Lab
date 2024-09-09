@@ -6,15 +6,47 @@ const schema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
-  dataId: {
+  datasetID: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Data',
+    ref: 'DatasetName',
     required: true,
   },
-  datasetName: {
+  filename: {
     type: String,
     trim: true,
     required: true,
+  },
+  origFileName: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  label: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  family: {
+    type: String,
+    trim: true,
+    required: false,
+  },
+  CPUArchitecture: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  fileSize: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  tags: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      required: true,
+      default:"test",
   },
   created: {
     type: Date,
@@ -27,6 +59,10 @@ const schema = new mongoose.Schema({
   isPublic: {
     type: Boolean,
     default: false,
+  },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
   },
 });
 

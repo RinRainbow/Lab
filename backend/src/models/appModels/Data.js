@@ -58,6 +58,10 @@ const schema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: false,
+  },
 });
 
 schema.plugin(require('mongoose-autopopulate'));

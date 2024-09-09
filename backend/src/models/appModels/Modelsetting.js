@@ -58,6 +58,57 @@ const schema = new mongoose.Schema({
     required: false,
   },
 
+  rotation:{
+    type: [Number],
+    trim: true,
+    required: false,
+  },
+  widthShift:{
+    type: Number,
+    trim: true,
+    required: false,
+  },
+  heightShift:{
+    type: Number,
+    trim: true,
+    required: false,
+  },
+  zoom:{
+    type: [Number],
+    trim: true,
+    required: false,
+  },
+  shear:{
+    type: [Number],
+    trim: true,
+    required: false,
+  },
+  fill:{
+    type: String,
+    trim: true,
+    required: false,
+  },
+  horizontalFlip:{
+    type: Number,
+    trim: true,
+    required: false,
+  },
+
+  hiddenDim:{
+    type: Number,
+    trim: true,
+    required: false,
+  },
+  dropoutValue:{
+    type: Number,
+    trim: true,
+    required: false,
+  },
+  preprocessMethod:{
+    type: String,
+    trim: true,
+    required: false,
+  },
   
   created: {
     type: Date,
@@ -70,6 +121,10 @@ const schema = new mongoose.Schema({
   isPublic: {
     type: Boolean,
     default: false,
+  },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
   },
 });
 
