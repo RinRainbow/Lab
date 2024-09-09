@@ -175,8 +175,8 @@ export default function DetectorSetting() {
                         {({ getFieldValue }) =>
                         getFieldValue('detector') === 'MalwareExpert' ? ([
                             <Form.Item
-                            name="epoch"
-                            label="Epoch"
+                            name="epochs"
+                            label="Epochs"
                             rules={[
                                 {
                                 required: true,
@@ -227,8 +227,8 @@ export default function DetectorSetting() {
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
-                            name="shardCount"
-                            label="Shard Count"
+                            name="shard"
+                            label="Shard"
                             rules={[
                                 {
                                 required: true,
@@ -240,8 +240,8 @@ export default function DetectorSetting() {
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
-                            name="sliceCount"
-                            label="Slice Count"
+                            name="slice"
+                            label="Slice"
                             rules={[
                                 {
                                 required: true,
