@@ -48,17 +48,17 @@ export default function DetectorSetting() {
         switch (value) {
             case 'MDOEL':
             form.setFieldsValue({
-                modelname: 'Hi, MDOEL!',
+                modelName: 'Hi, MDOEL!',
             });
             break;
             case 'IMCFN':
             form.setFieldsValue({
-                modelname: 'Hi, IMCFN!',
+                modelName: 'Hi, IMCFN!',
             });
             break;
             case 'MalwareExpert':
             form.setFieldsValue({
-                modelname: 'Hi MalwareExpert!',
+                modelName: 'Hi MalwareExpert!',
             });
             break;
             default:
@@ -160,7 +160,7 @@ export default function DetectorSetting() {
                         <Select
                         placeholder="Select a model"
                         onChange={onModelChange}
-                        allowClear
+                        // allowClear
                         >
                         <Option value="MDOEL">MDOEL</Option>
                         <Option value="IMCFN">IMCFN</Option>
@@ -170,7 +170,7 @@ export default function DetectorSetting() {
                     <br></br>
                     <Form.Item
                         noStyle
-                        shouldUpdate={(prevValues, currentValues) => prevValues.model !== currentValues.model}
+                        shouldUpdate={(prevValues, currentValues) => prevValues.detector !== currentValues.detector}
                     >
                         {({ getFieldValue }) =>
                         getFieldValue('detector') === 'MalwareExpert' ? ([
