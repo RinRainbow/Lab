@@ -436,9 +436,9 @@ export default function DataTable({ config, extra = [] }) {
                   handleEdit(record);
                   break;
 
-                case 'delete':
-                  handleDelete(record);
-                  break;
+                // case 'delete':
+                //   handleDelete(record);
+                //   break;
                 case 'updatePassword':
                   handleUpdatePassword(record);
                   break;
@@ -499,9 +499,9 @@ export default function DataTable({ config, extra = [] }) {
                   handleEdit(record);
                   break;
 
-                case 'delete':
-                  handleDelete(record);
-                  break;
+                // case 'delete':
+                //   handleDelete(record);
+                //   break;
                 case 'updatePassword':
                   handleUpdatePassword(record);
                   break;
@@ -548,9 +548,9 @@ export default function DataTable({ config, extra = [] }) {
                   handleEdit(record);
                   break;
 
-                case 'delete':
-                  handleDelete(record);
-                  break;
+                // case 'delete':
+                //   handleDelete(record);
+                //   break;
                 case 'updatePassword':
                   handleUpdatePassword(record);
                   break;

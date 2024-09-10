@@ -53,10 +53,12 @@ const ObjectDisplay = ({ obj }) => {
   );
 };
 const ModelDisplay = ({ getFieldValue, options }) => {
+  if(!options || !options.length) return null;
+  console.log('options: ', options);
   const selectedModel = options.find(item => item.modelName === getFieldValue('modelname'));
   console.log('selectedModel: ', selectedModel);
 
-  if (!selectedModel) return null;
+  // if (!selectedModel) return null;
 
   // const { settingData, predictScore } = selectedModel;
 
@@ -349,11 +351,11 @@ export default function DashboardModule() {
                       // onChange={onModelChange}
                       // allowClear
                       >
-                      {Array.isArray(options) && options.length > 0 && options.map((option) => (
-                          <Option key={option._id} value={option.modelName}>
-                          {option.modelName}
-                          </Option>
-                      ))}
+                          {Array.isArray(options) && options.length > 0 && options.map((option) => (
+                              <Option key={option._id} value={option.modelName}>
+                              {option.modelName}
+                              </Option>
+                          ))}
                       </Select>
                   </Form.Item>
                   <Form.Item
