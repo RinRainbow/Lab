@@ -56,15 +56,15 @@ export default function DataTable({ config, extra = [] }) {
       icon: <EditOutlined />,
     },
     ...extra,
-    {
-      type: 'divider',
-    },
+    // {
+    //   type: 'divider',
+    // },
 
-    {
-      label: translate('Delete'),
-      key: 'delete',
-      icon: <DeleteOutlined />,
-    },
+    // {
+    //   label: translate('Delete'),
+    //   key: 'delete',
+    //   icon: <DeleteOutlined />,
+    // },
   ];
 
   const handleRead = (record) => {
@@ -418,46 +418,46 @@ export default function DataTable({ config, extra = [] }) {
       key: 'datasetName',
       ...getColumnSearchProps('datasetName'),
     },
-    {
-      title: '',
-      key: 'action',
-      fixed: 'right',
-      width: 80,
-      render: (_, record) => (
-        <Dropdown
-          menu={{
-            items,
-            onClick: ({ key }) => {
-              switch (key) {
-                case 'read':
-                  handleRead(record);
-                  break;
-                case 'edit':
-                  handleEdit(record);
-                  break;
+    // {
+    //   title: '',
+    //   key: 'action',
+    //   fixed: 'right',
+    //   width: 80,
+    //   render: (_, record) => (
+    //     <Dropdown
+    //       menu={{
+    //         items,
+    //         onClick: ({ key }) => {
+    //           switch (key) {
+    //             case 'read':
+    //               handleRead(record);
+    //               break;
+    //             case 'edit':
+    //               handleEdit(record);
+    //               break;
 
-                // case 'delete':
-                //   handleDelete(record);
-                //   break;
-                case 'updatePassword':
-                  handleUpdatePassword(record);
-                  break;
+    //             // case 'delete':
+    //             //   handleDelete(record);
+    //             //   break;
+    //             case 'updatePassword':
+    //               handleUpdatePassword(record);
+    //               break;
 
-                default:
-                  break;
-              }
-              // else if (key === '2')handleCloseTask
-            },
-          }}
-          trigger={['click']}
-        >
-          <EllipsisOutlined
-            style={{ cursor: 'pointer', fontSize: '24px' }}
-            onClick={(e) => e.preventDefault()}
-          />
-        </Dropdown>
-      ),
-    },
+    //             default:
+    //               break;
+    //           }
+    //           // else if (key === '2')handleCloseTask
+    //         },
+    //       }}
+    //       trigger={['click']}
+    //     >
+    //       <EllipsisOutlined
+    //         style={{ cursor: 'pointer', fontSize: '24px' }}
+    //         onClick={(e) => e.preventDefault()}
+    //       />
+    //     </Dropdown>
+    //   ),
+    // },
     // {
     //   title: '',
     //   key: 'operation',
