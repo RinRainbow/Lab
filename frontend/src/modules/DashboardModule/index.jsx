@@ -58,7 +58,7 @@ const ModelDisplay = ({ getFieldValue, options }) => {
   const selectedModel = options.find(item => item.modelName === getFieldValue('modelname'));
   console.log('selectedModel: ', selectedModel);
 
-  // if (!selectedModel) return null;
+  if (!selectedModel) return null;
 
   // const { settingData, predictScore } = selectedModel;
 
