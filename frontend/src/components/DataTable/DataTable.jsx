@@ -600,7 +600,41 @@ export default function DataTable({ config, extra = [] }) {
     setLoading(true);
     const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
     console.log('Selected Data:', selectedData);
-    fetch('http://localhost:1624/api/detector/fullSetting', {
+    fetch('http://localhost:1624/api/detector/train', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(selectedData),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      message.success('Training Successful!');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      message.error('Training Error!');
+    });
+    // ajax request after empty completing
+    // setTimeout(() => {
+    //   setSelectedRowKeys([]);
+    //   setLoading(false);
+    // }, 1000);
+    setSelectedRowKeys([]);
+    setLoading(false);
+    // message.success('Training Successful!');
+  };
+  const start_un = () => {
+    setLoading(true);
+    const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
+    console.log('Selected Data:', selectedData);
+    fetch('http://localhost:1624/api/detector/unlearn', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -978,7 +1012,7 @@ export default function DataTable({ config, extra = [] }) {
       ];
     } else if (DATATABLE_TITLE === 'Unlearn') {
       return [
-        <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+        <Button type="primary" onClick={start_un} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
           {hasSelected ? `Unlearn ${selectedRowKeys.length} items` : 'Unlearn'}
         </Button>,
       ];
