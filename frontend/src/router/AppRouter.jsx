@@ -51,6 +51,7 @@ const About = lazy(() => import('@/pages/About'));
 
 const Detector1Test = lazy(() => import('@/pages/Detector1Test'));
 const Dataset = lazy(() => import('@/pages/Dataset'));
+const DatasetDetail = lazy(() => import('@/pages/DatasetDetail'));
 const Detector = lazy(() => import('@/pages/Detector'));
 const Unlearn = lazy(() => import('@/pages/Unlearn'));
 const SelectData = lazy(() => import('@/pages/SelectData'));
@@ -93,6 +94,10 @@ export default function AppRouter() {
     {
       path: '/dataset',
       element: <Dataset />,
+    },
+    {
+      path: '/datasetDetail',
+      element: <DatasetDetail />,
     },
     {
       path: '/detector',
