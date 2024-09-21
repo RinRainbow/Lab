@@ -5,6 +5,7 @@ const remove = async (Model, req, res) => {
   let updates = {
     removed: true,
   };
+  console.log(req.params);
   // Find the document by id and delete it
   const result = await Model.findByIdAndDelete(req.params.id,
   /*findOneAndUpdate(
@@ -25,7 +26,7 @@ const remove = async (Model, req, res) => {
     return res.status(200).json({
       success: true,
       result,
-      message: 'Successfully Deleted the document by id: ' + req.params.id,
+      message: 'Successfully Deleted the document' ,
     });
   }
 };

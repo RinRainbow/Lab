@@ -23,7 +23,7 @@ const create = async (Model, req, res) => {
   }
   const datasetnameResult = await DatasetnameModel({"datasetName":datasetName,"createdBy": userID,}).save();
   const datasetnameID = datasetnameResult._id;
-
+  
   //datas
   newdatas = [];
   body.forEach((dataid, index)=> {
@@ -31,7 +31,8 @@ const create = async (Model, req, res) => {
       ;
     else{
       //delete some attributes
-      let { removed ,enabled ,__v ,...newdata } = {datasetID:datasetnameID, ...dataid,createdBy:userID};
+      let { _id, removed ,enabled ,__v ,...newdata } = { ...dataid,datasetID:datasetnameID,createdBy:userID};
+
       newdatas.push(newdata);
     }
   });

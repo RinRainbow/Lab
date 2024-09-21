@@ -34,12 +34,12 @@ const schema = new mongoose.Schema({
   CPUArchitecture: {
     type: String,
     trim: true,
-    required: true,
+    required: false,
   },
   fileSize: {
     type: String,
     trim: true,
-    required: true,
+    required: false,
   },
   tags: {
       type: String,

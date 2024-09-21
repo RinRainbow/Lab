@@ -4,12 +4,22 @@ const { generateUniqueNumber } = require('@/middlewares/inventory');
 
 const create = async (Model, req, res) => {
   let body = req.body;
+  let modelExist = await Model.findOne({
+    modelName: req.body.modelName,
+  });
+  if (modelExist) {
+    return res.status(403).json({
+      success: false,
+      result: null,
+      message: 'Model Already Exist',
+    });
+  }
 
   body['createdBy'] = req.admin._id;
 
   const settings = await loadSettings();
   const last_model_number = settings['last_model_number'];
-
+  console.log(req.body);
   body.number = generateUniqueNumber(last_model_number);
   // Creating a new document in the collection
   const result = await new Model(body).save();

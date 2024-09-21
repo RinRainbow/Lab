@@ -25,7 +25,7 @@ const remove = async (Model, req, res) => {
     return res.status(200).json({
       success: true,
       result,
-      message: 'Successfully Deleted the document',
+      message: 'Successfully Deleted the document by id: ' + req.params.id,
     });
   }
 };
