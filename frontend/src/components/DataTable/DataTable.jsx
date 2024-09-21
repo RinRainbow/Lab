@@ -3,6 +3,8 @@ import React, { useRef, useState } from 'react';
 import { EyeOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
 import { Checkbox, Table, Button, message, Tag, Tooltip, Input, Space, Modal, Select, Dropdown } from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
+import { memo } from './detailMemo';
+import { useNavigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { crud } from '@/redux/crud/actions';
@@ -212,9 +214,10 @@ export default function DataTable({ config, extra = [] }) {
       >
         <Input
           ref={searchInput}
-          placeholder={`Search ${dataIndex}`}
+          placeholder={dataIndex === 'datasetID' ? memo.id : `Search ${dataIndex}`}
           value={`${selectedKeys[0] || ''}`}
           onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          // onChange={(e) => setSelectedKeys(memo.id)}
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
           style={{
             marginBottom: 8,
@@ -240,7 +243,7 @@ export default function DataTable({ config, extra = [] }) {
               width: 90,
             }}
           >
-            Reset
+            Clear
           </Button>
           <Button
             type="link"
@@ -411,6 +414,113 @@ export default function DataTable({ config, extra = [] }) {
     },
   ];
 
+  const detail_columns = [
+    {
+      title: 'datasetID',
+      dataIndex: ["datasetID"],
+      key: 'datasetID',
+      ...getColumnSearchProps('datasetID'),
+    },
+    {
+      title: 'Filename',
+      dataIndex: ["filename"],
+      key: 'filename',
+      ...getColumnSearchProps('filename'),
+    },
+    {
+      title: 'Label',
+      dataIndex: ["label"],
+      key: 'label',
+      filters: [
+        ...all_label
+      ],
+      onFilter: (value, record) => record.label.indexOf(value) === 0,
+    },
+    {
+      title: 'Family',
+      dataIndex: ["family"],
+      key: 'family',
+      filters: [
+        ...all_family
+      ],
+      onFilter: (value, record) => record.family.indexOf(value) === 0,
+      filterSearch: true,
+    },
+    {
+      title: 'Cpuarchitecture',
+      dataIndex: ["CPUArchitecture"],
+      key: 'CPUArchitecture',
+      filters: [
+        ...all_cpu
+      ],
+      onFilter: (value, record) => record.CPUArchitecture.indexOf(value) === 0,
+    },
+    {
+      title: 'Filesize',
+      dataIndex: ["fileSize"],
+      key: 'fileSize',
+      sorter: (a, b) => a.fileSize - b.fileSize,
+    },
+    {
+      title: 'Type',
+      key: 'tags',
+      dataIndex: 'tags',
+      render: (_, { tags }) => (
+        <>
+          {
+            <Tag color={tags === 'test' ? 'blue' : tags === 'train' ? 'green' : tags === 'unlearn' ? 'purple' : tags === 'predict' ? 'orange' : 'default'} key={tags} >
+              {tags}
+            </Tag>
+          }
+        </>
+      ),
+      filters: [
+        {
+          text: 'test',
+          value: 'test',
+        },
+        {
+          text: 'train',
+          value: 'train',
+        },
+        {
+          text: 'unlearn',
+          value: 'unlearn',
+        },
+        {
+          text: 'predict',
+          value: 'predict',
+        },
+      ],
+      onFilter: (value, record) => record.tags.indexOf(value) === 0,
+    },
+    // {
+    //   title: '',
+    //   key: 'action',
+    //   fixed: 'right',
+    //   render: (_, record) => (
+    //     <EditOutlined
+    //       style={{ cursor: 'pointer', fontSize: '15px' }}
+    //       onClick={(e) => {
+    //         e.preventDefault();
+    //         handleEdit(record);
+    //       }}
+    //     />
+    //   ),
+    // },
+  ];
+
+  const navigate = useNavigate();
+
+  const handleDetailClick = (record) => {
+    memo.id = record._id;
+    memo.name = record.datasetName;
+    console.log('record:', record);
+    console.log('memo.id:', memo.id);
+    console.log('memo.name:', memo.name);
+    navigate('/datasetDetail');
+  };
+
   const dataset_columns = [
     {
       title: 'Dataset Name',
@@ -458,20 +568,18 @@ export default function DataTable({ config, extra = [] }) {
     //     </Dropdown>
     //   ),
     // },
-    // {
-    //   title: '',
-    //   key: 'operation',
-    //   width: 80,
-    //   render: (_, record) => (
-    //     <EditOutlined
-    //       style={{ cursor: 'pointer', fontSize: '15px' }}
-    //       onClick={(e) => {
-    //         e.preventDefault();
-    //         handleEdit(record);
-    //       }}
-    //     />
-    //   ),
-    // },
+    {
+      title: '',
+      key: 'operation',
+      width: 80,
+      render: (_, record) => (
+        <Button
+          onClick={() => handleDetailClick(record)}
+        >
+          Detail
+        </Button>
+      ),
+    },
   ];
 
   const detector_columns = [
@@ -891,6 +999,20 @@ export default function DataTable({ config, extra = [] }) {
           rowSelection={rowSelection}
         />
       );
+    } else if(DATATABLE_TITLE === 'Dataset Detail') {
+      return (
+        <Table
+          columns={detail_columns}
+          rowKey={(item) => item._id}
+          dataSource={dataSource}
+          pagination={pagination}
+          loading={listIsLoading}
+          onChange={handelDataTableLoad}
+          bordered
+          scroll={{ x: true }}
+          rowSelection={rowSelection}
+        />
+      );
     }
   };
 
@@ -1052,6 +1174,47 @@ export default function DataTable({ config, extra = [] }) {
         <Button type="primary" onClick={start_un} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
           {hasSelected ? `Unlearn ${selectedRowKeys.length} items` : 'Unlearn'}
         </Button>,
+      ];
+    } else if (DATATABLE_TITLE === 'Dataset Detail') {
+      return [
+        <h5>datasetname: {memo.name} (id: {memo.id})</h5>,
+        <Button onClick={showModal} disabled={!hasSelected} key={`${uniqueId()}`}>
+          {hasSelected ? `Edit ${selectedRowKeys.length} items` : 'Edit'}
+        </Button>,
+        <Modal
+          title="Edit Items"
+          open={open}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          okText="Edit"
+        >
+          <Select
+            onChange={typeInput}
+            placeholder="Select a tag"
+            style={{
+              width: 472,
+            }}
+            options={[
+              {
+                value: 'test',
+                label: 'test',
+              },
+              {
+                value: 'train',
+                label: 'train',
+              },
+              {
+                value: 'unlearn',
+                label: 'unlearn',
+              },
+              {
+                value: 'predict',
+                label: 'predict',
+              },
+            ]}
+            allowClear
+          />
+        </Modal>,
       ];
     }
   };
