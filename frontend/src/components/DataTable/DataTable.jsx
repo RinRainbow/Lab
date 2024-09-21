@@ -630,6 +630,40 @@ export default function DataTable({ config, extra = [] }) {
     setLoading(false);
     // message.success('Training Successful!');
   };
+  const start_pre = () => {
+    setLoading(true);
+    const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
+    console.log('Selected Data:', selectedData);
+    fetch('http://localhost:1624/api/detector/predict', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(selectedData),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok ' + response.statusText);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      message.success('Predict Successful!');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      message.error('Predict Error!');
+    });
+    // ajax request after empty completing
+    // setTimeout(() => {
+    //   setSelectedRowKeys([]);
+    //   setLoading(false);
+    // }, 1000);
+    setSelectedRowKeys([]);
+    setLoading(false);
+    // message.success('Training Successful!');
+  };
   const start_un = () => {
     setLoading(true);
     const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
@@ -649,11 +683,11 @@ export default function DataTable({ config, extra = [] }) {
     })
     .then(data => {
       console.log('Success:', data);
-      message.success('Training Successful!');
+      message.success('Unlearning Successful!');
     })
     .catch(error => {
       console.error('Error:', error);
-      message.error('Training Error!');
+      message.error('Unlearning Error!');
     });
     // ajax request after empty completing
     // setTimeout(() => {
@@ -1006,9 +1040,12 @@ export default function DataTable({ config, extra = [] }) {
           {/* {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'} */}
           Train
         </Button>,
+        <Button type="primary" onClick={start_pre} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+          Predict
+        </Button>,
         <Button href='/detectorSetting' key={`${uniqueId()}`}>
-        Create
-      </Button>,
+          Create
+        </Button>,
       ];
     } else if (DATATABLE_TITLE === 'Unlearn') {
       return [
