@@ -32,36 +32,17 @@ const layout = {
   },
 };
 const { Text } = Typography;
-const dataSource = [
-  {
-    key: '1',
-    name: 'Mike',
-    age: 32,
-    address: '10 Downing Street',
-  },
-  {
-    key: '2',
-    name: 'John',
-    age: 42,
-    address: '10 Downing Street',
-  },
-];
 
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
+    title: 'Data Name',
+    dataIndex: 'dataname',
+    key: 'dataname',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'Detection',
+    dataIndex: 'detection',
+    key: 'detection',
   },
 ];
 
@@ -84,7 +65,7 @@ const ObjectDisplay = ({ obj }) => {
     />
   );
 };
-const ModelDisplay = ({ getFieldValue, options, score }) => {
+const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
   if(!options || !options.length) return null;
   console.log('options: ', options);
   const selectedModel = options.find(item => item.modelName === getFieldValue('modelname'));
@@ -94,6 +75,15 @@ const ModelDisplay = ({ getFieldValue, options, score }) => {
 
   const selectedScore = score.find(item => item.modelName === getFieldValue('modelname'));
   console.log('selectedScore: ', selectedScore);
+
+  const pre_result = [];
+  predictResult.forEach(item => {
+    if(item.modelName === getFieldValue('modelname')) {
+      pre_result.push(item);
+    }
+  });
+  console.log('predictResult: ', predictResult);
+  console.log('pre_result: ', pre_result);
 
   // const { settingData, predictScore } = selectedModel;
 
@@ -106,7 +96,7 @@ const ModelDisplay = ({ getFieldValue, options, score }) => {
   return (
     <>
       <br />
-      <Flex justify='space-evenly' align='center'>
+      <Flex justify='space-evenly' align='flex-start'>
         <Card>
         {/* <Card title="Model Details" style={{ width: '100%', maxWidth: 600 }}> */}
           {/* <List
@@ -178,7 +168,7 @@ const ModelDisplay = ({ getFieldValue, options, score }) => {
           </div>
         </Card>
         <Table
-          dataSource={dataSource}
+          dataSource={pre_result}
           columns={columns}
         />
       </Flex>
@@ -189,6 +179,7 @@ const ModelDisplay = ({ getFieldValue, options, score }) => {
 export default function DashboardModule() {
   const [options, setOptions] = useState([]);
   const [scoreData, setScoreData] = useState([]);
+  const [predictResult, setPredictResult] = useState([]);
   useEffect(() => {
       async function fetchData() {
           try {
@@ -214,6 +205,19 @@ export default function DashboardModule() {
         }
     }
     fetchData();
+}, []);
+useEffect(() => {
+  async function fetchData() {
+      try {
+          const data = await asyncList('predictresult');
+          console.log('useEffect data: ', data);
+          setPredictResult(data.result);
+      } catch (error) {
+          console.log('useEffect erorr!');
+          errorHandler(error);
+      }
+  }
+  fetchData();
 }, []);
   const translate = useLanguage();
   const [form] = Form.useForm();
@@ -484,7 +488,7 @@ export default function DashboardModule() {
                       //         </Card>
                       //     </Flex>,
                       // ]) : null
-                      <ModelDisplay getFieldValue={form.getFieldValue} options={options} score={scoreData} />
+                      <ModelDisplay getFieldValue={form.getFieldValue} options={options} score={scoreData} predictResult={predictResult} />
                       }
                       {/* <ModelDisplay getFieldValue={form.getFieldValue} options={options} /> */}
                   </Form.Item>
