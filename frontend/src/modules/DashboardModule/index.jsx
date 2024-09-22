@@ -15,7 +15,7 @@ import PreviewCard from './components/PreviewCard';
 import CustomerPreviewCard from './components/CustomerPreviewCard';
 
 import React, { useEffect, useState } from 'react';
-import { Flex, Form, Select, List, Progress, Card, Typography } from 'antd';
+import { Flex, Form, Select, List, Progress, Card, Typography, Divider } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 
@@ -52,13 +52,16 @@ const ObjectDisplay = ({ obj }) => {
     />
   );
 };
-const ModelDisplay = ({ getFieldValue, options }) => {
+const ModelDisplay = ({ getFieldValue, options, score }) => {
   if(!options || !options.length) return null;
   console.log('options: ', options);
   const selectedModel = options.find(item => item.modelName === getFieldValue('modelname'));
   console.log('selectedModel: ', selectedModel);
 
   if (!selectedModel) return null;
+
+  const selectedScore = score.find(item => item.modelName === getFieldValue('modelname'));
+  console.log('selectedScore: ', selectedScore);
 
   // const { settingData, predictScore } = selectedModel;
 
@@ -86,7 +89,7 @@ const ModelDisplay = ({ getFieldValue, options }) => {
           /> */}
           <ObjectDisplay obj={selectedModel} />
         </Card>
-        <Card style={{ height: 300, width: 300 }}>
+        <Card style={{ height: '100%', width: 300 }}>
           <div
             className="pad20"
             style={{
@@ -94,19 +97,47 @@ const ModelDisplay = ({ getFieldValue, options }) => {
               justifyContent: 'center',
             }}
           >
-            <h3 style={{ color: '#22075e', marginBottom: 40, marginTop: 15, fontSize: 'large' }}>
+            <h3 style={{ color: '#22075e', marginBottom: 20, marginTop: 15, fontSize: 'large' }}>
               Predict Score
             </h3>
-
+            <Divider />
             <div
               style={{
                 display: 'grid',
                 justifyContent: 'center',
               }}
             >
+              <Text>accuracy</Text>
               <Progress 
                 type="dashboard" 
-                percent={93} 
+                percent={selectedScore.accuracy*100} 
+                strokeColor={conicColors} 
+                format={(percent) => `${percent}`} 
+                size={148} 
+              />
+              <br></br>
+              <Text>f1_score</Text>
+              <Progress 
+                type="dashboard" 
+                percent={selectedScore.f1_score*100} 
+                strokeColor={conicColors} 
+                format={(percent) => `${percent}`} 
+                size={148} 
+              />
+              <br></br>
+              <Text>precision</Text>
+              <Progress 
+                type="dashboard" 
+                percent={selectedScore.precision*100} 
+                strokeColor={conicColors} 
+                format={(percent) => `${percent}`} 
+                size={148} 
+              />
+              <br></br>
+              <Text>recall</Text>
+              <Progress 
+                type="dashboard" 
+                percent={selectedScore.recall*100} 
                 strokeColor={conicColors} 
                 format={(percent) => `${percent}`} 
                 size={148} 
@@ -417,7 +448,7 @@ export default function DashboardModule() {
                       //         </Card>
                       //     </Flex>,
                       // ]) : null
-                      <ModelDisplay getFieldValue={form.getFieldValue} options={options} />
+                      <ModelDisplay getFieldValue={form.getFieldValue} options={options} score={scoreData} />
                       }
                       {/* <ModelDisplay getFieldValue={form.getFieldValue} options={options} /> */}
                   </Form.Item>

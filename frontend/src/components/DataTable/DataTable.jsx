@@ -1154,7 +1154,7 @@ export default function DataTable({ config, extra = [] }) {
     } else if (DATATABLE_TITLE === 'Dataset') {
       return [
         <Button type="primary" href='/Detector1Test' key={`${uniqueId()}`}>
-          Create
+          Add
         </Button>,
       ];
     } else if (DATATABLE_TITLE === 'Detector') {
