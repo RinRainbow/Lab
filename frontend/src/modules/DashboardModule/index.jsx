@@ -121,6 +121,7 @@ const ModelDisplay = ({ getFieldValue, options }) => {
 
 export default function DashboardModule() {
   const [options, setOptions] = useState([]);
+  const [scoreData, setScoreData] = useState([]);
   useEffect(() => {
       async function fetchData() {
           try {
@@ -134,6 +135,19 @@ export default function DashboardModule() {
       }
       fetchData();
   }, []);
+  useEffect(() => {
+    async function fetchData() {
+        try {
+            const data = await asyncList('score');
+            console.log('useEffect data: ', data);
+            setScoreData(data.result);
+        } catch (error) {
+            console.log('useEffect erorr!');
+            errorHandler(error);
+        }
+    }
+    fetchData();
+}, []);
   const translate = useLanguage();
   const [form] = Form.useForm();
   // const onModelChange = (value) => {
