@@ -1188,6 +1188,12 @@ export default function DataTable({ config, extra = [] }) {
           onCancel={handleCancel}
           okText="Edit"
         >
+          <Checkbox 
+            checked={TypeDisabled}
+            onChange={onChangeType}
+          >
+            Type
+          </Checkbox>
           <Select
             onChange={typeInput}
             placeholder="Select a tag"
@@ -1213,6 +1219,7 @@ export default function DataTable({ config, extra = [] }) {
               },
             ]}
             allowClear
+            disabled={!TypeDisabled}
           />
         </Modal>,
       ];
