@@ -519,6 +519,25 @@ export default function DataTable({ config, extra = [] }) {
     console.log('memo.id:', memo.id);
     console.log('memo.name:', memo.name);
     navigate('/datasetDetail');
+    // if(DATATABLE_TITLE === 'Dataset') {
+    //   navigate('/datasetDetail');
+    // } else if(DATATABLE_TITLE === 'Unlearn') {
+    //   navigate('/unlearnEdit');
+    // }
+  };
+
+  const handleUnlearnEditClick = (record) => {
+    memo.id = record._id;
+    memo.name = record.datasetName;
+    console.log('record:', record);
+    console.log('memo.id:', memo.id);
+    console.log('memo.name:', memo.name);
+    navigate('/unlearnEdit');
+    // if(DATATABLE_TITLE === 'Dataset') {
+    //   navigate('/datasetDetail');
+    // } else if(DATATABLE_TITLE === 'Unlearn') {
+    //   navigate('/unlearnEdit');
+    // }
   };
 
   const dataset_columns = [
@@ -653,6 +672,123 @@ export default function DataTable({ config, extra = [] }) {
                   handleRead(record);
                   break;
                 case 'edit':
+                  // handleEdit(record);
+                  handleUnlearnEditClick(record)
+                  break;
+
+                // case 'delete':
+                //   handleDelete(record);
+                //   break;
+                case 'updatePassword':
+                  handleUpdatePassword(record);
+                  break;
+
+                default:
+                  break;
+              }
+              // else if (key === '2')handleCloseTask
+            },
+          }}
+          trigger={['click']}
+        >
+          <EllipsisOutlined
+            style={{ cursor: 'pointer', fontSize: '24px' }}
+            onClick={(e) => e.preventDefault()}
+          />
+        </Dropdown>
+      ),
+    },
+  ];
+
+  const unlearnEdit_columns = [
+    {
+      title: 'Filename',
+      dataIndex: ["filename"],
+      key: 'filename',
+      ...getColumnSearchProps('filename'),
+    },
+    {
+      title: 'Label',
+      dataIndex: ["label"],
+      key: 'label',
+      filters: [
+        ...all_label
+      ],
+      onFilter: (value, record) => record.label.indexOf(value) === 0,
+    },
+    {
+      title: 'Family',
+      dataIndex: ["family"],
+      key: 'family',
+      filters: [
+        ...all_family
+      ],
+      onFilter: (value, record) => record.family.indexOf(value) === 0,
+      filterSearch: true,
+    },
+    {
+      title: 'Cpuarchitecture',
+      dataIndex: ["CPUArchitecture"],
+      key: 'CPUArchitecture',
+      filters: [
+        ...all_cpu
+      ],
+      onFilter: (value, record) => record.CPUArchitecture.indexOf(value) === 0,
+    },
+    {
+      title: 'Filesize',
+      dataIndex: ["fileSize"],
+      key: 'fileSize',
+      sorter: (a, b) => a.fileSize - b.fileSize,
+    },
+    {
+      title: 'Type',
+      key: 'tags',
+      dataIndex: 'tags',
+      render: (_, { tags }) => (
+        <>
+          {
+            <Tag color={tags === 'test' ? 'blue' : tags === 'train' ? 'green' : tags === 'unlearn' ? 'purple' : tags === 'predict' ? 'orange' : 'default'} key={tags} >
+              {tags}
+            </Tag>
+          }
+        </>
+      ),
+      filters: [
+        {
+          text: 'test',
+          value: 'test',
+        },
+        {
+          text: 'train',
+          value: 'train',
+        },
+        {
+          text: 'unlearn',
+          value: 'unlearn',
+        },
+        {
+          text: 'predict',
+          value: 'predict',
+        },
+      ],
+      onFilter: (value, record) => record.tags.indexOf(value) === 0,
+    },
+    {
+      title: '',
+      key: 'action',
+      fixed: 'right',
+      width: 80,
+      render: (_, record) => (
+        <Dropdown
+          menu={{
+            items,
+            onClick: ({ key }) => {
+              switch (key) {
+                case 'read':
+                  handleRead(record);
+                  break;
+                case 'edit':
                   handleEdit(record);
                   break;
 
@@ -678,6 +814,20 @@ export default function DataTable({ config, extra = [] }) {
         </Dropdown>
       ),
     },
+    // {
+    //   title: '',
+    //   key: 'action',
+    //   fixed: 'right',
+    //   render: (_, record) => (
+    //     <EditOutlined
+    //       style={{ cursor: 'pointer', fontSize: '15px' }}
+    //       onClick={(e) => {
+    //         e.preventDefault();
+    //         handleEdit(record);
+    //       }}
+    //     />
+    //   ),
+    // },
   ];
 
   const dispatch = useDispatch();
@@ -1014,6 +1164,20 @@ export default function DataTable({ config, extra = [] }) {
           rowSelection={rowSelection}
         />
       );
+    } else if(DATATABLE_TITLE === 'Unlearn Edit') {
+      return (
+        <Table
+          columns={unlearnEdit_columns}
+          rowKey={(item) => item._id}
+          dataSource={dataSource}
+          pagination={pagination}
+          loading={listIsLoading}
+          onChange={handelDataTableLoad}
+          bordered
+          scroll={{ x: true }}
+          rowSelection={rowSelection}
+        />
+      );
     }
   };
 
@@ -1150,12 +1314,18 @@ export default function DataTable({ config, extra = [] }) {
           />
         </Modal>,
         <AddNewItem key={`${uniqueId()}`} config={config} />,
+        <Tooltip title="Delete">
+          <Button danger shape="circle" onClick={handleDelete} icon={<DeleteOutlined />} disabled={!hasSelected} style={{ marginRight: 15 }} />
+        </Tooltip>,
       ];
     } else if (DATATABLE_TITLE === 'Dataset') {
       return [
         <Button type="primary" href='/Detector1Test' key={`${uniqueId()}`}>
           Add
         </Button>,
+        <Tooltip title="Delete">
+          <Button danger shape="circle" onClick={handleDelete} icon={<DeleteOutlined />} disabled={!hasSelected} style={{ marginRight: 15 }} />
+        </Tooltip>,
       ];
     } else if (DATATABLE_TITLE === 'Detector') {
       return [
@@ -1169,12 +1339,18 @@ export default function DataTable({ config, extra = [] }) {
         <Button href='/detectorSetting' key={`${uniqueId()}`}>
           Create
         </Button>,
+        <Tooltip title="Delete">
+          <Button danger shape="circle" onClick={handleDelete} icon={<DeleteOutlined />} disabled={!hasSelected} style={{ marginRight: 15 }} />
+        </Tooltip>,
       ];
     } else if (DATATABLE_TITLE === 'Unlearn') {
       return [
         <Button type="primary" onClick={start_un} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
           {hasSelected ? `Unlearn ${selectedRowKeys.length} items` : 'Unlearn'}
         </Button>,
+        <Tooltip title="Delete">
+          <Button danger shape="circle" onClick={handleDelete} icon={<DeleteOutlined />} disabled={!hasSelected} style={{ marginRight: 15 }} />
+        </Tooltip>,
       ];
     } else if (DATATABLE_TITLE === 'Dataset Detail') {
       return [
@@ -1224,6 +1400,57 @@ export default function DataTable({ config, extra = [] }) {
           />
         </Modal>,
       ];
+    } else if (DATATABLE_TITLE === 'Unlearn Edit') {
+      return [
+        <h5>datasetname: {memo.name} (id: {memo.id})</h5>,
+        <Button onClick={showModal} disabled={!hasSelected} key={`${uniqueId()}`}>
+          {hasSelected ? `Edit ${selectedRowKeys.length} items` : 'Edit'}
+        </Button>,
+        <Modal
+          title="Edit Items"
+          open={open}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          okText="Edit"
+        >
+          <Checkbox 
+            checked={TypeDisabled}
+            onChange={onChangeType}
+          >
+            Type
+          </Checkbox>
+          <Select
+            onChange={typeInput}
+            placeholder="Select a tag"
+            style={{
+              width: 472,
+            }}
+            options={[
+              {
+                value: 'test',
+                label: 'test',
+              },
+              {
+                value: 'train',
+                label: 'train',
+              },
+              {
+                value: 'unlearn',
+                label: 'unlearn',
+              },
+              {
+                value: 'predict',
+                label: 'predict',
+              },
+            ]}
+            allowClear
+            disabled={!TypeDisabled}
+          />
+        </Modal>,
+        <Tooltip title="Delete">
+          <Button danger shape="circle" onClick={handleDelete} icon={<DeleteOutlined />} disabled={!hasSelected} style={{ marginRight: 15 }} />
+        </Tooltip>,
+      ];
     }
   };
 
@@ -1235,9 +1462,9 @@ export default function DataTable({ config, extra = [] }) {
         ghost={false}
         extra={[
           ...renderButtons(),
-          <Tooltip title="Delete">
-            <Button danger shape="circle" onClick={handleDelete} icon={<DeleteOutlined />} disabled={!hasSelected} style={{ marginRight: 15 }} />
-          </Tooltip>,
+          // <Tooltip title="Delete">
+          //   <Button danger shape="circle" onClick={handleDelete} icon={<DeleteOutlined />} disabled={!hasSelected} style={{ marginRight: 15 }} />
+          // </Tooltip>,
           // <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
           //   {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
           // </Button>,

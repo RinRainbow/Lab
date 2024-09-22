@@ -54,6 +54,7 @@ const Dataset = lazy(() => import('@/pages/Dataset'));
 const DatasetDetail = lazy(() => import('@/pages/DatasetDetail'));
 const Detector = lazy(() => import('@/pages/Detector'));
 const Unlearn = lazy(() => import('@/pages/Unlearn'));
+const UnlearnEdit = lazy(() => import('@/pages/UnlearnEdit'));
 const SelectData = lazy(() => import('@/pages/SelectData'));
 const DetectorSetting = lazy(() => import('@/pages/DetectorSetting'));
 
@@ -106,6 +107,10 @@ export default function AppRouter() {
     {
       path: '/unlearn',
       element: <Unlearn />,
+    },
+    {
+      path: '/unlearnEdit',
+      element: <UnlearnEdit />,
     },
     {
       path: '/selectdata',
