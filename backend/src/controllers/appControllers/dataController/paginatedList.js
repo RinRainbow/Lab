@@ -1,35 +1,56 @@
 const paginatedList = async (Model, req, res) => {
-  /////////////////////////////
-  const fieldsArray = req.query.fields
-    ? req.query.fields.split(',')
-    : ['label'];
-
-  const fields = { $and: [{ removed: false }, { $or: [] }] };
-  
-  let findedCount = 0;
-  for (const field of fieldsArray) {
-    fields.$and[1].$or.push({ [field]: { $regex: new RegExp(req.query.q, 'i') } });
-    findedCount = findedCount+1;
+  try {
+    // 確保 req.admin._id 存在
+    if (!req.admin || !req.admin._id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Admin ID is missing',
+      });
     }
-  ////////////////////
-  const page = req.query.page || 1;
-  const limit = parseInt(req.query.items) || 10;
-  /////////
-    //  Query the database for a list of all results
-    const resultsPromise = Model.find(fields)
-  //    .skip(0)
-  //    .limit(limit)
-      .sort({ created: 'desc' })
-      .populate('filename', 'label')
-      .exec();
-    const [result] = await Promise.all([resultsPromise]);
-  
-    // Calculating total pages
-    const pages = Math.ceil(findedCount / limit);
-    // Getting Pagination Object
-    const pagination = { page, pages, findedCount };
 
-    if (findedCount > 0) {
+    // 解析查詢字段
+    const fieldsArray = req.query.fields
+      ? req.query.fields.split(',')
+      : ['label'];
+    const sort = req.query.sort || 'desc';
+
+    // 構建查詢條件，加入 createdBy: req.admin._id
+    const query = {
+      $or: [
+        { createdBy: req.admin._id },
+        { isPublic: true }
+      ]
+    };
+
+    // 如果有模糊查詢，則加入 $or 條件
+    if (req.query.q) {
+      const orConditions = fieldsArray.map(field => ({
+        [field]: { $regex: new RegExp(req.query.q, 'i') }
+      }));
+
+      query.$and.push({ $or: orConditions });
+    }
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.items) || 10;
+    const skip = (page - 1) * limit;
+
+    // 查詢資料庫，查詢結果和總數同時執行
+    const [result, totalCount] = await Promise.all([
+      Model.find(query)
+        .sort({ created: sort })
+        .skip(skip)
+        .limit(limit)
+        .exec(),
+      Model.countDocuments(query)
+    ]);
+
+    const pages = Math.ceil(totalCount / limit);
+
+    // 返回分頁對象
+    const pagination = { page, pages, totalCount };
+
+    if (totalCount > 0) {
       return res.status(200).json({
         success: true,
         result,
@@ -44,7 +65,15 @@ const paginatedList = async (Model, req, res) => {
         message: 'Collection is Empty',
       });
     }
-  };
+  } catch (error) {
+    console.error('Error in paginatedList:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Server Error',
+      error: error.message,
+    });
+  }
+};
   
   module.exports = paginatedList;
   

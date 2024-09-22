@@ -11,7 +11,7 @@ const create = async (Model, req, res) => {
   let datasetName = req.body[0];
 
   //check datasetName exists or not
-  let datasetExist = await DatasetnameModel.findOne({
+/* let datasetExist = await DatasetnameModel.findOne({
     datasetName: datasetName,
   });
   if (datasetExist) {
@@ -20,7 +20,7 @@ const create = async (Model, req, res) => {
       result: null,
       message: 'dataset Already Exist',
     });
-  }
+  }*/
   const datasetnameResult = await DatasetnameModel({"datasetName":datasetName,"createdBy": userID,}).save();
   const datasetnameID = datasetnameResult._id;
   

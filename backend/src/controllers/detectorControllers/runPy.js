@@ -71,8 +71,41 @@ if (ScoreExist) {
 const result = await ScorenameModel.findOneAndDelete({"modelName": modelName});
 }
 const scoreResult = await new ScorenameModel(saveScore).save();
-
 }
+
+const SaveResult = async (filePath, modelName, createdBy) => {
+    // 讀取 JSON 檔案
+    const scoreJson = await fsp.readFile(filePath, 'utf8');
+    const scoreData = JSON.parse(scoreJson);
+    // 遍歷每筆資料
+    for (let i = 0; i < scoreData.length; i++) {
+        let data = scoreData[i];
+        // 將資料組合
+        const saveScore = {
+            modelName: modelName,
+            name: data.name,
+            detection: data.detection,
+            createdBy: createdBy
+        };
+        console.log(saveScore);
+        const PredictResultModel = mongoose.model("Predictresult");
+        // 檢查是否已存在相同的 modelName
+        let ScoreExist = await PredictResultModel.findOne({
+            "modelName": modelName,
+            "name": data.name // 檢查 name 是否已存在
+        });
+        // 如果存在，則刪除舊資料
+        if (ScoreExist) {
+            await PredictResultModel.findOneAndDelete({
+                "modelName": modelName,
+                "name": data.name
+            });
+        }
+        // 保存新的資料
+        await new PredictResultModel(saveScore).save();
+    }
+};
+
 
 const runPy = async (mode, req, res) => {
     model = {};
@@ -136,6 +169,7 @@ const runPy = async (mode, req, res) => {
         });
     }
     const scoref = config.path.score;
+    const resultf = config.path.result;
 
     let train = false;
     let predict = false;
@@ -203,13 +237,37 @@ const runPy = async (mode, req, res) => {
             });
         }).then(() => {
             console.log("123done");
-            SaveScore(scoref, modelName, createdBy);
-            const theInput = JSON.parse(userInput);
-            return res.status(200).json({
-                success: true,
-                theInput,
-                message: 'Successfully trained',
-            });
+            if(mode == "train")
+            {
+                 SaveScore(scoref, modelName, createdBy);
+                 const theInput = JSON.parse(userInput);
+                 return res.status(200).json({
+                     success: true,
+                     theInput,
+                     message: 'Successfully trained',
+                 });
+            }
+            else if(mode == "predict")
+            {
+                SaveResult(resultf, modelName, createdBy);
+                const theInput = JSON.parse(userInput);
+                return res.status(200).json({
+                    success: true,
+                    theInput,
+                    message: 'Successfully predicted',
+                });
+            }
+            else if(mode == "unlearn")
+                {
+                    const theInput = JSON.parse(userInput);
+                    return res.status(200).json({
+                        success: true,
+                        theInput,
+                        message: 'Successfully unlearned',
+                    });
+                }
+
+
         }).catch((error) => {
             return res.status(500).json({
                 success: false,

@@ -1,13 +1,14 @@
 const updateAll = async (Model, req, res) => {
   let errormeg = [];
   try {
-
+    console.log(req.body);
       const results = await Promise.all(req.body.map(async (element) => {
           try {
               const result = await Model.updateOne({ _id: element["_id"] }, element, {
                   new: true, // return the new result instead of the old one
                   runValidators: true,
               });
+              console.log(element);
               return result;
           } catch (err) {
               errormeg.push(err);

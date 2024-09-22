@@ -1,30 +1,55 @@
 const paginatedList = async (Model, req, res) => {
   try {
+    // 確保 req.admin._id 存在
+    if (!req.admin || !req.admin._id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Admin ID is missing',
+      });
+    }
+
+    // 解析查詢字段
     const fieldsArray = req.query.fields
       ? req.query.fields.split(',')
       : ['datasetName'];
     const sort = req.query.sort || 'desc';
-    
-    // Construct the search query
+
+    // 構建查詢條件，加入 createdBy: req.admin._id
     const query = {
-      $or: fieldsArray.map(field => ({
-        [field]: { $regex: new RegExp(req.query.q, 'i') }
-      }))
+      $or: [
+        { createdBy: req.admin._id },
+        { isPublic: true }
+      ]
     };
-    
+
+    // 如果有模糊查詢，則加入 $or 條件
+    if (req.query.q) {
+      const orConditions = fieldsArray.map(field => ({
+        [field]: { $regex: new RegExp(req.query.q, 'i') }
+      }));
+
+      query.$and.push({ $or: orConditions });
+    }
+
     const page = parseInt(req.query.page) || 1;
-    const limit = 1;
+    const limit = parseInt(req.query.items) || 10;
     const skip = (page - 1) * limit;
-    // Query the database
+
+    // 查詢資料庫，查詢結果和總數同時執行
     const [result, totalCount] = await Promise.all([
       Model.find(query)
         .sort({ created: sort })
+        .skip(skip)
+        .limit(limit)
         .exec(),
       Model.countDocuments(query)
     ]);
+
     const pages = Math.ceil(totalCount / limit);
-    // Getting Pagination Object
+
+    // 返回分頁對象
     const pagination = { page, pages, totalCount };
+
     if (totalCount > 0) {
       return res.status(200).json({
         success: true,
@@ -49,5 +74,6 @@ const paginatedList = async (Model, req, res) => {
     });
   }
 };
-
-module.exports = paginatedList;
+  
+  module.exports = paginatedList;
+  
