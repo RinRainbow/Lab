@@ -15,7 +15,7 @@ import PreviewCard from './components/PreviewCard';
 import CustomerPreviewCard from './components/CustomerPreviewCard';
 
 import React, { useEffect, useState } from 'react';
-import { Flex, Form, Select, List, Progress, Card, Typography, Divider } from 'antd';
+import { Flex, Form, Select, List, Progress, Card, Typography, Divider, Table } from 'antd';
 import FormItem from 'antd/es/form/FormItem';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 
@@ -32,6 +32,38 @@ const layout = {
   },
 };
 const { Text } = Typography;
+const dataSource = [
+  {
+    key: '1',
+    name: 'Mike',
+    age: 32,
+    address: '10 Downing Street',
+  },
+  {
+    key: '2',
+    name: 'John',
+    age: 42,
+    address: '10 Downing Street',
+  },
+];
+
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Age',
+    dataIndex: 'age',
+    key: 'age',
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address',
+  },
+];
 
 const ObjectDisplay = ({ obj }) => {
   const renderValue = (value) => {
@@ -145,6 +177,10 @@ const ModelDisplay = ({ getFieldValue, options, score }) => {
             </div>
           </div>
         </Card>
+        <Table
+          dataSource={dataSource}
+          columns={columns}
+        />
       </Flex>
     </>
   );
