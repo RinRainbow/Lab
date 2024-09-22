@@ -98,7 +98,7 @@ const ModelDisplay = ({ getFieldValue, options, score }) => {
             }}
           >
             <h3 style={{ color: '#22075e', marginBottom: 20, marginTop: 15, fontSize: 'large' }}>
-              Predict Score
+              Training Score
             </h3>
             <Divider />
             <div
