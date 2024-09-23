@@ -54,13 +54,26 @@ const ObjectDisplay = ({ obj }) => {
     return <Text>{String(value)}</Text>;
   };
 
+  const renderList = (key, value) => {
+    if(key !== '_id' && key !== 'enabled' && key !== 'datasetId' && key !== 'isPublic' && key !== 'createdBy' && key !== 'created' && key !== 'updated' && key !== '__v') {
+      return (
+        <List.Item>
+          <Text strong>{key}:</Text> {renderValue(value)}
+        </List.Item>
+      ); 
+    }
+  };
+
   return (
     <List
       dataSource={Object.entries(obj)}
       renderItem={([key, value]) => (
-        <List.Item>
-          <Text strong>{key}:</Text> {renderValue(value)}
-        </List.Item>
+        // if(key !== '_id' && key !== 'enabled' && key !== 'datasetId' && key !== 'isPublic' && key !== 'createdBy' && key !== 'created' && key !== 'updated' && key !== '__v') (
+        //   <List.Item>
+        //     <Text strong>{key}:</Text> {renderValue(value)}
+        //   </List.Item>
+        // )
+        renderList(key, value)
       )}
     />
   );
@@ -77,11 +90,14 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
   console.log('selectedScore: ', selectedScore);
 
   const pre_result = [];
-  predictResult.forEach(item => {
-    if(item.modelName === getFieldValue('modelname')) {
-      pre_result.push(item);
-    }
-  });
+  if(predictResult) {
+    predictResult.forEach(item => {
+      if(item.modelName === getFieldValue('modelname')) {
+        pre_result.push(item);
+      }
+    });
+  }
+  
   console.log('predictResult: ', predictResult);
   console.log('pre_result: ', pre_result);
 
