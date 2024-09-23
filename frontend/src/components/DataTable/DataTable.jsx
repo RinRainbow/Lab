@@ -702,6 +702,12 @@ export default function DataTable({ config, extra = [] }) {
 
   const unlearnEdit_columns = [
     {
+      title: 'datasetID',
+      dataIndex: ["datasetID"],
+      key: 'datasetID',
+      ...getColumnSearchProps('datasetID'),
+    },
+    {
       title: 'Filename',
       dataIndex: ["filename"],
       key: 'filename',
