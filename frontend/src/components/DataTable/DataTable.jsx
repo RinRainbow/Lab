@@ -303,7 +303,9 @@ export default function DataTable({ config, extra = [] }) {
   const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
 
   const { pagination, items: dataSource } = listResult;
+  // pagination.showSizeChanger = true;
   console.log("Data source: ", dataSource);
+  console.log("pagination: ", pagination);
 
   const all_label = [];   // Array to store unique labels
   const all_family = [];
