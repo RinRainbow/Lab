@@ -112,8 +112,8 @@ function Sidebar({ collapsible, isMobile = false }) {
       }}
       theme={'light'}
     >
-      <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-        <img src={logoIcon} alt="Logo" style={{ marginLeft: '-5px', height: '40px' }} />
+      <div className="logo">
+        {/* <img src={logoIcon} alt="Logo" style={{ marginLeft: '-5px', height: '40px' }} />
 
         {!showLogoApp && (
           <img
@@ -121,7 +121,7 @@ function Sidebar({ collapsible, isMobile = false }) {
             alt="Logo"
             style={{ marginTop: '3px', marginLeft: '10px', height: '38px' }}
           />
-        )}
+        )} */}
       </div>
       <Menu
         items={items}
