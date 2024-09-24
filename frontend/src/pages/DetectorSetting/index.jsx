@@ -69,19 +69,15 @@ export default function DetectorSetting() {
         console.log(values);
         try {
             const entity = 'modelsetting';
-            const requestData = values;
+            // const requestData = values;
+            const requestData = {
+                ...values,
+                rotation: [values.rotation1, values.rotation2],
+                zoom: [values.zoom1, values.zoom2],
+                shear: [values.shear1, values.shear2, values.shear3, values.shear4],
+            };
             console.log('onFinish requestData: ', requestData);
             dispatch(crud.create({ entity, jsonData: requestData }));
-            // const response = await fetch('http://localhost:1624/api/detector', 
-            // {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify(values),
-            // });
-            // const result = await response.json();
-            // console.log('Success: ', result);
         } catch(error) {
             console.log('onFinish error!');
             message.open({
@@ -96,12 +92,6 @@ export default function DetectorSetting() {
     const onReset = () => {
         form.resetFields();
     };
-    // const onFill = () => {
-    //     form.setFieldsValue({
-    //         modelname: 'Hey MDOEL!',
-    //         model: 'MDOEL',
-    //     });
-    // };
     return (
         <div className="whiteBox shadow">
             <div className='setting area' style={{padding: '30px 30px 30px 30px'}}>
@@ -314,13 +304,37 @@ export default function DetectorSetting() {
                             <Form.Item
                             name="rotation"
                             label="Rotation"
-                            rules={[
-                                {
-                                required: true,
-                                },
-                            ]}
                             >
-                            <Input placeholder="[0, 0]"/>
+                            {/* <Input placeholder="[0, 0]"/> */}
+                            {/* <InputNumber placeholder={'[0, 0]'} /> */}
+                            <Form.Item
+                            name="rotation1"
+                            rules={[
+                            {
+                                required: true,
+                            },
+                            ]}
+                            style={{
+                            display: 'inline-block',
+                            // width: 'calc(50% - 8px)',
+                            }}
+                            >
+                                <InputNumber placeholder={0} />
+                            </Form.Item>
+                            <Form.Item
+                            name="rotation2"
+                            rules={[
+                            {
+                                required: true,
+                            },
+                            ]}
+                            style={{
+                            display: 'inline-block',
+                            // width: 'calc(50% - 8px)',
+                            }}
+                            >
+                                <InputNumber placeholder={0} />
+                            </Form.Item>
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
@@ -352,25 +366,101 @@ export default function DetectorSetting() {
                             <Form.Item
                             name="zoom"
                             label="Zoom"
-                            rules={[
-                                {
-                                required: true,
-                                },
-                            ]}
                             >
-                            <Input placeholder="[1.0, 1.0]"/>
+                            {/* <Input placeholder="[1.0, 1.0]"/> */}
+                            {/* <InputNumber placeholder={'[1.0, 1.0]'} /> */}
+                            <Form.Item
+                            name="zoom1"
+                            rules={[
+                            {
+                                required: true,
+                            },
+                            ]}
+                            style={{
+                            display: 'inline-block',
+                            // width: 'calc(50% - 8px)',
+                            }}
+                            >
+                                <InputNumber placeholder={'1.0'} />
+                            </Form.Item>
+                            <Form.Item
+                            name="zoom2"
+                            rules={[
+                            {
+                                required: true,
+                            },
+                            ]}
+                            style={{
+                            display: 'inline-block',
+                            // width: 'calc(50% - 8px)',
+                            }}
+                            >
+                                <InputNumber placeholder={'1.0'} />
+                            </Form.Item>
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
                             name="shear"
                             label="Shear"
-                            rules={[
-                                {
-                                required: true,
-                                },
-                            ]}
                             >
-                            <Input placeholder="[0, 0, 0, 0]"/>
+                            {/* <Input placeholder="[0, 0, 0, 0]"/> */}
+                            {/* <InputNumber placeholder={'[0, 0, 0, 0]'} /> */}
+                            <Form.Item
+                            name="shear1"
+                            rules={[
+                            {
+                                required: true,
+                            },
+                            ]}
+                            style={{
+                            display: 'inline-block',
+                            // width: 'calc(50% - 8px)',
+                            }}
+                            >
+                                <InputNumber placeholder={0} />
+                            </Form.Item>
+                            <Form.Item
+                            name="shear2"
+                            rules={[
+                            {
+                                required: true,
+                            },
+                            ]}
+                            style={{
+                            display: 'inline-block',
+                            // width: 'calc(50% - 8px)',
+                            }}
+                            >
+                                <InputNumber placeholder={0} />
+                            </Form.Item>
+                            <Form.Item
+                            name="shear3"
+                            rules={[
+                            {
+                                required: true,
+                            },
+                            ]}
+                            style={{
+                            display: 'inline-block',
+                            // width: 'calc(50% - 8px)',
+                            }}
+                            >
+                                <InputNumber placeholder={0} />
+                            </Form.Item>
+                            <Form.Item
+                            name="shear4"
+                            rules={[
+                            {
+                                required: true,
+                            },
+                            ]}
+                            style={{
+                            display: 'inline-block',
+                            // width: 'calc(50% - 8px)',
+                            }}
+                            >
+                                <InputNumber placeholder={0} />
+                            </Form.Item>
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
