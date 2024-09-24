@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const DatasetModel = mongoose.model("Dataset");
 
 const remove = async (Model, req, res) => {
   // Find the document by id and delete it
@@ -7,6 +8,7 @@ const remove = async (Model, req, res) => {
   };
   console.log(req.params);
   // Find the document by id and delete it
+  const resultData =  await DatasetModel.deleteMany({ datasetID:req.params.id});
   const result = await Model.findByIdAndDelete(req.params.id,
   /*findOneAndUpdate(
     { _id: req.params.id, removed: false },

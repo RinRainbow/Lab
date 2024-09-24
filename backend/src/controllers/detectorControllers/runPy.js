@@ -81,28 +81,28 @@ const SaveResult = async (filePath, modelName, createdBy) => {
     for (let i = 0; i < scoreData.length; i++) {
         let data = scoreData[i];
         // 將資料組合
-        const saveScore = {
+        const saveResult = {
             modelName: modelName,
-            name: data.name,
+            dataname: data.name,
             detection: data.detection,
             createdBy: createdBy
         };
-        console.log(saveScore);
+        console.log(saveResult);
         const PredictResultModel = mongoose.model("Predictresult");
         // 檢查是否已存在相同的 modelName
         let ScoreExist = await PredictResultModel.findOne({
             "modelName": modelName,
-            "name": data.name // 檢查 name 是否已存在
+            "dataname": data.name // 檢查 name 是否已存在
         });
         // 如果存在，則刪除舊資料
         if (ScoreExist) {
             await PredictResultModel.findOneAndDelete({
                 "modelName": modelName,
-                "name": data.name
+                "dataname": data.name
             });
         }
         // 保存新的資料
-        await new PredictResultModel(saveScore).save();
+        await new PredictResultModel(saveResult).save();
     }
 };
 

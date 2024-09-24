@@ -9,21 +9,21 @@ const create = async (Model, req, res) => {
   // first one element in the strarray will be the datasetName
   // the others are the datas which in this dataset
   let datasetName = req.body[0];
-
+  let datasetnameID, datasetnameResult;
   //check datasetName exists or not
-/* let datasetExist = await DatasetnameModel.findOne({
+ let datasetExist = await DatasetnameModel.findOne({
     datasetName: datasetName,
   });
   if (datasetExist) {
-    return res.status(403).json({
-      success: false,
-      result: null,
-      message: 'dataset Already Exist',
-    });
-  }*/
-  const datasetnameResult = await DatasetnameModel({"datasetName":datasetName,"createdBy": userID,}).save();
-  const datasetnameID = datasetnameResult._id;
-  
+    datasetnameID = datasetExist._id;
+  }
+  else
+  {
+    datasetnameResult = await DatasetnameModel({"datasetName":datasetName,"createdBy": userID,}).save();
+    datasetnameID = datasetnameResult._id;
+    
+  }
+
   //datas
   newdatas = [];
   body.forEach((dataid, index)=> {

@@ -52,6 +52,7 @@ async function setupDataset(data) {
             family: data.family,
             CPUArchitecture: data["CPU Architecture"],
             fileSize: data["file size"],
+            isPublic: true
           };
           //console.log(savingData);
           //console.log(count);

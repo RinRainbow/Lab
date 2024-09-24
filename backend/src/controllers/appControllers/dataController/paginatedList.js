@@ -39,8 +39,7 @@ const paginatedList = async (Model, req, res) => {
     const [result, totalCount] = await Promise.all([
       Model.find(query)
         .sort({ created: sort })
-        .skip(skip)
-        .limit(limit)
+
         .exec(),
       Model.countDocuments(query)
     ]);
