@@ -56,11 +56,24 @@ const ObjectDisplay = ({ obj }) => {
 
   const renderList = (key, value) => {
     if(key !== '_id' && key !== 'enabled' && key !== 'datasetId' && key !== 'isPublic' && key !== 'createdBy' && key !== 'created' && key !== 'updated' && key !== '__v') {
-      return (
-        <List.Item>
-          <Text strong>{key}:</Text> {renderValue(value)}
-        </List.Item>
-      ); 
+      if(key === 'rotation' || key === 'zoom' || key === 'shear') {
+        if(Array.isArray(value) && value.length > 0) {
+          <List.Item>
+            <Text strong>{key}:</Text> {renderValue(value)}
+          </List.Item>
+        }
+      } else {
+        return (
+          <List.Item>
+            <Text strong>{key}:</Text> {renderValue(value)}
+          </List.Item>
+        );
+      }
+      // return (
+      //   <List.Item>
+      //     <Text strong>{key}:</Text> {renderValue(value)}
+      //   </List.Item>
+      // ); 
     }
   };
 
@@ -127,7 +140,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
           /> */}
           <ObjectDisplay obj={selectedModel} />
         </Card>
-        <Card style={{ height: '100%', width: 300 }}>
+        <Card style={{ height: '100%', width: 200 }}>
           <div
             className="pad20"
             style={{
@@ -135,7 +148,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
               justifyContent: 'center',
             }}
           >
-            <h3 style={{ color: '#22075e', marginBottom: 20, marginTop: 15, fontSize: 'large' }}>
+            <h3 style={{ color: '#22075e', marginBottom: 20, marginTop: 15 }}>
               Training Score
             </h3>
             <Divider />
@@ -151,7 +164,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
                 percent={selectedScore.accuracy*100} 
                 strokeColor={conicColors} 
                 format={(percent) => `${percent}`} 
-                size={148} 
+                size={100} 
               />
               <br></br>
               <Text>f1_score</Text>
@@ -160,7 +173,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
                 percent={selectedScore.f1_score*100} 
                 strokeColor={conicColors} 
                 format={(percent) => `${percent}`} 
-                size={148} 
+                size={100} 
               />
               <br></br>
               <Text>precision</Text>
@@ -169,7 +182,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
                 percent={selectedScore.precision*100} 
                 strokeColor={conicColors} 
                 format={(percent) => `${percent}`} 
-                size={148} 
+                size={100} 
               />
               <br></br>
               <Text>recall</Text>
@@ -178,7 +191,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
                 percent={selectedScore.recall*100} 
                 strokeColor={conicColors} 
                 format={(percent) => `${percent}`} 
-                size={148} 
+                size={100} 
               />
             </div>
           </div>
