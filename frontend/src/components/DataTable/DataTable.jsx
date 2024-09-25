@@ -605,7 +605,7 @@ export default function DataTable({ config, extra = [] }) {
 
   const detector_columns = [
     {
-      title: 'Model Name',
+      title: 'Detector',
       dataIndex: ["modelName"],
       key: 'modelName',
       ...getColumnSearchProps('modelName'),
@@ -654,10 +654,10 @@ export default function DataTable({ config, extra = [] }) {
 
   const unlearn_columns = [
     {
-      title: 'Dataset Name',
-      dataIndex: ["datasetName"],
-      key: 'datasetName',
-      ...getColumnSearchProps('datasetName'),
+      title: 'Detector',
+      dataIndex: ["modelName"],
+      key: 'modelName',
+      ...getColumnSearchProps('modelName'),
     },
     {
       title: '',
