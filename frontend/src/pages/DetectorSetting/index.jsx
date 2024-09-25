@@ -298,7 +298,8 @@ export default function DetectorSetting() {
                                 },
                             ]}
                             >
-                            <Input placeholder="1e-5"/>
+                            {/* <Input placeholder="1e-5"/> */}
+                            <InputNumber placeholder={1e-5} />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
