@@ -7,12 +7,12 @@ import useLanguage from '@/locale/useLanguage';
 
 export default function Unlearn() {
   const translate = useLanguage();
-  const entity = 'datasetname';
+  const entity = 'modelsetting';
   const searchConfig = {
-    displayLabels: ['datsetName'],
-    searchFields: 'datasetName',
+    displayLabels: ['modelName'],
+    searchFields: 'modelName',
   };
-  const deleteModalLabels = ['datasetName'];
+  const deleteModalLabels = ['modelName'];
 
   const Labels = {
     PANEL_TITLE: translate('Unlearn'),
