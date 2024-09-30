@@ -1140,7 +1140,11 @@ export default function DataTable({ config, extra = [] }) {
           onChange={handelDataTableLoad}
           bordered
           scroll={{ x: true }}
-          rowSelection={rowSelection}
+          // rowSelection={rowSelection}
+          rowSelection={{
+            type: 'radio',
+            ...rowSelection,
+          }}
         />
       );
       
