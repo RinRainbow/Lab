@@ -45,6 +45,8 @@ export default function DataTable({ config, extra = [] }) {
   const translate = useLanguage();
   const { moneyFormatter } = useMoney();
   const { dateFormat } = useDate();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const items = [
     {
@@ -58,15 +60,6 @@ export default function DataTable({ config, extra = [] }) {
       icon: <EditOutlined />,
     },
     ...extra,
-    // {
-    //   type: 'divider',
-    // },
-
-    // {
-    //   label: translate('Delete'),
-    //   key: 'delete',
-    //   icon: <DeleteOutlined />,
-    // },
   ];
 
   const handleRead = (record) => {
@@ -109,10 +102,6 @@ export default function DataTable({ config, extra = [] }) {
         }
 
         all_updatedItems.push(updatedItem);
-  
-        // dispatch(crud.currentItem({ data: updatedItem }));
-        // dispatch(crud.currentAction({ actionType: 'update', data: updatedItem }));
-        // dispatch(crud.update({ entity, id: key, jsonData: updatedItem }));
       }
     });
     console.log('all_updatedItems: ', all_updatedItems);
@@ -130,68 +119,9 @@ export default function DataTable({ config, extra = [] }) {
       }
     });
     setSelectedRowKeys([]);
-    // dispatch(crud.currentAction({ actionType: 'delete', data: record }));
-    // modal.open();
   }
 
-  // function handleUpdatePassword(record) {
-  //   dispatch(crud.currentItem({ data: record }));
-  //   dispatch(crud.currentAction({ actionType: 'update', data: record }));
-  //   advancedBox.open();
-  //   panel.open();
-  //   collapsedBox.open();
-  // }
-
-  // let dispatchColumns = [];
-  // if (fields) {
-  //   dispatchColumns = [...dataForTable({ fields, translate, moneyFormatter, dateFormat })];
-  // } else {
-  //   dispatchColumns = [...dataTableColumns];
-  // }
-
-  // dataTableColumns = [
-  //   ...dispatchColumns,
-  //   {
-  //     title: '',
-  //     key: 'action',
-  //     fixed: 'right',
-  //     render: (_, record) => (
-  //       <Dropdown
-  //         menu={{
-  //           items,
-  //           onClick: ({ key }) => {
-  //             switch (key) {
-  //               case 'read':
-  //                 handleRead(record);
-  //                 break;
-  //               case 'edit':
-  //                 handleEdit(record);
-  //                 break;
-
-  //               case 'delete':
-  //                 handleDelete(record);
-  //                 break;
-  //               case 'updatePassword':
-  //                 handleUpdatePassword(record);
-  //                 break;
-
-  //               default:
-  //                 break;
-  //             }
-  //             // else if (key === '2')handleCloseTask
-  //           },
-  //         }}
-  //         trigger={['click']}
-  //       >
-  //         <EllipsisOutlined
-  //           style={{ cursor: 'pointer', fontSize: '24px' }}
-  //           onClick={(e) => e.preventDefault()}
-  //         />
-  //       </Dropdown>
-  //     ),
-  //   },
-  // ];
-
+  /* ----- Table column search ----- */
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef(null);
@@ -299,19 +229,16 @@ export default function DataTable({ config, extra = [] }) {
         text
       ),
   });
+  /* ----- Table column search END ----- */
+
 
   const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
-
   const { pagination, items: dataSource } = listResult;
-  // pagination.showSizeChanger = true;
-  console.log("Data source: ", dataSource);
-  console.log("pagination: ", pagination);
 
-  const all_label = [];   // Array to store unique labels
+  /* ----- Table column filter option ----- */
+  const all_label = [];
   const all_family = [];
   const all_cpu = [];
-
-  // Function to populate all_label, all_family, and all_cpu array
   function checkLabels(data) {
     data.forEach(item => {
       if (!all_label.some(labelObj => labelObj.text === item.label)) {
@@ -326,6 +253,27 @@ export default function DataTable({ config, extra = [] }) {
     });
   }
   checkLabels(dataSource);
+  /* ----- Table column filter option END ----- */
+
+
+  const handleDetailClick = (record) => {
+    memo.id = record._id;
+    memo.name = record.datasetName;
+    console.log('record:', record);
+    console.log('memo.id:', memo.id);
+    console.log('memo.name:', memo.name);
+    navigate('/datasetDetail');
+  };
+  const handleUnlearnEditClick = (record) => {
+    memo.id = record._id;
+    memo.name = record.datasetName;
+    console.log('record:', record);
+    console.log('memo.id:', memo.id);
+    console.log('memo.name:', memo.name);
+    navigate('/unlearnEdit');
+  };
+
+  /* ----- Table columns ----- */
   const columns = [
     {
       title: 'Filename',
@@ -415,7 +363,6 @@ export default function DataTable({ config, extra = [] }) {
       ),
     },
   ];
-
   const detail_columns = [
     {
       title: 'datasetID',
@@ -511,37 +458,6 @@ export default function DataTable({ config, extra = [] }) {
     //   ),
     // },
   ];
-
-  const navigate = useNavigate();
-
-  const handleDetailClick = (record) => {
-    memo.id = record._id;
-    memo.name = record.datasetName;
-    console.log('record:', record);
-    console.log('memo.id:', memo.id);
-    console.log('memo.name:', memo.name);
-    navigate('/datasetDetail');
-    // if(DATATABLE_TITLE === 'Dataset') {
-    //   navigate('/datasetDetail');
-    // } else if(DATATABLE_TITLE === 'Unlearn') {
-    //   navigate('/unlearnEdit');
-    // }
-  };
-
-  const handleUnlearnEditClick = (record) => {
-    memo.id = record._id;
-    memo.name = record.datasetName;
-    console.log('record:', record);
-    console.log('memo.id:', memo.id);
-    console.log('memo.name:', memo.name);
-    navigate('/unlearnEdit');
-    // if(DATATABLE_TITLE === 'Dataset') {
-    //   navigate('/datasetDetail');
-    // } else if(DATATABLE_TITLE === 'Unlearn') {
-    //   navigate('/unlearnEdit');
-    // }
-  };
-
   const dataset_columns = [
     {
       title: 'Dataset Name',
@@ -602,7 +518,6 @@ export default function DataTable({ config, extra = [] }) {
       ),
     },
   ];
-
   const detector_columns = [
     {
       title: 'Detector',
@@ -651,7 +566,6 @@ export default function DataTable({ config, extra = [] }) {
       ),
     },
   ];
-
   const unlearn_columns = [
     {
       title: 'Detector',
@@ -701,7 +615,6 @@ export default function DataTable({ config, extra = [] }) {
       ),
     },
   ];
-
   const unlearnEdit_columns = [
     {
       title: 'datasetID',
@@ -837,20 +750,19 @@ export default function DataTable({ config, extra = [] }) {
     //   ),
     // },
   ];
+  /* ----- Table columns END ----- */
 
-  const dispatch = useDispatch();
 
+  /* ----- Table Data Handler ----- */
   const handelDataTableLoad = useCallback((pagination) => {
     console.log('handleDataTableLoad');
     const options = { page: pagination.current || 1, items: pagination.pageSize || 10 };
     dispatch(crud.list({ entity, options }));
   }, []);
-
   const dispatcher = () => {
     dispatch(crud.list({ entity }));
     console.log('dispatcher entity:', entity);
   };
-
   useEffect(() => {
     // console.log('useEffect');
     const controller = new AbortController();
@@ -859,10 +771,31 @@ export default function DataTable({ config, extra = [] }) {
       controller.abort();
     };
   }, []);
+  /* ----- Table Data Handler END ----- */
 
+
+  /* ----- Data selection ----- */
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const start = () => {
+  const onSelectChange = (newSelectedRowKeys) => {
+    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+    setSelectedRowKeys(newSelectedRowKeys);
+  };
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+    selections: [
+      Table.SELECTION_ALL,
+      Table.SELECTION_INVERT,
+      Table.SELECTION_NONE,
+    ],
+  };
+  const hasSelected = selectedRowKeys.length > 0;
+  /* ----- Data selection END ----- */
+
+
+  /* ----- Table Button Finction ----- */
+  const [loading, setLoading] = useState(false); // Button loading
+  const start = () => {   // Training Button
     setLoading(true);
     const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
     console.log('Selected Data:', selectedData);
@@ -887,16 +820,10 @@ export default function DataTable({ config, extra = [] }) {
       console.error('Error:', error);
       message.error('Training Error!');
     });
-    // ajax request after empty completing
-    // setTimeout(() => {
-    //   setSelectedRowKeys([]);
-    //   setLoading(false);
-    // }, 1000);
     setSelectedRowKeys([]);
     setLoading(false);
-    // message.success('Training Successful!');
   };
-  const start_pre = () => {
+  const start_pre = () => {   // Predict Button
     setLoading(true);
     const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
     console.log('Selected Data:', selectedData);
@@ -921,16 +848,10 @@ export default function DataTable({ config, extra = [] }) {
       console.error('Error:', error);
       message.error('Predict Error!');
     });
-    // ajax request after empty completing
-    // setTimeout(() => {
-    //   setSelectedRowKeys([]);
-    //   setLoading(false);
-    // }, 1000);
     setSelectedRowKeys([]);
     setLoading(false);
-    // message.success('Training Successful!');
   };
-  const start_un = () => {
+  const start_un = () => {    // Unlearn Button
     setLoading(true);
     const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
     console.log('Selected Data:', selectedData);
@@ -955,16 +876,9 @@ export default function DataTable({ config, extra = [] }) {
       console.error('Error:', error);
       message.error('Unlearning Error!');
     });
-    // ajax request after empty completing
-    // setTimeout(() => {
-    //   setSelectedRowKeys([]);
-    //   setLoading(false);
-    // }, 1000);
     setSelectedRowKeys([]);
     setLoading(false);
-    // message.success('Training Successful!');
   };
-
   const saved = () => {
     setLoading(true);
     const entity = 'dataset';
@@ -978,7 +892,10 @@ export default function DataTable({ config, extra = [] }) {
     setSelectedRowKeys([]);
     setLoading(false);
   };
+  /* ----- Table Button Finction END ----- */
 
+
+  /* ----- Editing Data Modal Handler ----- */
   const [open, setOpen] = useState(false);
   const showModal = () => {
     setOpen(true);
@@ -990,28 +907,10 @@ export default function DataTable({ config, extra = [] }) {
     setOpen(false);
     dispatcher();
     handelDataTableLoad();
-    // navigate(0);
   };
   const handleCancel = (e) => {
     console.log(e);
     setOpen(false);
-  };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showSaveModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleSaveOk = () => {
-    saved();
-    setIsModalOpen(false);
-  };
-  const handleSaveCancel = () => {
-    setIsModalOpen(false);
-  };
-  const [DatasetName, setDatasetName] = useState();
-  const saveInput = (e) => {
-    setDatasetName(e.target.value);
-    console.log('dataset name: ', e.target.value);
   };
 
   const [FilenameDisabled, setFilenameDisabled] = useState(false);
@@ -1079,22 +978,30 @@ export default function DataTable({ config, extra = [] }) {
     setNewType(e);
     console.log('new type: ', e);
   };
+  /* ----- Editing Data Modal Handler END ----- */
 
-  const onSelectChange = (newSelectedRowKeys) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
-    setSelectedRowKeys(newSelectedRowKeys);
-  };
-  const rowSelection = {
-    selectedRowKeys,
-    onChange: onSelectChange,
-    selections: [
-      Table.SELECTION_ALL,
-      Table.SELECTION_INVERT,
-      Table.SELECTION_NONE,
-    ],
-  };
-  const hasSelected = selectedRowKeys.length > 0;
 
+  /* ----- Creating Dataset Modal Handler ----- */
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showSaveModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleSaveOk = () => {
+    saved();
+    setIsModalOpen(false);
+  };
+  const handleSaveCancel = () => {
+    setIsModalOpen(false);
+  };
+  const [DatasetName, setDatasetName] = useState();
+  const saveInput = (e) => {
+    setDatasetName(e.target.value);
+    console.log('dataset name: ', e.target.value);
+  };
+  /* ----- Creating Dataset Modal Handler END ----- */
+
+
+  /* ----- Table Rendering ----- */
   const renderTable = () => {
     if(DATATABLE_TITLE === 'Dataset') {
       return (
@@ -1192,13 +1099,13 @@ export default function DataTable({ config, extra = [] }) {
       );
     }
   };
+  /* ----- Table Rendering END ----- */
 
+
+  /* ----- Table Button Rendering ----- */
   const renderButtons = () => {
     if (DATATABLE_TITLE === 'Select Your Dataset') {
       return [
-        // <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
-        //   {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
-        // </Button>,
         <Button type='primary' onClick={showSaveModal} disabled={!hasSelected} key={`${uniqueId()}`}>
           {hasSelected ? `Save ${selectedRowKeys.length} items` : 'Save'}
         </Button>,
@@ -1345,9 +1252,18 @@ export default function DataTable({ config, extra = [] }) {
           {/* {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'} */}
           Train
         </Button>,
-        <Button type="primary" onClick={start_pre} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+        <Button type="primary" onClick={showModal} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
           Predict
         </Button>,
+        <Modal
+          title="Select Dataset"
+          open={open}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          okText="Edit"
+        >
+          
+        </Modal>,
         <Button href='/detectorSetting' key={`${uniqueId()}`}>
           Create
         </Button>,
@@ -1465,6 +1381,8 @@ export default function DataTable({ config, extra = [] }) {
       ];
     }
   };
+  /* ----- Table Button Rendering END ----- */
+
 
   return (
     <>
@@ -1474,143 +1392,9 @@ export default function DataTable({ config, extra = [] }) {
         ghost={false}
         extra={[
           ...renderButtons(),
-          // <Tooltip title="Delete">
-          //   <Button danger shape="circle" onClick={handleDelete} icon={<DeleteOutlined />} disabled={!hasSelected} style={{ marginRight: 15 }} />
-          // </Tooltip>,
-          // <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
-          //   {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'}
-          // </Button>,
-          // <Button onClick={showSaveModal} disabled={!hasSelected} key={`${uniqueId()}`}>
-          //   {hasSelected ? `Save ${selectedRowKeys.length} items` : 'Save'}
-          // </Button>,
-          // <Modal title="Saving Dataset" open={isModalOpen} onOk={handleSaveOk} onCancel={handleSaveCancel}>
-          //   <Input 
-          //     name='Dataset Name'
-          //     onChange={saveInput}
-          //     allowClear
-          //     placeholder='enter your dataset name...'
-          //   />
-          // </Modal>,
-          // <Button onClick={showModal} disabled={!hasSelected} key={`${uniqueId()}`}>
-          //   {hasSelected ? `Edit ${selectedRowKeys.length} items` : 'Edit'}
-          // </Button>,
-          // <Modal
-          //   title="Edit Items"
-          //   open={open}
-          //   onOk={handleOk}
-          //   onCancel={handleCancel}
-          //   okText="Edit"
-          // >
-          //   <Checkbox 
-          //     checked={FilenameDisabled}
-          //     onChange={onChangeFilename}
-          //   >
-          //     Filename
-          //   </Checkbox>
-          //   <Input 
-          //     name='filename'
-          //     onChange={filenameInput}
-          //     disabled={!FilenameDisabled} 
-          //     allowClear
-          //   />
-
-          //   <Checkbox 
-          //     checked={LabelDisabled}
-          //     onChange={onChangeLabel}
-          //   >
-          //     Label
-          //   </Checkbox>
-          //   <Input
-          //     name='label'
-          //     onChange={labelInput}
-          //     disabled={!LabelDisabled}
-          //     allowClear
-          //   />
-
-          //   <Checkbox 
-          //     checked={FamilyDisabled}
-          //     onChange={onChangeFamily}
-          //   >
-          //     Family
-          //   </Checkbox>
-          //   <Input 
-          //     name='family'
-          //     onChange={familyInput}
-          //     allowClear
-          //     disabled={!FamilyDisabled}
-          //   />
-
-          //   <Checkbox 
-          //     checked={CPUDisabled}
-          //     onChange={onChangeCPU}
-          //   >
-          //     Cpuarchitecture
-          //   </Checkbox>
-          //   <Input 
-          //     name='cpu'
-          //     onChange={cpuInput}
-          //     allowClear
-          //     disabled={!CPUDisabled}
-          //   />
-
-          //   <Checkbox 
-          //     checked={FilesizeDisabled}
-          //     onChange={onChangeFilesize}
-          //   >
-          //     Filesize
-          //   </Checkbox>
-          //   <Input 
-          //     name='filesize'
-          //     onChange={filesizeInput}
-          //     allowClear
-          //     disabled={!FilesizeDisabled}
-          //   />
-
-          //   <Checkbox 
-          //     checked={TypeDisabled}
-          //     onChange={onChangeType}
-          //   >
-          //     Type
-          //   </Checkbox>
-          //   {/* <Input 
-          //     name='type'
-          //     onChange={typeInput}
-          //     allowClear
-          //     disabled={!TypeDisabled}
-          //   /> */}
-          //   <Select
-          //     onChange={typeInput}
-          //     placeholder="Select a tag"
-          //     style={{
-          //       width: 472,
-          //     }}
-          //     options={[
-          //       {
-          //         value: 'test',
-          //         label: 'test',
-          //       },
-          //       {
-          //         value: 'train',
-          //         label: 'train',
-          //       },
-          //       {
-          //         value: 'unlearn',
-          //         label: 'unlearn',
-          //       },
-          //       {
-          //         value: 'predict',
-          //         label: 'predict',
-          //       },
-          //     ]}
-          //     allowClear
-          //     disabled={!TypeDisabled}
-          //   />
-
-          // </Modal>,
           <Tooltip title="Reload">
             <Button shape="circle" onClick={handelDataTableLoad} key={`${uniqueId()}`} icon={<ReloadOutlined />} />
           </Tooltip>,
-          // <AddNewItem key={`${uniqueId()}`} config={config} />,
         ]}
         style={{
           padding: '20px 0px',
@@ -1618,18 +1402,6 @@ export default function DataTable({ config, extra = [] }) {
       ></PageHeader>
 
       {renderTable()}
-
-      {/* <Table
-        columns={columns}
-        rowKey={(item) => item._id}
-        dataSource={dataSource}
-        pagination={pagination}
-        loading={listIsLoading}
-        onChange={handelDataTableLoad}
-        bordered
-        scroll={{ x: true }}
-        rowSelection={rowSelection}
-      /> */}
     </>
   );
 }
