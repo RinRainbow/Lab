@@ -161,7 +161,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
               <Text>accuracy</Text>
               <Progress 
                 type="dashboard" 
-                percent={selectedScore.accuracy*100} 
+                percent={selectedScore ? selectedScore.accuracy*100 : 0}
                 strokeColor={conicColors} 
                 format={(percent) => `${percent}`} 
                 size={100} 
@@ -170,7 +170,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
               <Text>f1_score</Text>
               <Progress 
                 type="dashboard" 
-                percent={selectedScore.f1_score*100} 
+                percent={selectedScore ? selectedScore.f1_score*100 : 0} 
                 strokeColor={conicColors} 
                 format={(percent) => `${percent}`} 
                 size={100} 
@@ -179,7 +179,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
               <Text>precision</Text>
               <Progress 
                 type="dashboard" 
-                percent={selectedScore.precision*100} 
+                percent={selectedScore ? selectedScore.precision*100 : 0} 
                 strokeColor={conicColors} 
                 format={(percent) => `${percent}`} 
                 size={100} 
@@ -188,7 +188,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
               <Text>recall</Text>
               <Progress 
                 type="dashboard" 
-                percent={selectedScore.recall*100} 
+                percent={selectedScore ? selectedScore.recall*100 : 0} 
                 strokeColor={conicColors} 
                 format={(percent) => `${percent}`} 
                 size={100} 
@@ -196,10 +196,19 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
             </div>
           </div>
         </Card>
-        <Table
+        <Card>
+          <h3 style={{ color: '#22075e', marginBottom: 20, marginTop: 15 }}>
+            Predict Result
+          </h3>
+          <Table
+            dataSource={pre_result}
+            columns={columns}
+          />
+        </Card>
+        {/* <Table
           dataSource={pre_result}
           columns={columns}
-        />
+        /> */}
       </Flex>
     </>
   );
