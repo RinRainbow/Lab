@@ -18,6 +18,8 @@ import { generate as uniqueId } from 'shortid';
 import { useCrudContext } from '@/context/crud';
 
 import Highlighter from 'react-highlight-words';
+import errorHandler from '@/request/errorHandler';
+import { request } from '@/request';
 
 function AddNewItem({ config }) {
   const { crudContextAction } = useCrudContext();
@@ -826,13 +828,15 @@ export default function DataTable({ config, extra = [] }) {
   const start_pre = () => {   // Predict Button
     setLoading(true);
     const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
-    console.log('Selected Data:', selectedData);
+    const predictData = PredictDataset;
+    const requestData = [selectedData, ...predictData];
+    console.log('Request Data:', requestData);
     fetch('http://localhost:1624/api/detector/predict', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(selectedData),
+      body: JSON.stringify(requestData),
     })
     .then(response => {
       if (!response.ok) {
@@ -999,6 +1003,43 @@ export default function DataTable({ config, extra = [] }) {
     console.log('dataset name: ', e.target.value);
   };
   /* ----- Creating Dataset Modal Handler END ----- */
+
+
+  /* ----- Predict Modal Handler ----- */
+  const [options, setOptions] = useState([]);
+  const asyncList = (entity) => {
+      return request.list({ entity });
+  };
+  useEffect(() => {
+      async function fetchData() {
+          try {
+              const data = await asyncList('datasetname');
+              console.log('useEffect data: ', data);
+              setOptions(data.result);
+          } catch (error) {
+              console.log('useEffect erorr!');
+              errorHandler(error);
+          }
+      }
+      fetchData();
+  }, []);
+  const [preModalOpen, setPreModalOpen] = useState(false);
+  const showPredictModal = () => {
+    setPreModalOpen(true);
+  };
+  const handlePredict = () => {
+    start_pre();
+    setPreModalOpen(false);
+  };
+  const handlePredictCancel = () => {
+    setPreModalOpen(false);
+  };
+  const [PredictDataset, setPredictDataset] = useState([]);
+  const onPredictDatasetChange = (e) => {
+    setPredictDataset(e);
+    console.log('dataset name: ', e);
+  };
+  /* ----- Predict Modal Handler END ----- */
 
 
   /* ----- Table Rendering ----- */
@@ -1252,16 +1293,30 @@ export default function DataTable({ config, extra = [] }) {
           {/* {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'} */}
           Train
         </Button>,
-        <Button type="primary" onClick={showModal} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+        <Button type="primary" onClick={showPredictModal} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
           Predict
         </Button>,
         <Modal
           title="Select Dataset"
-          open={open}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          okText="Edit"
+          open={preModalOpen}
+          onOk={handlePredict}
+          onCancel={handlePredictCancel}
+          okText="Predict"
         >
+          <Select
+          mode="multiple"
+          style={{
+            width: '100%',
+          }}
+          placeholder="Select dataset..."
+          onChange={onPredictDatasetChange}
+          >
+              {Array.isArray(options) && options.length > 0 && options.map((option) => (
+                  <Select.Option value={option.datasetName}>
+                  {option.datasetName}
+                  </Select.Option>
+              ))}
+          </Select>
           
         </Modal>,
         <Button href='/detectorSetting' key={`${uniqueId()}`}>
@@ -1317,10 +1372,6 @@ export default function DataTable({ config, extra = [] }) {
               {
                 value: 'unlearn',
                 label: 'unlearn',
-              },
-              {
-                value: 'predict',
-                label: 'predict',
               },
             ]}
             allowClear
