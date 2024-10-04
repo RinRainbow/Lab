@@ -1,7 +1,15 @@
 import { useCallback, useEffect } from 'react';
 import React, { useRef, useState } from 'react';
 import { EyeOutlined, EditOutlined, DeleteOutlined, EllipsisOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
-import { Checkbox, Table, Button, message, Tag, Tooltip, Input, Space, Modal, Select, Dropdown } from 'antd';
+import {
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  CloseCircleOutlined,
+  ExclamationCircleOutlined,
+  MinusCircleOutlined,
+  SyncOutlined,
+} from '@ant-design/icons';
+import { Checkbox, Table, Button, message, Tag, Tooltip, Input, Space, Modal, Select, Dropdown, Divider, Flex } from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 import { memo } from './detailMemo';
 import { useNavigate } from 'react-router-dom';
@@ -237,6 +245,7 @@ export default function DataTable({ config, extra = [] }) {
   const { result: listResult, isLoading: listIsLoading } = useSelector(selectListItems);
   const { pagination, items: dataSource } = listResult;
 
+
   /* ----- Table column filter option ----- */
   const all_label = [];
   const all_family = [];
@@ -274,6 +283,13 @@ export default function DataTable({ config, extra = [] }) {
     console.log('memo.name:', memo.name);
     navigate('/unlearnEdit');
   };
+  const handlePredictClick = () => {
+    const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
+    memo.detector = selectedData
+    console.log('memo.detector:', memo.detector);
+    navigate('/predictDataset');
+  };
+
 
   /* ----- Table columns ----- */
   const columns = [
@@ -528,6 +544,66 @@ export default function DataTable({ config, extra = [] }) {
       ...getColumnSearchProps('modelName'),
     },
     {
+      title: 'Status',
+      key: 'status',
+      dataIndex: 'status',
+      render: (_, { status }) => (
+        <>
+          {
+            <Tag 
+              color={
+                status === 'untrained' ? 'default'
+                : status === 'training' ? 'processing'
+                : status === 'trained' ? 'success'
+                : status === 'predicting' ? 'processing'
+                : status === 'unlearning' ? 'processing'
+                : status === 'error' ? 'error'
+                : 'default'
+              }
+              icon={
+                status === 'training' ? <SyncOutlined spin />
+                : status === 'trained' ? <CheckCircleOutlined />
+                : status === 'predicting' ? <SyncOutlined spin />
+                : status === 'unlearning' ? <SyncOutlined spin />
+                : status === 'error' ? <CloseCircleOutlined />
+                : <MinusCircleOutlined />
+              }
+              key={status}
+            >
+              {status}
+            </Tag>
+          }
+        </>
+      ),
+      filters: [
+        {
+          text: 'untrained',
+          value: 'untrained',
+        },
+        {
+          text: 'training',
+          value: 'training',
+        },
+        {
+          text: 'trained',
+          value: 'trained',
+        },
+        {
+          text: 'predicting',
+          value: 'predicting',
+        },
+        {
+          text: 'unlearning',
+          value: 'unlearning',
+        },
+        {
+          text: 'error',
+          value: 'error',
+        },
+      ],
+      onFilter: (value, record) => record.tags.indexOf(value) === 0,
+    },
+    {
       title: '',
       key: 'action',
       fixed: 'right',
@@ -752,6 +828,54 @@ export default function DataTable({ config, extra = [] }) {
     //   ),
     // },
   ];
+  const predict_columns = [
+    {
+      title: 'datasetID',
+      dataIndex: ["datasetID"],
+      key: 'datasetID',
+      ...getColumnSearchProps('datasetID'),
+    },
+    {
+      title: 'Filename',
+      dataIndex: ["filename"],
+      key: 'filename',
+      ...getColumnSearchProps('filename'),
+    },
+    {
+      title: 'Label',
+      dataIndex: ["label"],
+      key: 'label',
+      filters: [
+        ...all_label
+      ],
+      onFilter: (value, record) => record.label.indexOf(value) === 0,
+    },
+    {
+      title: 'Family',
+      dataIndex: ["family"],
+      key: 'family',
+      filters: [
+        ...all_family
+      ],
+      onFilter: (value, record) => record.family.indexOf(value) === 0,
+      filterSearch: true,
+    },
+    {
+      title: 'Cpuarchitecture',
+      dataIndex: ["CPUArchitecture"],
+      key: 'CPUArchitecture',
+      filters: [
+        ...all_cpu
+      ],
+      onFilter: (value, record) => record.CPUArchitecture.indexOf(value) === 0,
+    },
+    {
+      title: 'Filesize',
+      dataIndex: ["fileSize"],
+      key: 'fileSize',
+      sorter: (a, b) => a.fileSize - b.fileSize,
+    },
+  ];
   /* ----- Table columns END ----- */
 
 
@@ -828,8 +952,11 @@ export default function DataTable({ config, extra = [] }) {
   const start_pre = () => {   // Predict Button
     setLoading(true);
     const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
-    const predictData = PredictDataset;
-    const requestData = [selectedData, ...predictData];
+    const predictData = selectedData.map(obj => {
+      return { ...obj, tags: 'predict' };
+    });
+    const detectorInfo = memo.detector;
+    const requestData = [detectorInfo, ...predictData];
     console.log('Request Data:', requestData);
     fetch('http://localhost:1624/api/detector/predict', {
       method: 'POST',
@@ -1006,39 +1133,39 @@ export default function DataTable({ config, extra = [] }) {
 
 
   /* ----- Predict Modal Handler ----- */
-  const [options, setOptions] = useState([]);
-  const asyncList = (entity) => {
-      return request.list({ entity });
-  };
-  useEffect(() => {
-      async function fetchData() {
-          try {
-              const data = await asyncList('datasetname');
-              console.log('useEffect data: ', data);
-              setOptions(data.result);
-          } catch (error) {
-              console.log('useEffect erorr!');
-              errorHandler(error);
-          }
-      }
-      fetchData();
-  }, []);
-  const [preModalOpen, setPreModalOpen] = useState(false);
-  const showPredictModal = () => {
-    setPreModalOpen(true);
-  };
-  const handlePredict = () => {
-    start_pre();
-    setPreModalOpen(false);
-  };
-  const handlePredictCancel = () => {
-    setPreModalOpen(false);
-  };
-  const [PredictDataset, setPredictDataset] = useState([]);
-  const onPredictDatasetChange = (e) => {
-    setPredictDataset(e);
-    console.log('dataset name: ', e);
-  };
+  // const [options, setOptions] = useState([]);
+  // const asyncList = (entity) => {
+  //     return request.list({ entity });
+  // };
+  // useEffect(() => {
+  //     async function fetchData() {
+  //         try {
+  //             const data = await asyncList('datasetname');
+  //             console.log('useEffect data: ', data);
+  //             setOptions(data.result);
+  //         } catch (error) {
+  //             console.log('useEffect erorr!');
+  //             errorHandler(error);
+  //         }
+  //     }
+  //     fetchData();
+  // }, []);
+  // const [preModalOpen, setPreModalOpen] = useState(false);
+  // const showPredictModal = () => {
+  //   setPreModalOpen(true);
+  // };
+  // const handlePredict = () => {
+  //   start_pre();
+  //   setPreModalOpen(false);
+  // };
+  // const handlePredictCancel = () => {
+  //   setPreModalOpen(false);
+  // };
+  // const [PredictDataset, setPredictDataset] = useState([]);
+  // const onPredictDatasetChange = (e) => {
+  //   setPredictDataset(e);
+  //   console.log('dataset name: ', e);
+  // };
   /* ----- Predict Modal Handler END ----- */
 
 
@@ -1128,6 +1255,20 @@ export default function DataTable({ config, extra = [] }) {
       return (
         <Table
           columns={unlearnEdit_columns}
+          rowKey={(item) => item._id}
+          dataSource={dataSource}
+          pagination={pagination}
+          loading={listIsLoading}
+          onChange={handelDataTableLoad}
+          bordered
+          scroll={{ x: true }}
+          rowSelection={rowSelection}
+        />
+      );
+    } else if(DATATABLE_TITLE === 'Predict Dataset') {
+      return (
+        <Table
+          columns={predict_columns}
           rowKey={(item) => item._id}
           dataSource={dataSource}
           pagination={pagination}
@@ -1293,32 +1434,34 @@ export default function DataTable({ config, extra = [] }) {
           {/* {hasSelected ? `Train ${selectedRowKeys.length} items` : 'Train'} */}
           Train
         </Button>,
-        <Button type="primary" onClick={showPredictModal} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
-          Predict
-        </Button>,
-        <Modal
-          title="Select Dataset"
-          open={preModalOpen}
-          onOk={handlePredict}
-          onCancel={handlePredictCancel}
-          okText="Predict"
-        >
-          <Select
-          mode="multiple"
-          style={{
-            width: '100%',
-          }}
-          placeholder="Select dataset..."
-          onChange={onPredictDatasetChange}
-          >
-              {Array.isArray(options) && options.length > 0 && options.map((option) => (
-                  <Select.Option value={option.datasetName}>
-                  {option.datasetName}
-                  </Select.Option>
-              ))}
-          </Select>
+        <Tooltip title="Select Predict Dataset">
+          <Button type="primary" onClick={handlePredictClick} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+            Predict
+          </Button>
+        </Tooltip>,
+        // <Modal
+        //   title="Select Dataset"
+        //   open={preModalOpen}
+        //   onOk={handlePredict}
+        //   onCancel={handlePredictCancel}
+        //   okText="Predict"
+        // >
+        //   <Select
+        //   mode="multiple"
+        //   style={{
+        //     width: '100%',
+        //   }}
+        //   placeholder="Select dataset..."
+        //   onChange={onPredictDatasetChange}
+        //   >
+        //       {Array.isArray(options) && options.length > 0 && options.map((option) => (
+        //           <Select.Option value={option.datasetName}>
+        //           {option.datasetName}
+        //           </Select.Option>
+        //       ))}
+        //   </Select>
           
-        </Modal>,
+        // </Modal>,
         <Button href='/detectorSetting' key={`${uniqueId()}`}>
           Create
         </Button>,
@@ -1429,6 +1572,12 @@ export default function DataTable({ config, extra = [] }) {
         <Tooltip title="Delete">
           <Button danger shape="circle" onClick={handleDelete} icon={<DeleteOutlined />} disabled={!hasSelected} style={{ marginRight: 15 }} />
         </Tooltip>,
+      ];
+    } else if (DATATABLE_TITLE === 'Predict Dataset') {
+      return [
+        <Button type="primary" onClick={start_pre} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+          Predict
+        </Button>,
       ];
     }
   };

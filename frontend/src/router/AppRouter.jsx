@@ -57,6 +57,7 @@ const Unlearn = lazy(() => import('@/pages/Unlearn'));
 const UnlearnEdit = lazy(() => import('@/pages/UnlearnEdit'));
 const SelectData = lazy(() => import('@/pages/SelectData'));
 const DetectorSetting = lazy(() => import('@/pages/DetectorSetting'));
+const PredictDataset = lazy(() => import('@/pages/PredictDataset'));
 
 export default function AppRouter() {
   let element = useRoutes([
@@ -99,6 +100,10 @@ export default function AppRouter() {
     {
       path: '/datasetDetail',
       element: <DatasetDetail />,
+    },
+    {
+      path: '/predictDataset',
+      element: <PredictDataset />,
     },
     {
       path: '/detector',
