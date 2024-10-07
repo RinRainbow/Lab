@@ -20,6 +20,11 @@ const schema = new mongoose.Schema({
     trim: true,
     required: true,
   },
+  status:{
+    type: String,
+    trim: true,
+    required: false,
+  },
 
 
   batchSize: {

@@ -108,9 +108,29 @@ const SaveResult = async (filePath, modelName, createdBy) => {
 
 
 const runPy = async (mode, req, res) => {
+   
     model = {};
     pyFileName = '';
-    const { _id, enabled, modelName , datasetId, detector, isPublic , createdBy , created, updated , __v  ,...remainbody } = req.body[0];
+    let body,label;
+    if(mode == "predict"){
+        body = req.body[0][0];
+
+    }
+    else{
+        body = req.body[0];
+    }
+    const { _id, enabled, modelName , datasetId, detector, isPublic , createdBy , created, updated , __v  ,...remainbody } = body;
+
+    //label.json
+    if(mode == "predict"){
+        //const label1 = await mongoose.model('Dataset').find({ datasetID: datasetId });
+        const leg = req.body.length;
+        label = req.body.slice(1,leg);
+    }
+    else{
+        label = await mongoose.model('Dataset').find({ datasetID: datasetId });
+    }
+    console.log(label);
 
     await createFolders(modelName, detector);
     if(detector == "MalwareExpert"){
@@ -189,8 +209,7 @@ const runPy = async (mode, req, res) => {
         "predict": predict,
         "unlearn": unlearn
     }
-    //config.json
-    const label = await mongoose.model('Dataset').find({ datasetID: datasetId });
+
 
     // merge 2 .json for input
     const userInput = JSON.stringify({
