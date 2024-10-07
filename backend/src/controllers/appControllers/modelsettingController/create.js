@@ -19,7 +19,7 @@ const create = async (Model, req, res) => {
 
   const settings = await loadSettings();
   const last_model_number = settings['last_model_number'];
-  console.log(req.body);
+
   body.number = generateUniqueNumber(last_model_number);
   // Creating a new document in the collection
   const result = await new Model(body).save();
