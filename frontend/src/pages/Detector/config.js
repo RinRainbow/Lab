@@ -11,6 +11,18 @@ export const fields = {
         type: 'string',
         required: true,
     },
+    status:{
+        type: 'tag',
+        options: [
+            { value: 'untrained', label: 'untrained', color: 'default' },
+            { value: 'training', label: 'training', color: 'processing' },
+            { value: 'trained', label: 'trained', color: 'success' },
+            { value: 'predicting', label: 'predicting', color: 'processing' },
+            { value: 'unlearning', label: 'unlearning', color: 'processing' },
+            { value: 'error', label: 'error', color: 'error' },
+        ],
+        required: false,
+    },
 
     batchSize: {
         type: 'number',
