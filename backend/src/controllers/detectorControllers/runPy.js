@@ -58,6 +58,7 @@ const createFolders = async (name, selectedDetector) => {
 
 const SaveScore = async (filePath, modelName, createdBy) =>{
 //save the result of score
+console.log(filePath);
 const scoreJson = await fsp.readFile(filePath, 'utf8');
 const scoreData = JSON.parse(scoreJson);
 const saveScore = {"modelName": modelName , ...scoreData[0].final_result, "createdBy": createdBy};
@@ -75,6 +76,7 @@ const scoreResult = await new ScorenameModel(saveScore).save();
 
 const SaveResult = async (filePath, modelName, createdBy) => {
     // 讀取 JSON 檔案
+    console.log(filePath);
     const scoreJson = await fsp.readFile(filePath, 'utf8');
     const scoreData = JSON.parse(scoreJson);
     // 遍歷每筆資料
@@ -118,6 +120,7 @@ const runPy = async (mode, req, res) => {
     }
     else{
         body = req.body[0];
+        
     }
     const { _id, enabled, modelName , datasetId, detector, isPublic , createdBy , created, updated , __v  ,...remainbody } = body;
 
@@ -130,9 +133,10 @@ const runPy = async (mode, req, res) => {
     else{
         label = await mongoose.model('Dataset').find({ datasetID: datasetId });
     }
-    console.log(label);
+
 
     await createFolders(modelName, detector);
+
     if(detector == "MalwareExpert"){
         pyFileName = `${datapath}/pycode/MalwareExpertForBackend/src/main.py`; 
         model =  {
@@ -159,8 +163,9 @@ const runPy = async (mode, req, res) => {
             "slice":  remainbody.slice,
         }
     }
-    else if(detector == "IMCNF"){
-        pyFileName = `${datapath}/pycode/isLab/IMCFN/Code/main.py`;
+    else if(detector == "IMCFN"){
+        
+        pyFileName = `${datapath}/pycode/isLab/IMCFN/src/code/main.py`;
         model =  {
             "model_name": "VGG16",
             "batch_size":  remainbody.batchSize,
@@ -190,7 +195,7 @@ const runPy = async (mode, req, res) => {
     }
     const scoref = config.path.score;
     const resultf = config.path.result;
-
+    console.log(resultf);
     let train = false;
     let predict = false;
     let unlearn = false;

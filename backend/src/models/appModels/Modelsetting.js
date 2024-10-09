@@ -15,6 +15,10 @@ const schema = new mongoose.Schema({
     ref: 'Datasetname',
     required: true,
   },
+  datasetname: {
+    type: String,
+    required: true,
+  },
   detector: {
     type: String,
     trim: true,
@@ -89,9 +93,8 @@ const schema = new mongoose.Schema({
     required: false,
   },
   fill:{
-    type: String,
+    type: Number,
     trim: true,
-    required: false,
   },
   horizontalFlip:{
     type: Number,
