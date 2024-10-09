@@ -17,6 +17,7 @@ import {
   CodeOutlined,
   ApartmentOutlined,
   FileSyncOutlined,
+  CloudUploadOutlined,
 } from '@ant-design/icons';
 
 const { Sider } = Layout;
@@ -64,6 +65,11 @@ function Sidebar({ collapsible, isMobile = false }) {
       key: 'unlearn',
       icon: <FileSyncOutlined />,
       label: <Link to={'/unlearn'}>Unlearn</Link>,
+    },
+    {
+      key: 'upload',
+      icon: <CloudUploadOutlined />,
+      label: <Link to={'/uploadPage'}>upload</Link>,
     },
   ];
 

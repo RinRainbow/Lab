@@ -48,17 +48,17 @@ export default function DetectorSetting() {
         switch (value) {
             case 'MDOEL':
             form.setFieldsValue({
-                modelName: 'Hi, MDOEL!',
+                modelName: 'myMDOEL!',
             });
             break;
             case 'IMCFN':
             form.setFieldsValue({
-                modelName: 'Hi, IMCFN!',
+                modelName: 'myIMCFN!',
             });
             break;
             case 'MalwareExpert':
             form.setFieldsValue({
-                modelName: 'Hi MalwareExpert!',
+                modelName: 'myMalwareExpert!',
             });
             break;
             default:
