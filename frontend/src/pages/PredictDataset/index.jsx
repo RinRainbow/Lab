@@ -7,7 +7,7 @@ import useLanguage from '@/locale/useLanguage';
 
 export default function PredictDataset() {
   const translate = useLanguage();
-  const entity = 'dataset';
+  const entity = 'data';
   const searchConfig = {
     displayLabels: ['filename'],
     searchFields: 'filename,label,family,CPUArchitecture',
