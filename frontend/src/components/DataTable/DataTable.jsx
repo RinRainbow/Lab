@@ -958,9 +958,12 @@ export default function DataTable({ config, extra = [] }) {
     // });
     // const detectorInfo = memo.detector;
     // const requestData = [detectorInfo, ...predictData];
-    const selectedData = PredictDataset;
+    const selectedData = dataset.filter(item => PredictDataset.includes(item.datasetID));
+    const predictData = selectedData.map(obj => {
+      return { ...obj, tags: 'predict' };
+    });
     const detectorInfo = dataSource.filter(item => selectedRowKeys.includes(item._id));
-    const requestData = [detectorInfo, ...selectedData];
+    const requestData = [detectorInfo, ...predictData];
     console.log('Request Data:', requestData);
     fetch('http://localhost:1624/api/detector/predict', {
       method: 'POST',
@@ -1138,6 +1141,7 @@ export default function DataTable({ config, extra = [] }) {
 
   /* ----- Predict Modal Handler ----- */
   const [options, setOptions] = useState([]);
+  const [dataset, setDataset] = useState([]);
   const asyncList = (entity) => {
       return request.list({ entity });
   };
@@ -1145,7 +1149,7 @@ export default function DataTable({ config, extra = [] }) {
       async function fetchData() {
           try {
               const data = await asyncList('datasetname');
-              console.log('useEffect data: ', data);
+              console.log('useEffect data(options): ', data);
               setOptions(data.result);
           } catch (error) {
               console.log('useEffect erorr!');
@@ -1154,6 +1158,19 @@ export default function DataTable({ config, extra = [] }) {
       }
       fetchData();
   }, []);
+  useEffect(() => {
+    async function fetchData() {
+        try {
+            const data = await asyncList('dataset');
+            console.log('useEffect data(dataset): ', data);
+            setDataset(data.result);
+        } catch (error) {
+            console.log('useEffect erorr!');
+            errorHandler(error);
+        }
+    }
+    fetchData();
+}, []);
   const [preModalOpen, setPreModalOpen] = useState(false);
   const showPredictModal = () => {
     setPreModalOpen(true);
@@ -1168,7 +1185,7 @@ export default function DataTable({ config, extra = [] }) {
   const [PredictDataset, setPredictDataset] = useState([]);
   const onPredictDatasetChange = (e) => {
     setPredictDataset(e);
-    console.log('dataset name: ', e);
+    console.log('PredictDataset _id: ', e);
   };
   /* ----- Predict Modal Handler END ----- */
 
@@ -1459,7 +1476,7 @@ export default function DataTable({ config, extra = [] }) {
           onChange={onPredictDatasetChange}
           >
               {Array.isArray(options) && options.length > 0 && options.map((option) => (
-                  <Select.Option value={option.datasetName}>
+                  <Select.Option value={option._id}>
                   {option.datasetName}
                   </Select.Option>
               ))}
