@@ -11,6 +11,15 @@ const asyncList = (entity) => {
     return request.list({ entity });
 };
 
+function getDatasetName(options, values) {
+    const dataset = options.find(key => key._id === values.datasetId);
+    if (dataset) {
+        console.log('dataset: ', dataset);
+        return dataset.datasetName;
+    }
+    return null;
+}
+
 const layout = {
   labelCol: {
     span: 8,
@@ -68,10 +77,13 @@ export default function DetectorSetting() {
         setLoading(true);
         console.log(values);
         try {
+            const dataset_name = getDatasetName(options, values);
+            console.log('dataset_name', dataset_name);
             const entity = 'modelsetting';
             // const requestData = values;
             const requestData = {
                 ...values,
+                datasetname: dataset_name,
                 rotation: [values.rotation1, values.rotation2],
                 zoom: [values.zoom1, values.zoom2],
                 shear: [values.shear1, values.shear2, values.shear3, values.shear4],
