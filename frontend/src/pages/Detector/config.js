@@ -7,6 +7,10 @@ export const fields = {
         type: 'string',
         required: true,
     },
+    datasetname: {
+        type: 'string',
+        required: true,
+    },
     detector: {
         type: 'string',
         required: true,
