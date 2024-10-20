@@ -952,39 +952,42 @@ export default function DataTable({ config, extra = [] }) {
   };
   const start_pre = () => {   // Predict Button
     setLoading(true);
-    // const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
-    // const predictData = selectedData.map(obj => {
-    //   return { ...obj, tags: 'predict' };
-    // });
-    // const detectorInfo = memo.detector;
-    // const requestData = [detectorInfo, ...predictData];
-    const selectedData = dataset.filter(item => PredictDataset.includes(item.datasetID));
-    const predictData = selectedData.map(obj => {
-      return { ...obj, tags: 'predict' };
-    });
     const detectorInfo = dataSource.filter(item => selectedRowKeys.includes(item._id));
-    const requestData = [detectorInfo, ...predictData];
-    console.log('Request Data:', requestData);
-    fetch('http://localhost:1624/api/detector/predict', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestData),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Success:', data);
-      message.success('Predict Successful!');
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      message.error('Predict Error!');
+    if(detectorInfo[0].status !== 'trained') {
+      console.log('untrained...');
+      message.error('You should train first!');
+      setSelectedRowKeys([]);
+      setLoading(false);
+      return;
+    }
+    PredictDataset.forEach(key => {
+      const selectedData = dataset.filter(item => key === item.datasetID);
+      const predictData = selectedData.map(obj => {
+        return { ...obj, tags: 'predict' };
+      });
+      const requestData = [...detectorInfo, ...predictData];
+      console.log('Request Data:', requestData);
+      fetch('http://localhost:1624/api/detector/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Success:', data);
+        message.success('Predict Successful!');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        message.error('Predict Error!');
+      });
     });
     setSelectedRowKeys([]);
     setLoading(false);
