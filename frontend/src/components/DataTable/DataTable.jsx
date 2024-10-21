@@ -996,6 +996,13 @@ export default function DataTable({ config, extra = [] }) {
     setLoading(true);
     const selectedData = dataSource.filter(item => selectedRowKeys.includes(item._id));
     console.log('Selected Data:', selectedData);
+    if(selectedData[0].status !== 'trained') {
+      console.log('untrained...');
+      message.error('You should train first!');
+      setSelectedRowKeys([]);
+      setLoading(false);
+      return;
+    }
     fetch('http://localhost:1624/api/detector/unlearn', {
       method: 'POST',
       headers: {
