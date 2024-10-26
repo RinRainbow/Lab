@@ -10,7 +10,7 @@ export default function Unlearn() {
   const entity = 'modelsetting';
   const searchConfig = {
     displayLabels: ['modelName'],
-    searchFields: 'modelName',
+    searchFields: 'modelName,status',
   };
   const deleteModalLabels = ['modelName'];
 

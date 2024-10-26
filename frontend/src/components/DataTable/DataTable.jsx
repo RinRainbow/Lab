@@ -653,6 +653,66 @@ export default function DataTable({ config, extra = [] }) {
       ...getColumnSearchProps('modelName'),
     },
     {
+      title: 'Status',
+      key: 'status',
+      dataIndex: 'status',
+      render: (_, { status }) => (
+        <>
+          {
+            <Tag 
+              color={
+                status === 'untrained' ? 'default'
+                : status === 'training' ? 'processing'
+                : status === 'trained' ? 'success'
+                : status === 'predicting' ? 'processing'
+                : status === 'unlearning' ? 'processing'
+                : status === 'error' ? 'error'
+                : 'default'
+              }
+              icon={
+                status === 'training' ? <SyncOutlined spin />
+                : status === 'trained' ? <CheckCircleOutlined />
+                : status === 'predicting' ? <SyncOutlined spin />
+                : status === 'unlearning' ? <SyncOutlined spin />
+                : status === 'error' ? <CloseCircleOutlined />
+                : <MinusCircleOutlined />
+              }
+              key={status}
+            >
+              {status}
+            </Tag>
+          }
+        </>
+      ),
+      filters: [
+        {
+          text: 'untrained',
+          value: 'untrained',
+        },
+        {
+          text: 'training',
+          value: 'training',
+        },
+        {
+          text: 'trained',
+          value: 'trained',
+        },
+        {
+          text: 'predicting',
+          value: 'predicting',
+        },
+        {
+          text: 'unlearning',
+          value: 'unlearning',
+        },
+        {
+          text: 'error',
+          value: 'error',
+        },
+      ],
+      onFilter: (value, record) => record.tags.indexOf(value) === 0,
+    },
+    {
       title: '',
       key: 'action',
       fixed: 'right',
