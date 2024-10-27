@@ -6,7 +6,7 @@ const detectorControllers = (mode) => {
   modelName = "Dataset";
   
   if (!modelsFiles.includes(modelName)) {
-    throw new Error(`Model ${modelName} does not exist`);
+    throw new Error(`mode ${mode} does not exist`);
   }
 
   const Model = mongoose.model(modelName);

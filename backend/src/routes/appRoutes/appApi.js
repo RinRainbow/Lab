@@ -6,10 +6,15 @@ const { hasPermission } = require('@/middlewares/permission');
 const appControllers = require('@/controllers/appControllers');
 const { routesList } = require('@/models/utils');
 
+
 const routerApp = (entity, controller) => {
   router
     .route(`/${entity}/create`)
     .post(hasPermission('create'), catchErrors(controller['create']));
+    router
+    .route(`/${entity}/upload`)
+    .post(hasPermission('upload'), catchErrors(controller['upload']));
+    
   router.route(`/${entity}/read/:id`).get(hasPermission('read'), catchErrors(controller['read']));
   router
     .route(`/${entity}/update/:id`)
@@ -34,6 +39,12 @@ const routerApp = (entity, controller) => {
       .route(`/${entity}/convert/:id`)
       .get(hasPermission('update'), catchErrors(controller['convert']));
   }
+
+  router
+  .route(`/dataset/upload`)
+  .post(hasPermission('upload'),catchErrors(controller['transfer']));
+
+
 };
 
 routesList.forEach(({ entity, controllerName }) => {

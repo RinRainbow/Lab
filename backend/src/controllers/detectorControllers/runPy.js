@@ -115,8 +115,8 @@ const runPy = async (mode, req, res) => {
     pyFileName = '';
     let body,label;
     if(mode == "predict"){
-        body = req.body[0][0];
-
+        body = req.body[0];
+        console.log(req.body[0]);
     }
     else{
         body = req.body[0];
@@ -129,9 +129,16 @@ const runPy = async (mode, req, res) => {
         //const label1 = await mongoose.model('Dataset').find({ datasetID: datasetId });
         const leg = req.body.length;
         label = req.body.slice(1,leg);
+        console.log(label);
+        await mongoose.model('Modelsetting').findByIdAndUpdate(_id, { status: 'predicting' });
     }
-    else{
+    else if (mode == "train"){
         label = await mongoose.model('Dataset').find({ datasetID: datasetId });
+        await mongoose.model('Modelsetting').findByIdAndUpdate(_id, { status: 'training' });
+    }
+    else if (mode == "unlearn"){
+        label = await mongoose.model('Dataset').find({ datasetID: datasetId });
+        await mongoose.model('Modelsetting').findByIdAndUpdate(_id, { status: 'unlearning' });
     }
 
 
@@ -182,7 +189,8 @@ const runPy = async (mode, req, res) => {
             "shard": remainbody.shard,
             "slice":remainbody.slice,
             "print_information": "",
-            "save_image": false
+            "save_image": false,
+            "overwrite": true
         }
     }
     else{
@@ -245,53 +253,51 @@ const runPy = async (mode, req, res) => {
                 console.log(`result from .py ${data.toString()}`);
             });
 
-            // err from .py
             pythonProcess.stderr.on('data', (data) => {
                 console.error(`from .py: ${data.toString()}`);
             });
 
             // subprocess ends
-            pythonProcess.on('close', (code) => {
+            pythonProcess.on('close', async  (code) => {
                 console.log(`child process closed with code ${code}`);
                 if (code === 0) {
                     resolve();
+                    if(mode == "train")
+                        {
+                             SaveScore(scoref, modelName, createdBy);
+                            // 更新模型狀態為 trained
+                            await mongoose.model('Modelsetting').findByIdAndUpdate(_id, { status: "trained" });
+                             //const theInput = JSON.parse(userInput);
+                             return res.status(200).json({
+                                 success: true,
+                                 message: 'Successfully trained',
+                             });
+            
+                        }
+                        else if(mode == "predict")
+                        {
+                            SaveResult(resultf, modelName, createdBy);
+                            await mongoose.model('Modelsetting').findByIdAndUpdate(_id, { status: "trained" });
+                            return res.status(200).json({
+                                success: true,
+                                message: 'Successfully predicted',
+                            });
+                        }
+                        else if(mode == "unlearn")
+                            {
+                                await mongoose.model('Modelsetting').findByIdAndUpdate(_id, { status: "trained" });
+                                return res.status(200).json({
+                                    success: true,
+                                    message: 'Successfully unlearned',
+                                });
+                            }
                 } else {
+                    await mongoose.model('Modelsetting').findByIdAndUpdate(_id, { status: "trained" });
                     reject(new Error(`.py closed with code: ${code}`));
                 }
             });
         }).then(() => {
             console.log("123done");
-            if(mode == "train")
-            {
-                 SaveScore(scoref, modelName, createdBy);
-                 const theInput = JSON.parse(userInput);
-                 return res.status(200).json({
-                     success: true,
-                     theInput,
-                     message: 'Successfully trained',
-                 });
-            }
-            else if(mode == "predict")
-            {
-                SaveResult(resultf, modelName, createdBy);
-                const theInput = JSON.parse(userInput);
-                return res.status(200).json({
-                    success: true,
-                    theInput,
-                    message: 'Successfully predicted',
-                });
-            }
-            else if(mode == "unlearn")
-                {
-                    const theInput = JSON.parse(userInput);
-                    return res.status(200).json({
-                        success: true,
-                        theInput,
-                        message: 'Successfully unlearned',
-                    });
-                }
-
-
         }).catch((error) => {
             return res.status(500).json({
                 success: false,

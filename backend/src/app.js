@@ -14,6 +14,7 @@ const adminAuth = require('./controllers/coreControllers/adminAuth');
 const errorHandlers = require('./handlers/errorHandlers');
 const erpApiRouter = require('./routes/appRoutes/appApi');
 const detectorApiRouter = require('./routes/detectorRoutes/detectorApi');
+const transferApiRouter = require('./routes/transferRoutes/transferApi');
 
 const { listAllSettings } = require('@/middlewares/settings');
 const useLanguage = require('@/locale/useLanguage');
@@ -73,6 +74,7 @@ app.use(compression());
 // Here our API Routes
 app.use('/api', coreAuthRouter);
 app.use('/api', detectorApiRouter);
+
 app.use('/api', adminAuth.isValidAuthToken, coreApiRouter);
 app.use('/api', adminAuth.isValidAuthToken, erpApiRouter);
 app.use('/download', coreDownloadRouter);

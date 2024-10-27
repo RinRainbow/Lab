@@ -28,6 +28,8 @@ const schema = new mongoose.Schema({
     type: String,
     trim: true,
     required: false,
+    default: "untrained",
+
   },
 
 
