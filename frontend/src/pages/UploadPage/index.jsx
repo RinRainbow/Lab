@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { InboxOutlined } from '@ant-design/icons';
 import { message, Upload, Button, Flex, Modal, Input } from 'antd';
+import { useDispatch } from 'react-redux';
+import { crud } from '@/redux/crud/actions';
 
 const { Dragger } = Upload;
 
@@ -11,6 +13,7 @@ const boxStyle = {
 };
 
 export default function UploadPage() {
+  const dispatch = useDispatch();
   const [hasUploaded, setHasUploaded] = useState(false);
   const props = {
     action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
@@ -33,29 +36,11 @@ export default function UploadPage() {
   /* ----- Creating Dataset Modal Handler ----- */
   const [isModalOpen, setIsModalOpen] = useState(false);
   const saved = () => {
-    console.log('DatasetName:', DatasetName);
+    const entity = 'dataset';
     const requestData = {'datasetname': DatasetName};
-    fetch('http://localhost:1624/api/dataset/upload', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestData),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log('Success:', data);
-      message.success('Upload Successful!');
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      message.error('Upload Error!');
-    });
+    console.log('requestData: ', requestData);
+
+    dispatch(crud.upload({ entity, jsonData: requestData }));
   };
   const showModal = () => {
     setIsModalOpen(true);
