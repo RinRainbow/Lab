@@ -36,11 +36,11 @@ export default function UploadPage() {
   /* ----- Creating Dataset Modal Handler ----- */
   const [isModalOpen, setIsModalOpen] = useState(false);
   const saved = () => {
-    const entity = 'dataset';
+    const entity = 'special';
     const requestData = {'datasetname': DatasetName};
     console.log('requestData: ', requestData);
 
-    dispatch(crud.upload({ entity, jsonData: requestData }));
+    dispatch(crud.create({ entity, jsonData: requestData }));
   };
   const showModal = () => {
     setIsModalOpen(true);
