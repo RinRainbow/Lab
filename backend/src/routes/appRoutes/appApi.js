@@ -11,9 +11,7 @@ const routerApp = (entity, controller) => {
   router
     .route(`/${entity}/create`)
     .post(hasPermission('create'), catchErrors(controller['create']));
-    router
-    .route(`/${entity}/upload`)
-    .post(hasPermission('upload'), catchErrors(controller['upload']));
+
     
   router.route(`/${entity}/read/:id`).get(hasPermission('read'), catchErrors(controller['read']));
   router
@@ -41,8 +39,8 @@ const routerApp = (entity, controller) => {
   }
 
   router
-  .route(`/dataset/upload`)
-  .post(hasPermission('upload'),catchErrors(controller['transfer']));
+  .route(`/${entity}/upload`)
+  .post(hasPermission('upload'), catchErrors(controller['upload']));
 
 
 };
