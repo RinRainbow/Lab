@@ -136,7 +136,7 @@ export default function HeaderContent() {
         {/* </Badge> */}
       </Dropdown>
 
-      <UpgradeButton />
+      {/* <UpgradeButton /> */}
 
       <SelectLanguage />
     </Header>
