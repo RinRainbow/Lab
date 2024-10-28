@@ -545,4 +545,5 @@ taxes_list: "税金リスト",
 add_new_tax: "新しい税金を追加",
 date_format: "日付形式",
 server_url: "サーバーURL",
+log_in_to_detector: "検知器にログイン"
 }

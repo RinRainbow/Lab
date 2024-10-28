@@ -484,46 +484,6 @@ export default function DataTable({ config, extra = [] }) {
       key: 'datasetName',
       ...getColumnSearchProps('datasetName'),
     },
-    // {
-    //   title: '',
-    //   key: 'action',
-    //   fixed: 'right',
-    //   width: 80,
-    //   render: (_, record) => (
-    //     <Dropdown
-    //       menu={{
-    //         items,
-    //         onClick: ({ key }) => {
-    //           switch (key) {
-    //             case 'read':
-    //               handleRead(record);
-    //               break;
-    //             case 'edit':
-    //               handleEdit(record);
-    //               break;
-
-    //             // case 'delete':
-    //             //   handleDelete(record);
-    //             //   break;
-    //             case 'updatePassword':
-    //               handleUpdatePassword(record);
-    //               break;
-
-    //             default:
-    //               break;
-    //           }
-    //           // else if (key === '2')handleCloseTask
-    //         },
-    //       }}
-    //       trigger={['click']}
-    //     >
-    //       <EllipsisOutlined
-    //         style={{ cursor: 'pointer', fontSize: '24px' }}
-    //         onClick={(e) => e.preventDefault()}
-    //       />
-    //     </Dropdown>
-    //   ),
-    // },
     {
       title: '',
       key: 'operation',
@@ -1329,11 +1289,12 @@ export default function DataTable({ config, extra = [] }) {
         />
       );
     } else if(DATATABLE_TITLE === 'Dataset Detail') {
+      const selectedData = dataset.filter(item => memo.id === item.datasetID);
       return (
         <Table
           columns={detail_columns}
           rowKey={(item) => item._id}
-          dataSource={dataSource}
+          dataSource={selectedData}
           pagination={pagination}
           loading={listIsLoading}
           onChange={handelDataTableLoad}
@@ -1356,21 +1317,22 @@ export default function DataTable({ config, extra = [] }) {
           rowSelection={rowSelection}
         />
       );
-    } else if(DATATABLE_TITLE === 'Predict Dataset') {
-      return (
-        <Table
-          columns={predict_columns}
-          rowKey={(item) => item._id}
-          dataSource={dataSource}
-          pagination={pagination}
-          loading={listIsLoading}
-          onChange={handelDataTableLoad}
-          bordered
-          scroll={{ x: true }}
-          rowSelection={rowSelection}
-        />
-      );
     }
+    // else if(DATATABLE_TITLE === 'Predict Dataset') {
+    //   return (
+    //     <Table
+    //       columns={predict_columns}
+    //       rowKey={(item) => item._id}
+    //       dataSource={dataSource}
+    //       pagination={pagination}
+    //       loading={listIsLoading}
+    //       onChange={handelDataTableLoad}
+    //       bordered
+    //       scroll={{ x: true }}
+    //       rowSelection={rowSelection}
+    //     />
+    //   );
+    // }
   };
   /* ----- Table Rendering END ----- */
 
@@ -1664,13 +1626,14 @@ export default function DataTable({ config, extra = [] }) {
           <Button danger shape="circle" onClick={handleDelete} icon={<DeleteOutlined />} disabled={!hasSelected} style={{ marginRight: 15 }} />
         </Tooltip>,
       ];
-    } else if (DATATABLE_TITLE === 'Predict Dataset') {
-      return [
-        <Button type="primary" onClick={start_pre} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
-          Predict
-        </Button>,
-      ];
     }
+    // else if (DATATABLE_TITLE === 'Predict Dataset') {
+    //   return [
+    //     <Button type="primary" onClick={start_pre} disabled={!hasSelected} loading={loading} key={`${uniqueId()}`}>
+    //       Predict
+    //     </Button>,
+    //   ];
+    // }
   };
   /* ----- Table Button Rendering END ----- */
 
