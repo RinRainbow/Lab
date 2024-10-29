@@ -138,7 +138,7 @@ export default function HeaderContent() {
 
       {/* <UpgradeButton /> */}
 
-      <SelectLanguage />
+      {/* <SelectLanguage /> */}
     </Header>
   );
 }

@@ -58,7 +58,7 @@ export const fields = {
   },
 
   rotation:{
-      type: 'number[]',
+      type: ['number'],
       required: false,
   },
   widthShift:{
@@ -70,15 +70,15 @@ export const fields = {
       required: false,
   },
   zoom:{
-      type: 'number[]',
+      type: ['number'],
       required: false,
   },
   shear:{
-      type: 'number[]',
+      type: ['number'],
       required: false,
   },
   fill:{
-      type: 'string',
+      type: 'number',
       required: false,
   },
   horizontalFlip:{

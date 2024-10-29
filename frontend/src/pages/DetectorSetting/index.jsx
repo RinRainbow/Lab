@@ -81,13 +81,14 @@ export default function DetectorSetting() {
             console.log('dataset_name', dataset_name);
             const entity = 'modelsetting';
             // const requestData = values;
-            const requestData = {
+            const tmp = {
                 ...values,
                 datasetname: dataset_name,
                 rotation: [values.rotation1, values.rotation2],
                 zoom: [values.zoom1, values.zoom2],
                 shear: [values.shear1, values.shear2, values.shear3, values.shear4],
             };
+            const {rotation1, rotation2, zoom1, zoom2, shear1, shear2, shear3, shear4, ...requestData} = tmp
             console.log('onFinish requestData: ', requestData);
             dispatch(crud.create({ entity, jsonData: requestData }));
         } catch(error) {
@@ -481,11 +482,11 @@ export default function DetectorSetting() {
                             label="Fill"
                             rules={[
                                 {
-                                required: true,
+                                required: false,
                                 },
                             ]}
                             >
-                            <Input placeholder="null"/>
+                                <InputNumber />
                             </Form.Item>,
                             <br></br>,
                             <Form.Item
