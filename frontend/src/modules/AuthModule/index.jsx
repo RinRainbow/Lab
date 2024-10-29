@@ -103,7 +103,7 @@ const AuthModule = ({ authContent, AUTH_TITLE }) => {
           <div className="blob"></div>
           <div className="blob"></div>
         </div>
-        <SelectLanguage />
+        {/* <SelectLanguage /> */}
 
         <div className="site-layout-content">{authContent}</div>
       </Content>
