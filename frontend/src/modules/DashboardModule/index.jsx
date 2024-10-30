@@ -163,7 +163,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
                 type="dashboard" 
                 percent={selectedScore ? selectedScore.accuracy*100 : 0}
                 strokeColor={conicColors} 
-                format={(percent) => `${percent}`} 
+                format={(percent) => `${percent.toFixed(2)}`} 
                 size={100} 
               />
               <br></br>
@@ -172,7 +172,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
                 type="dashboard" 
                 percent={selectedScore ? selectedScore.f1_score*100 : 0} 
                 strokeColor={conicColors} 
-                format={(percent) => `${percent}`} 
+                format={(percent) => `${percent.toFixed(2)}`} 
                 size={100} 
               />
               <br></br>
@@ -181,7 +181,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
                 type="dashboard" 
                 percent={selectedScore ? selectedScore.precision*100 : 0} 
                 strokeColor={conicColors} 
-                format={(percent) => `${percent}`} 
+                format={(percent) => `${percent.toFixed(2)}`} 
                 size={100} 
               />
               <br></br>
@@ -190,7 +190,7 @@ const ModelDisplay = ({ getFieldValue, options, score, predictResult }) => {
                 type="dashboard" 
                 percent={selectedScore ? selectedScore.recall*100 : 0} 
                 strokeColor={conicColors} 
-                format={(percent) => `${percent}`} 
+                format={(percent) => `${percent.toFixed(2)}`} 
                 size={100} 
               />
             </div>
