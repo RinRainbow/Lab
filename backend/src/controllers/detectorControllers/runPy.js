@@ -299,6 +299,7 @@ const runPy = async (mode, req, res) => {
         }).then(() => {
             console.log("123done");
         }).catch((error) => {
+            console.log(error);
             return res.status(500).json({
                 success: false,
                 message: 'Internal server error',

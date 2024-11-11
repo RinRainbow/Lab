@@ -97,6 +97,8 @@ const schema = new mongoose.Schema({
   fill:{
     type: Number,
     trim: true,
+    required: false,
+    default: null
   },
   horizontalFlip:{
     type: Number,

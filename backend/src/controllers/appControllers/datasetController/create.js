@@ -5,6 +5,7 @@ const create = async (Model, req, res) => {
   let body = req.body;
   const userID = req.admin._id;
 
+
   console.log("dataset creating");
   // first one element in the strarray will be the datasetName
   // the others are the datas which in this dataset
@@ -42,10 +43,6 @@ const create = async (Model, req, res) => {
   // Returning successfull response
   return res.status(200).json({
     success: true,
-    result: {
-      insertedDatas: result,
-      datasetNameInserted: datasetnameResult,
-    },
     message: 'dataset created successfully',
   });
 };

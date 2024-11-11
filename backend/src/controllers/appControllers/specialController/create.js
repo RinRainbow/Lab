@@ -17,11 +17,12 @@ const setupDataset = async(data, datasetnameID,userID) =>{
             fileSize: data["file size"],
             isPublic: false,
             createdBy: userID,
-            datasetID: datasetnameID
+            datasetID: datasetnameID,
+            type: "test"
           };
           //console.log(savingData);
           //console.log(count);
-          const result = await DatasetModel.insert(savingData);
+          const result = await DatasetModel.insertMany(savingData);
           console.log(result);
 
 
@@ -32,16 +33,13 @@ const setupDataset = async(data, datasetnameID,userID) =>{
     }
 };
 
-const create = async (req, res) => {
+const create = async (Model,req, res) => {
     try {
         const results = [];
         const promises = [];
-        const datasetname = req.body.datasetnmae;
-        console.log("123");
-        console.log(req.authUser );
+        console.log(req.body.datasetname);
+        const datasetname = req.body.datasetname;
         const userID = req.admin._id;
-        
-        
         let datasetnameID;
 
         let datasetExist = await DatasetnameModel.findOne({

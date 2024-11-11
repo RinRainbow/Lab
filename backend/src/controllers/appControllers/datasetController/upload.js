@@ -32,15 +32,15 @@ const setupDataset = async(data, datasetnameID,userID) =>{
     }
 };
 
-const upload = async (req, res) => {
+const upload = async (Model, req, res) => {
     try {
         const results = [];
         const promises = [];
         const datasetname = req.body.datasetnmae;
         console.log("123");
-        console.log(req.authUser );
+        console.log(req.admin._id);
         const userID = req.admin._id;
-        
+        return 0;
         
         let datasetnameID;
 

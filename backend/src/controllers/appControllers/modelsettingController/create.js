@@ -30,7 +30,7 @@ const create = async (Model, req, res) => {
   // Returning successfull response
   return res.status(200).json({
     success: true,
-    result,
+    //result,
     message: 'modelsetting created successfully',
   });
 };

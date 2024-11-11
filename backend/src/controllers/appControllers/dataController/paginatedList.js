@@ -14,6 +14,7 @@ const paginatedList = async (Model, req, res) => {
       : ['label'];
     const sort = req.query.sort || 'desc';
 
+
     // 構建查詢條件，加入 createdBy: req.admin._id
     const query = {
       $or: [
@@ -34,7 +35,7 @@ const paginatedList = async (Model, req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.items) || 10;
     const skip = (page - 1) * limit;
-
+ 
     // 查詢資料庫，查詢結果和總數同時執行
     const [result, totalCount] = await Promise.all([
       Model.find(query)
@@ -48,7 +49,12 @@ const paginatedList = async (Model, req, res) => {
 
     // 返回分頁對象
     const pagination = { page, pages, totalCount };
-
+    console.log({
+      success: true,
+      result,
+      pagination,
+      message: 'Successfully found all documents',
+    });
     if (totalCount > 0) {
       return res.status(200).json({
         success: true,

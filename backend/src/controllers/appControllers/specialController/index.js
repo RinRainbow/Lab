@@ -4,7 +4,7 @@ const createCRUDController = require('@/controllers/middlewaresControllers/creat
 const create = require('./create');
 
 function modelController() {
-  const modelName = 'Dataset';
+  const modelName = 'Special';
   const Model = mongoose.model(modelName);
   const methods = createCRUDController(modelName);
   methods.create = (req, res) => create(Model, req, res);
