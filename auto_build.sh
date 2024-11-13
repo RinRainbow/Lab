@@ -32,6 +32,14 @@ else
   echo "npm has alraedy installed."
 fi
 
+# check and install nvm command
+if ! command -v nvm &> /dev/null; then
+  echo "nvm was not installed, now installing..."
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+else
+  echo "nvm has alraedy installed."
+fi
+
 # clone or update the repo
 if [ -d "$BASE_DIR" ]; then
   echo "You have this repo already. Now updating..."
@@ -49,6 +57,14 @@ else
   echo "frontend directory does not exist, now exitting..."
   exit 1
 fi
+
+# install the latest release of node
+echo "installing the latest release of node..."
+nvm install node
+
+# setting the latest release of node
+echo "setting the latest release of node..."
+nvm use node
 
 # install npm
 echo "installing npm..."
