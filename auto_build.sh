@@ -58,16 +58,20 @@ else
   exit 1
 fi
 
-# install the latest release of node
-echo "installing the latest release of node..."
-nvm install node
+# check if node v20.10.0 is installed
+if nvm ls | grep -q "v20.10.0"; then
+  echo "Node.js v20.10.0 is already installed."
+else
+  echo "Installing Node.js v20.10.0..."
+  nvm install 20.10.0
+fi
 
-# setting the latest release of node
-echo "setting the latest release of node..."
-nvm use node
+# setting the node
+echo "Setting Node.js to v20.10.0..."
+nvm use 20.10.0
 
-# install npm
-echo "installing npm..."
+# install npm dependencies
+echo "Installing npm dependencies..."
 npm install
 
 # auto build
