@@ -51,13 +51,52 @@ npm run dev
 
 ### Backend
 
-#### Step 1: Create Your MongoDB Account and Database/Cluster
+#### Step 1: Install Your MongoDB Locally
 
-- Create your own MongoDB account by visiting the MongoDB website and signing up for a new account.
+**Step 1: Download and Install MongoDB Locally**  
+1. **Download MongoDB**:  
+   - Visit the [MongoDB Download Center](https://www.mongodb.com/try/download/community) and download the latest version of MongoDB Community Server for your operating system.
 
-- Create a new database or cluster by following the instructions provided in the MongoDB documentation. Remember to note down the "Connect to your application URI" for the database, as you will need it later. Also, make sure to change `<password>` with your own password
+2. **Install MongoDB**:  
+   - Follow the installation instructions for your specific operating system:  
+     - **Windows**: Use the installer and select the "Complete" installation option. Make sure to check the option to install MongoDB as a service.  
+     - **macOS**: Use `brew install mongodb-community` if Homebrew is installed, or follow the manual installation steps from the MongoDB website.  
+     - **Linux**: Add the MongoDB repository, update your package list, and install MongoDB using your package manager (e.g., `apt install mongodb` for Debian/Ubuntu).  
 
-- add your current IP address to the MongoDB database's IP whitelist to allow connections (this is needed whenever your ip changes)
+3. **Start MongoDB**:  
+   - After installation, start the MongoDB server:  
+     - **Windows**: Open the Services app and start the MongoDB service.  
+     - **macOS/Linux**: Run `mongod` in the terminal.  
+
+---
+
+**Step 2: Configure MongoDB**  
+1. **Set the Data Directory**:  
+   - By default, MongoDB stores data in `/data/db`. Ensure this directory exists and has the necessary permissions. You can specify a different path using the `--dbpath` option when starting `mongod`.
+
+2. **Check the Connection**:  
+   - Open a new terminal or command prompt and run `mongo` to connect to your local MongoDB server.
+
+---
+
+**Step 3: Create a Local Database**  
+1. Once connected to MongoDB through the `mongo` shell, you can create a database by switching to it:  
+   ```bash
+   use myLocalDatabase
+   ```
+   This command creates and switches to a database named `myLocalDatabase`.
+
+2. Add some data to test the setup:  
+   ```bash
+   db.myCollection.insertOne({ name: "Test", value: 123 });
+   ```
+
+3. Verify the data was added:  
+   ```bash
+   db.myCollection.find();
+   ```
+
+Now you have MongoDB running locally and a database ready for use. No need for IP whitelisting or external URIs!
 
 #### Step 2: Edit the Environment File
 
