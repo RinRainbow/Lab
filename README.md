@@ -48,8 +48,10 @@ npm run dev
 🚨 Please refer idurar-epr-crm(https://github.com/idurar/idurar-erp-crm).
 
 ---
-  
-#### Step 2: Create Your MongoDB Account and Database/Cluster
+
+### Backend
+
+#### Step 1: Create Your MongoDB Account and Database/Cluster
 
 - Create your own MongoDB account by visiting the MongoDB website and signing up for a new account.
 
@@ -57,13 +59,13 @@ npm run dev
 
 - add your current IP address to the MongoDB database's IP whitelist to allow connections (this is needed whenever your ip changes)
 
-#### Step 3: Edit the Environment File
+#### Step 2: Edit the Environment File
 
 - Check a file named .env in the /backend directory.
 
   This file will store environment variables for the project to run.
 
-#### Step 4: Update MongoDB URI
+#### Step 3: Update MongoDB URI
 
 In the .env file, find the line that reads:
 
@@ -71,7 +73,7 @@ In the .env file, find the line that reads:
 
 Replace "your-mongodb-uri" with the actual URI of your MongoDB database.
 
-#### Step 5: Install Backend Dependencies
+#### Step 4: Install Backend Dependencies
 
 In your terminal, navigate to the /backend directory
 
@@ -87,7 +89,7 @@ npm install
 
 This command will install all the required packages specified in the package.json file.
 
-#### Step 6: Run Setup Script
+#### Step 5: Run Setup Script
 
 While still in the /backend directory of the project, execute the following command to run the setup script:
 
@@ -97,7 +99,7 @@ npm run setup
 
 This setup script may perform necessary database migrations or any other initialization tasks required for the project.
 
-#### Step 7: Run the Backend Server
+#### Step 6: Run the Backend Server
 
 In the same terminal, run the following command to start the backend server:
 
