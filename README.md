@@ -74,33 +74,15 @@ npm run dev
 2. **Check the Connection**:  
    - Open a new terminal or command prompt and run `mongo` to connect to your local MongoDB server.
 
-
-#### Step 3: Create a Local Database
-1. Once connected to MongoDB through the `mongo` shell, you can create a database by switching to it:  
-   ```bash
-   use myLocalDatabase
-   ```
-   This command creates and switches to a database named `myLocalDatabase`.
-
-2. Add some data to test the setup:  
-   ```bash
-   db.myCollection.insertOne({ name: "Test", value: 123 });
-   ```
-
-3. Verify the data was added:  
-   ```bash
-   db.myCollection.find();
-   ```
-
 Now you have MongoDB running locally and a database ready for use. No need for IP whitelisting or external URIs!
 
-#### Step 4: Edit the Environment File
+#### Step 3: Edit the Environment File
 
 - Check a file named .env in the /backend directory.
 
   This file will store environment variables for the project to run.
 
-#### Step 5: Update MongoDB URI
+#### Step 4: Update MongoDB URI
 
 In the .env file, find the line that reads:
 
@@ -108,7 +90,7 @@ In the .env file, find the line that reads:
 
 Replace "your-mongodb-uri" with the actual URI of your MongoDB database.
 
-#### Step 6: Install Backend Dependencies
+#### Step 5: Install Backend Dependencies
 
 In your terminal, navigate to the /backend directory
 
@@ -124,7 +106,7 @@ npm install
 
 This command will install all the required packages specified in the package.json file.
 
-#### Step 7: Run Setup Script
+#### Step 6: Run Setup Script
 
 While still in the /backend directory of the project, execute the following command to run the setup script:
 
@@ -134,7 +116,7 @@ npm run setup
 
 This setup script may perform necessary database migrations or any other initialization tasks required for the project.
 
-#### Step 8: Run the Backend Server
+#### Step 7: Run the Backend Server
 
 In the same terminal, run the following command to start the backend server:
 
