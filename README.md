@@ -51,9 +51,7 @@ npm run dev
 
 ### Backend
 
-#### Step 1: Install Your MongoDB Locally
-
-**Step 1: Download and Install MongoDB Locally**  
+#### Step 1:  Download and Install MongoDB Locally  
 1. **Download MongoDB**:  
    - Visit the [MongoDB Download Center](https://www.mongodb.com/try/download/community) and download the latest version of MongoDB Community Server for your operating system.
 
@@ -68,18 +66,16 @@ npm run dev
      - **Windows**: Open the Services app and start the MongoDB service.  
      - **macOS/Linux**: Run `mongod` in the terminal.  
 
----
 
-**Step 2: Configure MongoDB**  
+#### Step 2: Configure MongoDB
 1. **Set the Data Directory**:  
    - By default, MongoDB stores data in `/data/db`. Ensure this directory exists and has the necessary permissions. You can specify a different path using the `--dbpath` option when starting `mongod`.
 
 2. **Check the Connection**:  
    - Open a new terminal or command prompt and run `mongo` to connect to your local MongoDB server.
 
----
 
-**Step 3: Create a Local Database**  
+#### Step 3: Create a Local Database
 1. Once connected to MongoDB through the `mongo` shell, you can create a database by switching to it:  
    ```bash
    use myLocalDatabase
@@ -98,13 +94,13 @@ npm run dev
 
 Now you have MongoDB running locally and a database ready for use. No need for IP whitelisting or external URIs!
 
-#### Step 2: Edit the Environment File
+#### Step 4: Edit the Environment File
 
 - Check a file named .env in the /backend directory.
 
   This file will store environment variables for the project to run.
 
-#### Step 3: Update MongoDB URI
+#### Step 5: Update MongoDB URI
 
 In the .env file, find the line that reads:
 
@@ -112,7 +108,7 @@ In the .env file, find the line that reads:
 
 Replace "your-mongodb-uri" with the actual URI of your MongoDB database.
 
-#### Step 4: Install Backend Dependencies
+#### Step 6: Install Backend Dependencies
 
 In your terminal, navigate to the /backend directory
 
@@ -128,7 +124,7 @@ npm install
 
 This command will install all the required packages specified in the package.json file.
 
-#### Step 5: Run Setup Script
+#### Step 7: Run Setup Script
 
 While still in the /backend directory of the project, execute the following command to run the setup script:
 
@@ -138,7 +134,7 @@ npm run setup
 
 This setup script may perform necessary database migrations or any other initialization tasks required for the project.
 
-#### Step 6: Run the Backend Server
+#### Step 8: Run the Backend Server
 
 In the same terminal, run the following command to start the backend server:
 
