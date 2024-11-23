@@ -15,6 +15,8 @@ const updateAll = async (Model, req, res) => {
               return { error: err.message };
           }
       }));
+      
+
 
       if (errormeg != 0) {
           return res.status(404).json({

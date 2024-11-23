@@ -14,6 +14,8 @@ const remove = async (Model, req, res) => {
       new: true, // return the new result instead of the old one
     }
   ).exec();
+
+  console.log(result);
   // If no results found, return document not found
   if (!result) {
     return res.status(404).json({

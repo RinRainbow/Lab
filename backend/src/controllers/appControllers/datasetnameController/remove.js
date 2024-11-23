@@ -17,6 +17,7 @@ const remove = async (Model, req, res) => {
       new: true, // return the new result instead of the old one
     }
   ).exec();
+
   // If no results found, return document not found
   if (!result) {
     return res.status(404).json({
@@ -27,7 +28,7 @@ const remove = async (Model, req, res) => {
   } else {
     return res.status(200).json({
       success: true,
-      result,
+      result: result,
       message: 'Successfully Deleted the document' ,
     });
   }

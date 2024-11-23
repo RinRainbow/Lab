@@ -49,18 +49,12 @@ const paginatedList = async (Model, req, res) => {
 
     // 返回分頁對象
     const pagination = { page, pages, totalCount };
-    console.log({
-      success: true,
-      result,
-      pagination,
-      message: 'Successfully found all documents',
-    });
     if (totalCount > 0) {
       return res.status(200).json({
-        success: true,
-        result,
-        pagination,
-        message: 'Successfully found all documents',
+        "success": true,
+        "result": result,
+        "pagination": pagination,
+        "message": 'Successfully found all documents',
       });
     } else {
       return res.status(204).json({
